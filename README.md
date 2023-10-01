@@ -11,7 +11,7 @@ R'Tools
 
 ## Figma
 
-[R'Tools Figma Design File](https://www.figma.com/](https://www.figma.com/file/srPYl8FCyMLXr4fMQic28X/R'Tools?type=design&node-id=0%3A1&mode=design&t=UcB5WmSDilkrVkbF-1)
+[R'Tools Figma Design File](https://www.figma.com/file/srPYl8FCyMLXr4fMQic28X/R'Tools?type=design&node-id=0%3A1&mode=design&t=UcB5WmSDilkrVkbF-1)
 
 ## Node.js
 
