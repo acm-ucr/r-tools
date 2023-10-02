@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        rtool: {
+        rtools: {
           "teal-100": "#C2FDFF",
           "teal-200": "#12D0D5",
           "purple-100": "#F0E3FF",
