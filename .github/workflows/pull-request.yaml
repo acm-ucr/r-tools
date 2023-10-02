@@ -1,4 +1,4 @@
-name: ACM UCR Website
+name: R-Tools
 on:
   pull_request:
     branches: [main, dev]
