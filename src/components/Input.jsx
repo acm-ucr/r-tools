@@ -5,7 +5,6 @@ const Input = ({
   button,
   onClick,
   dropDown,
-  placeholder,
   value,
   setValue,
   clear,

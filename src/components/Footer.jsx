@@ -1,6 +1,4 @@
-import React from "react";
-
-const Footer = () => {
+const Footer = ({ and, setAnd, or, setOr, not, setNot }) => {
   return <div>Footer</div>;
 };
 

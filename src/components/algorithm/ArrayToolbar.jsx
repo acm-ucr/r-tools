@@ -1,6 +1,6 @@
 import React from "react";
 
-const ArrayToolbar = () => {
+const ArrayToolbar = ({ random, restart, step, showCode, setShowCode }) => {
   return <div>ArrayToolbar</div>;
 };
 
