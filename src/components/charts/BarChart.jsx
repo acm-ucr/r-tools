@@ -19,6 +19,8 @@ const BarChart = ({ data }) => {
       .selectAll("rect")
       .data(data)
       .join("rect")
+      .transition()
+      .duration(500)
       .attr("x", (d, i) => (i * width) / data.length)
       .attr("y", (d, i) => height - ((height - textHeight) / max) * d)
       .attr("width", (width / data.length) * 0.9)
@@ -28,6 +30,8 @@ const BarChart = ({ data }) => {
       .selectAll("text")
       .data(data)
       .join("text")
+      .transition()
+      .duration(500)
       .text((d) => d)
       .attr(
         "x",
