@@ -1,5 +1,11 @@
+import Graph from "@/components/charts/Graph";
+
 const Home = () => {
-  return <>Hello World</>;
+  return (
+    <>
+      <Graph />
+    </>
+  );
 };
 
 export default Home;
