@@ -19,7 +19,7 @@ const Input = ({
       <div className="flex rounded-full w-full px-3 p-2 items-center bg-rtools-blue-300">
         <div className="flex px-3 w-full">
           <input
-            className="w-full text-rtools-blue-100 focus:outline-none bg-transparent "
+            className="w-full placeholder:text-rtools-blue-100 text-white focus:outline-none bg-transparent "
             placeholder={placeholder}
             value={value}
             onChange={handleInputChange}
