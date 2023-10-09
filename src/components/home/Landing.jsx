@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Logo from "../../Assets/RToolsLogo.png";
+import Logo from "../../Assets/RToolsLogo.svg";
 const Landing = () => {
   return (
     <div className="flex flex-col items-center">
