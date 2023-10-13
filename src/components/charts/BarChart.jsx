@@ -1,46 +1,56 @@
 "use client";
-import * as d3 from "d3";
-import { useEffect, useRef } from "react";
+import { Bar } from "@visx/shape";
+import { Text } from "@visx/text";
+import { Group } from "@visx/group";
 import { COLORS } from "@/data/icons";
+import { useMemo } from "react";
 
-const BarChart = ({ data }) => {
-  const ref = useRef();
-  const width = 700;
-  const height = 300;
-  const textHeight = 20;
-  useEffect(() => {
-    const max = Math.max.apply(null, data);
-    console.log(max);
-    const svg = d3
-      .select(ref.current)
-      .attr("width", width)
-      .attr("height", height);
-    svg
-      .selectAll("rect")
-      .data(data)
-      .join("rect")
-      .transition()
-      .duration(500)
-      .attr("x", (d, i) => (i * width) / data.length)
-      .attr("y", (d, i) => height - ((height - textHeight) / max) * d)
-      .attr("width", (width / data.length) * 0.9)
-      .attr("height", (d, i) => (d * (height - textHeight)) / max)
-      .attr("fill", (d, i) => Object.values(COLORS)[i % 5].bgColor);
-    svg
-      .selectAll("text")
-      .data(data)
-      .join("text")
-      .transition()
-      .duration(500)
-      .text((d) => d)
-      .attr(
-        "x",
-        (d, i) => (i * width) / data.length + (width / data.length) * 0.4
-      )
-      .attr("y", (d, i) => height - ((height - textHeight) / max) * d - 5)
-      .attr("fill", (d, i) => Object.values(COLORS)[i % 5].textColor);
-  }, [data]);
-  return <svg ref={ref} />;
+const verticalMargin = 120;
+
+const BarChart = ({ width, height, data }) => {
+  const max = useMemo(() =>
+    Math.max.apply(
+      null,
+      data.map((d) => d.number),
+      [data]
+    )
+  );
+  return (
+    <svg width={width} height={height}>
+      <Group top={verticalMargin / 2}>
+        {data.map((d, i) => {
+          const barWidth = (width / data.length) * 0.9;
+          const barHeight = (d.number * height) / max;
+          const barX = (i * width) / data.length;
+          const barY = height - (height / max) * d.number;
+          return (
+            <>
+              <Text
+                x={barX + barWidth / 2}
+                y={barY - 5}
+                fill={Object.values(COLORS)[i % 5].textColor}
+                textAnchor="middle"
+              >
+                {d.number}
+              </Text>
+              <Bar
+                className="text-white duration-300"
+                key={i}
+                x={barX}
+                y={barY}
+                width={barWidth}
+                height={barHeight}
+                fill={
+                  d.highlight
+                    ? Object.values(COLORS)[i % 5].textColor
+                    : Object.values(COLORS)[i % 5].bgColor
+                }
+              />
+            </>
+          );
+        })}
+      </Group>
+    </svg>
+  );
 };
-
 export default BarChart;
