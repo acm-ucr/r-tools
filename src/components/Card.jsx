@@ -1,20 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import Icon from "@/components/Icon";
-import { BsFillBarChartFill } from "react-icons/bs";
 
-const Card = ({ icon, description, name, color, link }) => {
+const Card = ({ row, icon, description, name, color, link }) => {
   return (
     <Link
       href={link}
-      className="bg-blue-300 hover:-translate-y-1 transition-all duration-300 max-w-xs rounded overflow-hidden shadow-lg"
+      className={`${
+        row ? "flex-row" : "flex-col"
+      } no-underline flex bg-rtools-blue-300 hover:-translate-y-1 transition-all duration-300 max-w-full rounded overflow-hidden`}
     >
       <div className="px-3 pt-3 pb-2">
-        <Icon color="teal" size="xl" icon={<BsFillBarChartFill />} />
+        <Icon color={color} size="xl" icon={icon} />
       </div>
       <div className="px-3">
-        <div className="font-bold text-xl">Selection Sort</div>
-        <p className="text-gray-400 text-base">Visualize selection sort</p>
+        <div className="text-white font-bold text-xl">{name}</div>
+        <p className="text-gray-400 text-base">{description}</p>
       </div>
     </Link>
   );
