@@ -1,7 +1,24 @@
+"use client";
 import React from "react";
 
-const BoolToolBar = ({ and, or, not }) => {
+const BoolToolBar = ({ and, or, not, setAnd, setOr, setNot }) => {
   const symbols = { and: "&", or: "|", not: "~" };
+
+  function setSymbols(symbol, userInput) {
+    switch (symbol) {
+      case "and":
+        setAnd(userInput);
+        break;
+      case "or":
+        setOr(userInput);
+        break;
+      case "not":
+        setNot(userInput);
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <div className=" flex-col grid max-w-xs grid-cols-3">
@@ -14,9 +31,10 @@ const BoolToolBar = ({ and, or, not }) => {
           >
             <input
               className="bg-transparent w-8 h-6 rounded outline-none"
-              value={value}
+              defaultValue={value}
+              value={symbols[index]}
               onChange={(e) => {
-                setSymbols({ ...symbols, [symbol]: e.target.value });
+                setSymbols(index, e.target.value);
               }}
             />
           </div>
