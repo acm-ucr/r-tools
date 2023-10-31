@@ -3,59 +3,78 @@ import React, { useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Link from "next/link";
-import { FaBars } from "react-icons/fa";
 import { navigation } from "@/data/navigation";
-// import { icons } from "@/data/icons";
-import RToolsLogo from "../Assets/RToolsLogo.svg";
+import { COLORS } from "@/data/icons";
+import Logo from "../Assets/RToolsLogo.svg";
+import Input from "@/components/Input";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Icon from "@/components/Icon";
 
 const Navigation = () => {
   const [selected, setSelected] = useState("");
+  const getCurrentColor = (index) => {
+    const colorsLength = Object.keys(COLORS).length;
+    if (index >= colorsLength) {
+      return Object.keys(COLORS)[index - colorsLength];
+    } else {
+      return Object.keys(COLORS)[index];
+    }
+  };
+
   return (
     <Navbar
       collapseOnSelect
       expand="md"
       fixed="top"
-      className="w-full m-0 md:h-[8vh] p-0 flex px-3 py-0 font-playfair !bg-black/50 justify-between items-center backdrop-blur-md"
+      className="w-full m-0 md:h-[13vh] p-0 flex py-0 bg-rtools-blue-400 items-center"
     >
       <Navbar.Brand className="p-0">
         <Link
           onClick={() => setSelected("")}
           eventkey="1"
-          className="p-0 no-underline flex items-center gap-2"
+          className="p-0 no-underline flex items-center gap-2 "
           href="/"
         >
-          <img src={RToolsLogo} className="w-8 md:w-14" />
-          <div className="flex flex-col items-start"></div>
+          <img src={Logo} className="w-8 md:w-14" />
+          <div className="flex flex-col items-start "></div>
         </Link>
       </Navbar.Brand>
       <Navbar.Toggle
-        className="list-unstyled !text-transparent border-0"
+        className="list-unstyled !text-transparent border-0 "
         aria-controls="basic-navbar-nav"
-      >
-        <FaBars className=" text-white text-xl" />
-      </Navbar.Toggle>
-      <Navbar.Collapse className="items-center md:justify-end justify-center">
-        <Nav className="mb-2 w-12/12 no-underline text-2xl flex items-center">
+      ></Navbar.Toggle>
+      <Navbar.Collapse className="items-center md:justify-between justify-center">
+        <Nav className="mb-2 w-full no-underline text-lg flex items-center justify-between ">
           {navigation.map((item, index) => (
-            <Nav.Link
-              as={Link}
+            <NavDropdown
+              title={item.name}
               key={index}
-              href={item.link}
-              onClick={() => setSelected(item.name)}
-              className={`hover:cursor-pointer mb-0 py-1 px-4 no-underline !text-white text-2xl whitespace-nowrap !font-medium hover:!text-white duration-300 ${
+              id={`nav-dropdown-${index}`}
+              className={`hover:cursor-pointer mb-0 no-underline whitespace-nowrap !font-medium hover:!text-white duration-300 ${
                 selected === item.name && "!bg-white/10"
               }`}
             >
-              {item.name}
-            </Nav.Link>
+              {item.sub.map((subItem, subItemIndex) => (
+                <NavDropdown.Item key={subItemIndex}>
+                  <div className="flex flex-row bg-rtools-blue-100 ">
+                    <div className="flex flex-col justify-center ">
+                      <Icon
+                        icon={subItem.icon}
+                        color={getCurrentColor(subItemIndex)}
+                      />
+                    </div>
+                    <div className="flex flex-col ml-2">
+                      <p className="m-0 text-white">{subItem.name}</p>
+                      <p className="m-0 text-xs text-rtools-blue-300">
+                        {subItem.description}
+                      </p>
+                    </div>
+                  </div>
+                </NavDropdown.Item>
+              ))}
+            </NavDropdown>
           ))}
-          <Nav.Link
-            href="/join"
-            as={Link}
-            className="m-2 py-1 px-4 no-underline !text-white !bg-red-200 text-2xl whitespace-nowrap !font-medium hover:!bg-blue-200 duration-300"
-          >
-            Join
-          </Nav.Link>
+          <Input button="SEARCH" placeholder="search" />
         </Nav>
       </Navbar.Collapse>
     </Navbar>
