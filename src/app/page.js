@@ -2,21 +2,13 @@
 import Card from "@/components/Card";
 import Input from "@/components/Input";
 import Landing from "@/components/home/Landing";
-import { NAVIGATION } from "@/data/navigation";
+import { NAVIGATION, ALL_CARDS } from "@/data/navigation";
 import { COLORS } from "@/data/icons";
 import { useState } from "react";
-const tabs = () => {
-  const tabArray = [];
-  NAVIGATION.forEach((section) => {
-    section.sub.forEach((card) => {
-      tabArray.push({ ...card, show: false });
-    });
-  });
-  return tabArray;
-};
+
 const Home = () => {
   const [value, setValue] = useState("");
-  const [results, setResults] = useState(tabs());
+  const [results, setResults] = useState(ALL_CARDS);
 
   const handleInput = (value) => {
     setResults(
