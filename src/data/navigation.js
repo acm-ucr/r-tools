@@ -1,5 +1,5 @@
 import { BsBarChartFill } from "react-icons/bs";
-export const navigation = [
+export const NAVIGATION = [
   {
     name: "ALGORITHM",
     link: "algorithm",
@@ -7,55 +7,55 @@ export const navigation = [
       {
         icon: <BsBarChartFill />,
         name: "Selection Sort",
-        link: "selection-sort",
+        link: "algorithm/selection-sort",
         description: "visualize selection sort",
       },
       {
         icon: <BsBarChartFill />,
         name: "Bubble Sort",
-        link: "bubble-sort",
+        link: "algorithm/bubble-sort",
         description: "visualize selection sort",
       },
       {
         icon: <BsBarChartFill />,
         name: "Merge Sort",
-        link: "merge-sort",
+        link: "algorithm/merge-sort",
         description: "visualize selection sort",
       },
       {
         icon: <BsBarChartFill />,
         name: "Quick Sort",
-        link: "quick-sort",
+        link: "algorithm/quick-sort",
         description: "visualize selection sort",
       },
       {
         icon: <BsBarChartFill />,
         name: "Insertion Sort",
-        link: "insertion-sort",
+        link: "algorithm/insertion-sort",
         description: "visualize selection sort",
       },
       {
         icon: <BsBarChartFill />,
         name: "Shell Sort",
-        link: "shell-sort",
+        link: "algorithm/shell-sort",
         description: "visualize selection sort",
       },
       {
         icon: <BsBarChartFill />,
         name: "Bucket Sort",
-        link: "bucket-sort",
+        link: "algorithm/bucket-sort",
         description: "visualize selection sort",
       },
       {
         icon: <BsBarChartFill />,
         name: "Heaps",
-        link: "heaps",
+        link: "algorithm/heaps",
         description: "visualize selection sort",
       },
       {
         icon: <BsBarChartFill />,
         name: "AVL Trees",
-        link: "avl-trees",
+        link: "algorithm/avl-trees",
         description: "visualize selection sort",
       },
     ],
@@ -67,13 +67,13 @@ export const navigation = [
       {
         icon: <BsBarChartFill />,
         name: "Boolean Simplifier",
-        link: "boolean-simplifier",
+        link: "math/boolean-simplifier",
         description: "visualize selection sort",
       },
       {
         icon: <BsBarChartFill />,
         name: "Truth Tables",
-        link: "truth-tables",
+        link: "math/truth-tables",
         description: "visualize selection sort",
       },
     ],
@@ -85,19 +85,19 @@ export const navigation = [
       {
         icon: <BsBarChartFill />,
         name: "Undirected Graph",
-        link: "undirected-graph",
+        link: "editor/undirected-graph",
         description: "visualize selection sort",
       },
       {
         icon: <BsBarChartFill />,
         name: "Directed Graph",
-        link: "directed-graph",
+        link: "editor/directed-graph",
         description: "visualize selection sort",
       },
       {
         icon: <BsBarChartFill />,
         name: "State Machine",
-        link: "state-machine",
+        link: "editor/state-machine",
         description: "visualize selection sort",
       },
     ],
@@ -109,13 +109,13 @@ export const navigation = [
       {
         icon: <BsBarChartFill />,
         name: "Github",
-        link: "github",
+        link: "cheat-sheet/github",
         description: "visualize selection sort",
       },
       {
         icon: <BsBarChartFill />,
         name: "Pre-req Acyclic Graph",
-        link: "pre-req",
+        link: "cheat-sheet/pre-req",
         description: "visualize selection sort",
       },
     ],
@@ -127,15 +127,25 @@ export const navigation = [
       {
         icon: <BsBarChartFill />,
         name: "Tailwind",
-        link: "tailwind",
+        link: "web-dev/tailwind",
         description: "visualize selection sort",
       },
       {
         icon: <BsBarChartFill />,
         name: "Next.js",
-        link: "nextjs",
+        link: "web-dev/nextjs",
         description: "visualize selection sort",
       },
     ],
   },
 ];
+
+export const ALL_CARDS = () => {
+  const tabArray = [];
+  NAVIGATION.forEach((section) => {
+    section.sub.forEach((card) => {
+      tabArray.push({ ...card, show: false });
+    });
+  });
+  return tabArray;
+};
