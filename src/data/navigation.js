@@ -1,5 +1,5 @@
 import { BsBarChartFill } from "react-icons/bs";
-export const navigation = [
+export const NAVIGATION = [
   {
     name: "ALGORITHM",
     link: "algorithm",

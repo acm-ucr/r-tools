@@ -6,6 +6,7 @@ const Input = ({
   value,
   setValue,
   clear,
+  thick,
 }) => {
   const handleClear = () => {
     setValue("");
@@ -15,18 +16,22 @@ const Input = ({
     setValue(e.target.value);
   };
   return (
-    <div className="w-full justify-center flex items-center">
-      <div className="flex rounded-full w-full px-3 p-2 items-center bg-rtools-blue-300">
-        <div className="flex px-3 w-full">
-          <input
-            className="w-full placeholder:text-rtools-blue-100 text-white focus:outline-none bg-transparent "
-            placeholder={placeholder}
-            value={value}
-            onChange={handleInputChange}
-          />
-        </div>
+    <div className="justify-center flex items-center">
+      <div
+        className={`flex rounded-full w-full ${
+          thick ? "p-2 px-3" : "p-1"
+        } items-center bg-rtools-blue-300`}
+      >
+        <input
+          className="w-full placeholder:text-rtools-blue-100 text-white focus:outline-none bg-transparent px-3"
+          placeholder={placeholder}
+          value={value}
+          onChange={handleInputChange}
+        />
         <button
-          className="rounded-full text-rtools-blue-400 p-2 px-4 bg-rtools-green"
+          className={`rounded-full text-rtools-blue-400 ${
+            thick && "p-2"
+          } px-4 bg-rtools-green`}
           onClick={onClick}
         >
           {button}
