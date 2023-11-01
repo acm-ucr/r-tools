@@ -5,7 +5,7 @@ const Equations = ({ equations, setEquations }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   function removeEquation(index) {
-    let newEquations = equations;
+    const newEquations = equations;
     newEquations.splice(index, 1);
     setEquations(newEquations);
   }
