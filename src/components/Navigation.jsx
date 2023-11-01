@@ -53,7 +53,7 @@ const Navigation = () => {
                           subIndex % Object.keys(COLORS).length
                         ]
                       }
-                      link={navigation.link + "/" + sub.link}
+                      link={sub.link}
                       hover="highlight"
                     />
                   ))}

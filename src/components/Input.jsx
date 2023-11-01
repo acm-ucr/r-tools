@@ -7,6 +7,7 @@ const Input = ({
   setValue,
   clear,
   thick,
+  onChange,
 }) => {
   const handleClear = () => {
     setValue("");
@@ -14,6 +15,7 @@ const Input = ({
   const handleInputChange = (e) => {
     e.preventDefault();
     setValue(e.target.value);
+    onChange(e.target.value);
   };
   return (
     <div className="justify-center flex items-center">
