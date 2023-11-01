@@ -10,9 +10,6 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 
 const Navigation = () => {
   const [expanded, setExpanded] = useState("");
-  const getCurrentColor = (index) => {
-    return Object.keys(COLORS)[index % Object.keys(COLORS).length];
-  };
 
   return (
     <div className="w-full h-[8vh] flex bg-rtools-blue-400 justify-between items-center px-3 fixed">
@@ -51,7 +48,11 @@ const Navigation = () => {
                       icon={sub.icon}
                       description={sub.description}
                       name={sub.name}
-                      color={getCurrentColor(subIndex)}
+                      color={
+                        Object.keys(COLORS)[
+                          subIndex % Object.keys(COLORS).length
+                        ]
+                      }
                       link={navigation.link + "/" + sub.link}
                       hover="highlight"
                     />
