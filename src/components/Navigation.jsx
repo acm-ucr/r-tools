@@ -12,7 +12,7 @@ const Navigation = () => {
   const [expanded, setExpanded] = useState("");
 
   return (
-    <div className="w-full h-[8vh] flex bg-rtools-blue-400 justify-between items-center px-3 fixed">
+    <div className="w-full h-[8vh] flex bg-rtools-blue-400 justify-between items-center px-3 fixed z-10">
       <div className="flex items-center">
         <Link onClick={() => setSelected("")} className="mr-10" href="/">
           <img src={Logo.src} className="h-[4vh]" />
