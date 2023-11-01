@@ -1,83 +1,69 @@
 "use client";
-import React, { useState } from "react";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+import { useState } from "react";
 import Link from "next/link";
-import { navigation } from "@/data/navigation";
+import { NAVIGATION } from "@/data/navigation";
 import { COLORS } from "@/data/icons";
 import Logo from "../Assets/RToolsLogo.svg";
 import Input from "@/components/Input";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import Icon from "@/components/Icon";
+import Card from "./Card";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 const Navigation = () => {
-  const [selected, setSelected] = useState("");
+  const [expanded, setExpanded] = useState("");
   const getCurrentColor = (index) => {
-    const colorsLength = Object.keys(COLORS).length;
-    if (index >= colorsLength) {
-      return Object.keys(COLORS)[index - colorsLength];
-    } else {
-      return Object.keys(COLORS)[index];
-    }
+    return Object.keys(COLORS)[index % Object.keys(COLORS).length];
   };
 
   return (
-    <Navbar
-      collapseOnSelect
-      expand="md"
-      fixed="top"
-      className="w-full m-0 md:h-[13vh] p-0 flex py-0 bg-rtools-blue-400 items-center"
-    >
-      <Navbar.Brand className="p-0">
-        <Link
-          onClick={() => setSelected("")}
-          eventkey="1"
-          className="p-0 no-underline flex items-center gap-2 "
-          href="/"
-        >
-          <img src={Logo} className="w-8 md:w-14" />
-          <div className="flex flex-col items-start "></div>
+    <div className="w-full h-[8vh] flex bg-rtools-blue-400 justify-between items-center px-3 fixed">
+      <div className="flex items-center">
+        <Link onClick={() => setSelected("")} className="mr-10" href="/">
+          <img src={Logo.src} className="h-[4vh]" />
         </Link>
-      </Navbar.Brand>
-      <Navbar.Toggle
-        className="list-unstyled !text-transparent border-0 "
-        aria-controls="basic-navbar-nav"
-      ></Navbar.Toggle>
-      <Navbar.Collapse className="items-center md:justify-between justify-center">
-        <Nav className="mb-2 w-full no-underline text-lg flex items-center justify-between ">
-          {navigation.map((item, index) => (
-            <NavDropdown
-              title={item.name}
+        <div className="flex gap-4">
+          {NAVIGATION.map((navigation, index) => (
+            <div
               key={index}
-              id={`nav-dropdown-${index}`}
-              className={`hover:cursor-pointer mb-0 no-underline whitespace-nowrap !font-medium hover:!text-white duration-300 ${
-                selected === item.name && "!bg-white/10"
-              }`}
+              className=""
+              onMouseEnter={() => setExpanded(navigation.name)}
+              onMouseLeave={() => setExpanded("")}
             >
-              {item.sub.map((subItem, subItemIndex) => (
-                <NavDropdown.Item key={subItemIndex}>
-                  <div className="flex flex-row bg-rtools-blue-100 ">
-                    <div className="flex flex-col justify-center ">
-                      <Icon
-                        icon={subItem.icon}
-                        color={getCurrentColor(subItemIndex)}
-                      />
-                    </div>
-                    <div className="flex flex-col ml-2">
-                      <p className="m-0 text-white">{subItem.name}</p>
-                      <p className="m-0 text-xs text-rtools-blue-300">
-                        {subItem.description}
-                      </p>
-                    </div>
-                  </div>
-                </NavDropdown.Item>
-              ))}
-            </NavDropdown>
+              <div
+                className={`${
+                  expanded === navigation.name
+                    ? "text-white"
+                    : "text-rtools-blue-100"
+                } hover:cursor-pointer flex items-center py-2`}
+              >
+                {navigation.name}
+                <MdKeyboardArrowDown
+                  className={`${
+                    expanded === navigation.name && "rotate-180"
+                  } duration-300`}
+                />
+              </div>
+              {expanded === navigation.name && (
+                <div className="flex flex-col gap-1 absolute bg-rtools-blue-300 p-2 rounded">
+                  {navigation.sub.map((sub, subIndex) => (
+                    <Card
+                      key={subIndex}
+                      row={true}
+                      icon={sub.icon}
+                      description={sub.description}
+                      name={sub.name}
+                      color={getCurrentColor(subIndex)}
+                      link={navigation.link + "/" + sub.link}
+                      hover="highlight"
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
           ))}
-          <Input button="SEARCH" placeholder="search" />
-        </Nav>
-      </Navbar.Collapse>
-    </Navbar>
+        </div>
+      </div>
+      <Input button="SEARCH" placeholder="search" />
+    </div>
   );
 };
 

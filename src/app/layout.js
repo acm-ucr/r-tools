@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${montserrat.className} bg-rtools-blue-400 text-white`}>
         <Navigation />
-        <div className="flex flex-col w-full">{children}</div>
+        <div className="flex flex-col w-full pt-[8vh]">{children}</div>
         <Footer />
       </body>
     </html>
