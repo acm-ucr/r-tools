@@ -11,10 +11,10 @@ const Card = ({ row, icon, description, name, color, link, hover, size }) => {
       href={link}
       className={`${row ? "flex-row" : "flex-col"} ${HOVER[hover]} ${
         row ? "items-center justify-center" : "items-start"
-      } no-underline flex bg-rtools-blue-300 transition-all duration-300 max-w-full rounded overflow-hidden px-3 py-2`}
+      } no-underline flex bg-rtools-blue-300 transition-all duration-300 max-w-full rounded overflow-hidden px-3 py-2 gap-2`}
     >
       <Icon color={color} size="xl" icon={icon} />
-      <div className="px-3">
+      <div className="">
         <div
           className={`text-white 
           ${size === "xl" && "text-xl"} ${size === "base" && "text-base"}`}
