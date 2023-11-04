@@ -4,6 +4,8 @@ import React from "react";
 import { LinkVerticalLine } from "@visx/shape";
 import { Group } from "@visx/group";
 import { hierarchy, Tree } from "@visx/hierarchy";
+import { COLORS } from "@/data/icons";
+import { Text } from "@visx/text";
 
 const treeNode = (value) => {
   return {
@@ -38,14 +40,6 @@ function arrayToBinaryTree(arr) {
 }
 
 const defaultMargin = { top: 50, left: 50, right: 50, bottom: 50 };
-
-const colors = [
-  { bg: "#C2FDFF", text: "#12D0D5" },
-  { bg: "#F0E3FF", text: "#BE8AFF" },
-  { bg: "#FFE0EB", text: "#FF8AB4" },
-  { bg: "#FFE9D8", text: "#FFAD6E" },
-  { bg: "#FFFACC", text: "#FFC700" },
-];
 
 const BinaryTree = ({
   arr,
@@ -98,18 +92,23 @@ const BinaryTree = ({
                     <Group top={top} left={left} key={key}>
                       <circle
                         r={nodeSize}
-                        fill={colors[key % colors.length].bg}
+                        fill={
+                          Object.values(COLORS)[
+                            key % Object.keys(COLORS).length
+                          ].bgColor
+                        }
                       />
-                      <text
-                        dy=".33em"
-                        fontSize={fontSize}
-                        fontFamily="Montserrat"
+                      <Text
+                        fill={
+                          Object.values(COLORS)[
+                            key % Object.keys(COLORS).length
+                          ].textColor
+                        }
                         textAnchor="middle"
-                        style={{ pointerEvents: "none" }}
-                        fill={colors[key % colors.length].text}
+                        dy=".33em"
                       >
                         {node.data.name}
-                      </text>
+                      </Text>
                     </Group>
                   );
                 })}
