@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import {AiOutlineClose} from 'react-icons/ai';
+import { AiOutlineClose } from "react-icons/ai";
 
 const Equations = ({ equations, setEquations }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -26,7 +26,7 @@ const Equations = ({ equations, setEquations }) => {
               {hoveredIndex === index && (
                 <AiOutlineClose
                   className="justify-self-end text-slate-400 hover:text-white"
-                  onClick={()=>removeEquation(index)}
+                  onClick={() => removeEquation(index)}
                 >
                   x
                 </AiOutlineClose>
