@@ -14,7 +14,7 @@ const Home = () => {
     setResults(
       results.map((result) => ({
         ...result,
-        show: result.name.toLowerCase().includes(value),
+        show: result.name.toLowerCase().includes(value.toLowerCase()),
       }))
     );
   };
@@ -58,26 +58,32 @@ const Home = () => {
               </div>
             </div>
           ))}
-        {value !== "" && (
-          <div className="gap-3 grid grid-cols-5 mt-8">
-            {results
-              .filter((result) => result.show)
-              .map((card, cardIndex) => (
-                <Card
-                  key={cardIndex}
-                  icon={card.icon}
-                  description={card.description}
-                  link={card.link}
-                  color={
-                    Object.keys(COLORS)[cardIndex % Object.keys(COLORS).length]
-                  }
-                  name={card.name}
-                  row={false}
-                  hover="up"
-                />
-              ))}
-          </div>
-        )}
+        <div className="pt-8" />
+        {value !== "" &&
+          (results.filter((result) => result.show).length > 0 ? (
+            <div className="gap-3 grid grid-cols-5">
+              {results
+                .filter((result) => result.show)
+                .map((card, cardIndex) => (
+                  <Card
+                    key={cardIndex}
+                    icon={card.icon}
+                    description={card.description}
+                    link={card.link}
+                    color={
+                      Object.keys(COLORS)[
+                        cardIndex % Object.keys(COLORS).length
+                      ]
+                    }
+                    name={card.name}
+                    row={false}
+                    hover="up"
+                  />
+                ))}
+            </div>
+          ) : (
+            <div className="flex justify-center">No results found</div>
+          ))}
       </div>
     </>
   );
