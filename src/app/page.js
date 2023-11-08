@@ -5,6 +5,7 @@ import Landing from "@/components/home/Landing";
 import { NAVIGATION, ALL_CARDS } from "@/data/navigation";
 import { COLORS } from "@/data/icons";
 import { useState } from "react";
+import BinaryTree from "@/components/algorithm/BinaryTree";
 
 const Home = () => {
   const [value, setValue] = useState("");
@@ -21,6 +22,7 @@ const Home = () => {
 
   return (
     <>
+      <BinaryTree arr={[2, 3, 4, 5, 6, 7, 1, 2]}></BinaryTree>
       <Landing />
       <div className="w-2/5 self-center">
         <Input
