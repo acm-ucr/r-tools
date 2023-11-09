@@ -8,25 +8,20 @@ const ArrayToolbar = ({ random, restart, step, showCode, setShowCode }) => {
   return (
     <div className="p-4">
       <div className="flex space-x-4">
-        <div className=" hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer">
-          <FaRandom className="mr-2" />
-          random array
-        </div>
-
-        <div className=" hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer">
-          <FaRedo className="mr-2" />
-          restart
-        </div>
-
-        <div className=" hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer">
-          <FaPlay className="mr-2" />
-          step over
-        </div>
-
-        <div className=" hover:text-white duration-300 text-rtools-blue-100  py-2 px-2 flex items-center cursor-pointer">
-          <FaCode className="mr-2" />
-          showcode
-        </div>
+        {[
+          { icon: <FaRandom className="mr-2" />, text: "random array" },
+          { icon: <FaRedo className="mr-2" />, text: "restart" },
+          { icon: <FaPlay className="mr-2" />, text: "step over" },
+          { icon: <FaCode className="mr-2" />, text: "showcode" },
+        ].map((item, index) => (
+          <div
+            key={index}
+            className="hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer"
+          >
+            {item.icon}
+            {item.text}
+          </div>
+        ))}
       </div>
     </div>
   );
