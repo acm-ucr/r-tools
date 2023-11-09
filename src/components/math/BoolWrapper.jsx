@@ -2,21 +2,8 @@
 
 import Input from "../Input";
 import BoolToolBar from "./BoolToolBar";
-import { useState } from "react";
 
-const BoolWrapper = ({ title }) => {
-  const [symbols, setSymbols] = useState({
-    and: "&",
-    or: "|",
-    not: "'",
-  });
-  const [value, setValue] = useState("");
-  const onClick = () => {
-    console.log("clicking");
-  };
-  const onChange = (e) => {
-    console.log(`changing: ${e}`);
-  };
+const BoolWrapper = ({ title, onClick, value, setValue, onChange, symbols, setSymbols }) => {
   return (
     <div className="flex flex-col items-center">
       <div className="text-4xl font-bold">{title}</div>
