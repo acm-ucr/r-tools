@@ -16,10 +16,10 @@ const BoolWrapper = ({
   return (
     <div className="flex flex-col items-center">
       <Header text={title} />
-      <div className="w-[36rem] mt-9">
+      <div className="w-1/2 mt-9">
         <Input
           placeholder="ex. A & B | C | (A' & B | C')"
-          button={"ADD"}
+          button="ADD"
           onClick={onClick}
           value={value}
           setValue={setValue}
