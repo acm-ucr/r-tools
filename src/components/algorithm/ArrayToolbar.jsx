@@ -8,25 +8,25 @@ const ArrayToolbar = ({ random, restart, step, showCode, setShowCode }) => {
   return (
     <div className="p-4">
       <div className="flex space-x-4">
-        <button className=" hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center">
+        <div className=" hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer">
           <FaRandom className="mr-2" />
           random array
-        </button>
+        </div>
 
-        <button className=" hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center">
+        <div className=" hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer">
           <FaRedo className="mr-2" />
           restart
-        </button>
+        </div>
 
-        <button className=" hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center">
+        <div className=" hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer">
           <FaPlay className="mr-2" />
           step over
-        </button>
+        </div>
 
-        <button className=" hover:text-white duration-300 text-rtools-blue-100  py-2 px-2 flex items-center">
+        <div className=" hover:text-white duration-300 text-rtools-blue-100  py-2 px-2 flex items-center cursor-pointer">
           <FaCode className="mr-2" />
           showcode
-        </button>
+        </div>
       </div>
     </div>
   );
