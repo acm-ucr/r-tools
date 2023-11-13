@@ -1,11 +1,10 @@
-"use client";
 import React from "react";
 
 const BoolToolBar = ({ symbols, setSymbols }) => {
   return (
-    <div className=" flex-col grid max-w-xs grid-cols-3">
+    <div className="flex flex-row gap-4 max-w-xs">
       {Object.entries(symbols).map(([symbol, value], index) => (
-        <div className="flex-col grid w-20 grid-cols-2" key={index}>
+        <div className="flex gap-1" key={index}>
           <p>{symbol}:</p>
           <div
             key={index}
