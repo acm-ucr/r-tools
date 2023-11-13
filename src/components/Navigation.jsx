@@ -85,22 +85,26 @@ const Navigation = () => {
         />
         {value !== "" && (
           <div className="flex flex-col gap-1 absolute bg-rtools-blue-300 p-2 rounded mt-2">
-            {results
-              .filter((result) => result.show)
-              .map((sub, subIndex) => (
-                <Card
-                  key={subIndex}
-                  row={true}
-                  icon={sub.icon}
-                  description={sub.description}
-                  name={sub.name}
-                  color={
-                    Object.keys(COLORS)[subIndex % Object.keys(COLORS).length]
-                  }
-                  link={sub.link}
-                  hover="highlight"
-                />
-              ))}
+            {results.filter((result) => result.show).length > 0 ? (
+              results
+                .filter((result) => result.show)
+                .map((sub, subIndex) => (
+                  <Card
+                    key={subIndex}
+                    row={true}
+                    icon={sub.icon}
+                    description={sub.description}
+                    name={sub.name}
+                    color={
+                      Object.keys(COLORS)[subIndex % Object.keys(COLORS).length]
+                    }
+                    link={sub.link}
+                    hover="highlight"
+                  />
+                ))
+            ) : (
+              <div className="flex justify-center">No results found</div>
+            )}
           </div>
         )}
       </div>
