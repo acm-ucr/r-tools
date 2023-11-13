@@ -1,40 +1,27 @@
-"use client";
-import { useState } from "react";
-import { AiOutlineClose } from "react-icons/ai";
+import { LiaTimesSolid } from "react-icons/lia";
 
 const Equations = ({ equations, setEquations }) => {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-
-  function removeEquation(index) {
-    const newEquations = equations;
-    newEquations.splice(index, 1);
-    setEquations(newEquations);
-  }
+  const removeEquation = (index) => {
+    setEquations([
+      ...equations.slice(0, index),
+      ...equations.slice(index + 1, equations.length),
+    ]);
+  };
 
   return (
-    <div className="w-64">
-      <div className="flex-row grid bg-blue-300/10 rounded-2xl">
-        <div className="mx-4 divide-y-2 divide-blue-100">
-          {Object.entries(equations).map(([equation, value], index) => (
-            <div
-              key={index}
-              className="grid my-2 justify-between grid-cols-2"
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-            >
-              <div>{value}</div>
-              {hoveredIndex === index && (
-                <AiOutlineClose
-                  className="justify-self-end text-slate-400 hover:text-white"
-                  onClick={() => removeEquation(index)}
-                >
-                  x
-                </AiOutlineClose>
-              )}
-            </div>
-          ))}
+    <div className="bg-blue-300/10 rounded-2xl divide-y-[1px] divide-blue-100 px-3">
+      {equations.map((equation, index) => (
+        <div
+          key={index}
+          className="group flex my-2 justify-between items-center"
+        >
+          {equation}
+          <LiaTimesSolid
+            onClick={() => removeEquation(index)}
+            className="hidden group-hover:block text-slate-400 hover:text-white hover:cursor-pointer"
+          />
         </div>
-      </div>
+      ))}
     </div>
   );
 };
