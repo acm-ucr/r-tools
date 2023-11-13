@@ -9,9 +9,9 @@ const ArrayToolbar = ({
   random,
   restart,
   step,
-  showCode,
-  setShowCode,
-  playClick,
+  show,
+  setShow,
+  setPlay,
   play,
 }) => {
   return (
@@ -33,24 +33,16 @@ const ArrayToolbar = ({
           restart
         </div>
 
-        {!play && (
-          <div
-            onClick={playClick}
-            className="hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer"
-          >
-            <FaPlay className="mr-2" />
-            play
-          </div>
-        )}
-        {play && (
-          <div
-            onClick={playClick}
-            className="hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer"
-          >
-            <FaPause className="mr-2" />
-            pause
-          </div>
-        )}
+        <div
+          onClick={() => setPlay(!play)}
+          className={`hover:text-white duration-300 ${
+            play ? "text-white" : "text-rtools-blue-100"
+          }  py-2 px-2 flex items-center cursor-pointer`}
+        >
+          {play ? <FaPause className="mr-2" /> : <FaPlay className="mr-2" />}
+          {play ? "pause" : "play"}
+        </div>
+
         <div
           onClick={step}
           className="hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer"
@@ -60,13 +52,13 @@ const ArrayToolbar = ({
         </div>
 
         <div
-          onClick={() => setShowCode(!showCode)}
+          onClick={() => setShow(!show)}
           className={`hover:text-white duration-300 ${
-            showCode ? "text-white" : "text-rtools-blue-100"
+            show ? "text-white" : "text-rtools-blue-100"
           }  py-2 px-2 flex items-center cursor-pointer`}
         >
           <FaCode className="mr-2" />
-          showcode
+          show
         </div>
       </div>
     </div>

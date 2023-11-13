@@ -28,6 +28,5 @@ export const sort = (arr) => {
     [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
     result.push({ line: 5, array: getArray(arr, [i, minIndex]) });
   }
-  console.log(result);
   return result;
 };

@@ -1,11 +1,11 @@
 "use client";
-import SortWraper from "@/components/algorithm/SortWraper";
+import SortWrapper from "@/components/algorithm/SortWrapper";
 import { code, sort } from "@/util/sort/selectionSort";
 
 const page = () => {
   return (
     <>
-      <SortWraper code={code} sort={sort} />
+      <SortWrapper code={code} sort={sort} />
     </>
   );
 };
