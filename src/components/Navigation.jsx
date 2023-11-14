@@ -7,20 +7,12 @@ import Logo from "../Assets/RToolsLogo.svg";
 import Input from "@/components/Input";
 import Card from "./Card";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { useMemo } from "react";
 
 const Navigation = () => {
   const [expanded, setExpanded] = useState("");
-  const [results, setResults] = useState(ALL_CARDS);
+  const results = useMemo(ALL_CARDS);
   const [value, setValue] = useState("");
-
-  const handleInput = (value) => {
-    setResults(
-      results.map((result) => ({
-        ...result,
-        show: result.name.toLowerCase().includes(value),
-      }))
-    );
-  };
 
   return (
     <div className="w-full h-[8vh] flex bg-rtools-blue-400 justify-between items-center px-3 fixed z-10">
@@ -51,7 +43,7 @@ const Navigation = () => {
                 />
               </div>
               {expanded === navigation.name && (
-                <div className="flex flex-col gap-1 absolute bg-rtools-blue-300 p-2 rounded">
+                <div className="overflow-y-scroll absolute bg-rtools-blue-300 p-2 rounded max-h-[80vh]">
                   {navigation.sub.map((sub, subIndex) => (
                     <Card
                       key={subIndex}
@@ -80,14 +72,14 @@ const Navigation = () => {
           placeholder="search"
           value={value}
           setValue={setValue}
-          onChange={handleInput}
           onClick={() => setValue("")}
         />
         {value !== "" && (
-          <div className="flex flex-col gap-1 absolute bg-rtools-blue-300 p-2 rounded mt-2">
-            {results.filter((result) => result.show).length > 0 ? (
+          <div className="overflow-y-scroll absolute bg-rtools-blue-300 p-2 rounded max-h-[80vh] mt-2">
+            {results.filter((card) => card.name.toLowerCase().includes(value))
+              .length > 0 ? (
               results
-                .filter((result) => result.show)
+                .filter((card) => card.name.toLowerCase().includes(value))
                 .map((sub, subIndex) => (
                   <Card
                     key={subIndex}
