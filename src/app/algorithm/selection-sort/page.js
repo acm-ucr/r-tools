@@ -1,12 +1,12 @@
 "use client";
-import SortWrapper from "@/components/algorithm/SortWrapper";
+import AlgorithmWrapper from "@/components/algorithm/AlgorithmWrapper";
 import { code, sort } from "@/util/sort/selectionSort";
 import { example } from "@/util/sort/selectionSort";
 
 const page = () => {
   return (
     <>
-      <SortWrapper
+      <AlgorithmWrapper
         code={code}
         sort={sort}
         example={example}
