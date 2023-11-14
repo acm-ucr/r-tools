@@ -31,6 +31,7 @@ const SortWrapper = ({ title, sort, code }) => {
   };
 
   useEffect(() => {
+    if (current === steps?.length - 1) setPlay(false);
     const id = setInterval(
       () =>
         setCurrent(current + 1 < steps?.length && play ? current + 1 : current),
@@ -64,7 +65,7 @@ const SortWrapper = ({ title, sort, code }) => {
         />
         {steps && (
           <div className={`grid ${show ? "grid-cols-2" : "grid-cols-1"}`}>
-            <BarChart width={600} height={300} data={steps[current].array} />
+            <BarChart width={600} height={450} data={steps[current].array} />
             {show && (
               <CodeView
                 codes={code}
