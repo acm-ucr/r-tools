@@ -5,8 +5,9 @@ import ArrayToolbar from "./ArrayToolbar";
 import BarChart from "../charts/BarChart";
 import toast from "react-hot-toast";
 import CodeView from "../CodeView";
+import Header from "../Header";
 
-const SortWrapper = ({ title, sort, code }) => {
+const SortWrapper = ({ title, sort, code, example }) => {
   const [input, setInput] = useState("");
   const [steps, setSteps] = useState(null);
   const [current, setCurrent] = useState(null);
@@ -49,6 +50,7 @@ const SortWrapper = ({ title, sort, code }) => {
   return (
     <>
       <div className="w-screen flex flex-col items-center h-screen justify-center">
+        <Header text={title} />
         <Input
           thick={true}
           value={input}
@@ -77,7 +79,7 @@ const SortWrapper = ({ title, sort, code }) => {
       </div>
       <div className="snap-start w-screen h-[90vh] flex items-center justify-center">
         <div className="w-7/12 ">
-          <CodeView editor={true} codes={{ python: "hihihihihihi" }} />
+          <CodeView editor={true} codes={example} />
         </div>
       </div>
     </>
