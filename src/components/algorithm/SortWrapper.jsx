@@ -9,34 +9,37 @@ import CodeView from "../CodeView";
 const SortWrapper = ({ title, sort, code }) => {
   const [input, setInput] = useState("");
   const [steps, setSteps] = useState(null);
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState(null);
   const [show, setShow] = useState(false);
   const [play, setPlay] = useState(false);
 
   const handleGenerate = () => {
     // TODO: array validation, if the input is not valid (has non-numeric value, or empty), show error in the toast
     const arr = input.split(",").map((num) => parseInt(num));
-    setSteps(sort(arr));
+    const sortFunction = sort(arr);
+    setSteps(sortFunction);
+    setCurrent(sortFunction.next().value);
   };
 
   const handleStep = () => {
-    if (current + 1 >= steps.length) toast("Array Sorted");
-    else setCurrent(current + 1);
+    const next = steps.next();
+    if (next.done) {
+      toast.success("Array Sorted!");
+      setPlay(false);
+      return;
+    } else {
+      setCurrent(next.value);
+    }
   };
-
-  const handleRestart = () => setCurrent(0);
 
   const handleRandom = () => {
     // TODO: generate a random array string and put it in input
   };
 
   useEffect(() => {
-    if (current === steps?.length - 1) setPlay(false);
-    const id = setInterval(
-      () =>
-        setCurrent(current + 1 < steps?.length && play ? current + 1 : current),
-      300
-    );
+    const id = setInterval(() => {
+      if (play) handleStep();
+    }, 300);
 
     return () => {
       clearInterval(id);
@@ -57,21 +60,17 @@ const SortWrapper = ({ title, sort, code }) => {
         <ArrayToolbar
           setPlay={setPlay}
           play={play}
-          restart={handleRestart}
+          restart={handleGenerate}
           step={handleStep}
           show={show}
           setShow={setShow}
           random={handleRandom}
         />
-        {steps && (
+        {current && (
           <div className={`grid ${show ? "grid-cols-2" : "grid-cols-1"}`}>
-            <BarChart width={600} height={450} data={steps[current].array} />
+            <BarChart width={600} height={450} data={current.array} />
             {show && (
-              <CodeView
-                codes={code}
-                code={code}
-                currLine={steps[current].line}
-              />
+              <CodeView codes={code} code={code} currLine={current.line} />
             )}
           </div>
         )}
