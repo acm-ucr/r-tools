@@ -6,8 +6,9 @@ import BarChart from "../charts/BarChart";
 import toast from "react-hot-toast";
 import CodeView from "../CodeView";
 import Header from "../Header";
+import BinaryTree from "./BinaryTree";
 
-const SortWrapper = ({ title, sort, code, example }) => {
+const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
   const [input, setInput] = useState("");
   const [steps, setSteps] = useState(null);
   const [current, setCurrent] = useState(null);
@@ -70,7 +71,10 @@ const SortWrapper = ({ title, sort, code, example }) => {
         />
         {current && (
           <div className={`grid ${show ? "grid-cols-2" : "grid-cols-1"}`}>
-            <BarChart width={600} height={450} data={current.array} />
+            {type === "sort" && (
+              <BarChart width={600} height={450} data={current.array} />
+            )}
+            {type === "heap" && <BinaryTree arr={current.array} />}
             {show && (
               <CodeView codes={code} code={code} currLine={current.line} />
             )}
@@ -86,4 +90,4 @@ const SortWrapper = ({ title, sort, code, example }) => {
   );
 };
 
-export default SortWrapper;
+export default AlgorithmWrapper;

@@ -9,8 +9,9 @@ import { Text } from "@visx/text";
 
 const treeNode = (value) => {
   return {
-    name: value,
+    name: value.number,
     children: [],
+    highlight: value.highlight,
   };
 };
 
@@ -91,6 +92,12 @@ const BinaryTree = ({
                   return (
                     <Group top={top} left={left} key={key}>
                       <circle
+                        strokeWidth={node.data.highlight ? 6 : 0}
+                        stroke={
+                          Object.values(COLORS)[
+                            key % Object.keys(COLORS).length
+                          ].textColor
+                        }
                         r={nodeSize}
                         fill={
                           Object.values(COLORS)[
@@ -99,6 +106,7 @@ const BinaryTree = ({
                         }
                       />
                       <Text
+                        style={{ fontWeight: 600, fontSize: "25px" }}
                         fill={
                           Object.values(COLORS)[
                             key % Object.keys(COLORS).length
