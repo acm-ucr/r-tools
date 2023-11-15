@@ -15,9 +15,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${montserrat.className} bg-rtools-blue-400 text-white`}>
+      <body className={`${montserrat.className} bg-rtools-blue-400 min-h-screen text-white flex flex-col`}>
         <Navigation />
-        <div className="flex flex-col w-full pt-[8vh]">{children}</div>
+        <div className="flex flex-col flex-grow w-full pt-[8vh]">{children}</div>
         <Footer />
       </body>
     </html>
