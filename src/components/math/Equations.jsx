@@ -9,7 +9,7 @@ const Equations = ({ equations, setEquations }) => {
   };
 
   return (
-    <div className="bg-blue-300/10 rounded-2xl divide-y-[1px] divide-blue-100 px-3">
+    <div className="w-64 bg-blue-300/10 rounded-2xl divide-y-[1px] divide-blue-100 px-3">
       {equations.map((equation, index) => (
         <div
           key={index}

@@ -43,7 +43,7 @@ const Navigation = () => {
                 />
               </div>
               {expanded === navigation.name && (
-                <div className="overflow-y-scroll absolute bg-rtools-blue-300 p-2 rounded max-h-[80vh]">
+                <div className="overflow-y-scroll absolute bg-rtools-blue-300 p-2 rounded max-h-[80vh] drop-shadow-2xl">
                   {navigation.sub.map((sub, subIndex) => (
                     <Card
                       key={subIndex}
@@ -75,7 +75,7 @@ const Navigation = () => {
           onClick={() => setValue("")}
         />
         {value !== "" && (
-          <div className="overflow-y-scroll absolute bg-rtools-blue-300 p-2 rounded max-h-[80vh] mt-2">
+          <div className="overflow-y-scroll absolute bg-rtools-blue-300 p-2 rounded max-h-[80vh] mt-2 drop-shadow-2xl">
             {results.filter((card) => card.name.toLowerCase().includes(value))
               .length > 0 ? (
               results
