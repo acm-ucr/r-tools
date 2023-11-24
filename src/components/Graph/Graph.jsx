@@ -1,27 +1,24 @@
 "use client";
-import React, { useState } from "react";
 import { Drag } from "@visx/drag";
-import { VERTICES, EDGES } from "@/mockdata/graphVertex";
 import { Line } from "@visx/shape";
 import { MarkerArrow } from "@visx/marker";
 import { Point } from "@visx/point";
 import { Text } from "@visx/text";
 import { Group } from "@visx/group";
+import { COLORS } from "@/data/icons";
 
-const Graph = ({ width, height }) => {
-  const [draggingItems, setDraggingItems] = useState(VERTICES);
-
+const Graph = ({ width, height, vertices, setVertices, edges }) => {
   return (
     <div className="Drag" style={{ touchAction: "none" }}>
       <svg width={width} height={height}>
         <MarkerArrow id="marker-arrow" fill="black" size={6} />
         <rect fill="#ffffff" width={width} height={height} rx={14} />
-        {Object.entries(EDGES).map(([from, vertices]) =>
-          vertices.map((to, i) => {
-            const x1 = draggingItems[from].x;
-            const y1 = draggingItems[from].y;
-            const x2 = draggingItems[to].x;
-            const y2 = draggingItems[to].y;
+        {Object.entries(edges).map(([from, data]) =>
+          data.map((to, i) => {
+            const x1 = vertices[from].x;
+            const y1 = vertices[from].y;
+            const x2 = vertices[to.to].x;
+            const y2 = vertices[to.to].y;
             const length = Math.sqrt(
               (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)
             );
@@ -32,25 +29,25 @@ const Graph = ({ width, height }) => {
                 key={i}
                 from={
                   new Point({
-                    x: x1 - dx * (draggingItems[from].radius + 2),
-                    y: y1 - dy * (draggingItems[from].radius + 2),
+                    x: x1 - dx * (vertices[from].radius + 2),
+                    y: y1 - dy * (vertices[from].radius + 2),
                   })
                 }
                 to={
                   new Point({
-                    x: x2 + dx * (draggingItems[from].radius + 2),
-                    y: y2 + dy * (draggingItems[from].radius + 2),
+                    x: x2 + dx * (vertices[from].radius + 2),
+                    y: y2 + dy * (vertices[from].radius + 2),
                   })
                 }
-                strokeWidth={2}
-                stroke="black"
+                strokeWidth={3}
+                stroke={to.color ? COLORS[to.color].textColor : "black"}
                 shapeRendering="geometricPrecision"
                 markerEnd="url(#marker-arrow)"
               />
             );
           })
         )}
-        {Object.entries(draggingItems).map(([i, d]) => (
+        {Object.entries(vertices).map(([i, d]) => (
           <Drag
             key={`drag-${i}`}
             width={width}
@@ -58,10 +55,10 @@ const Graph = ({ width, height }) => {
             x={d.x}
             y={d.y}
             onDragMove={(e) => {
-              setDraggingItems({
-                ...draggingItems,
+              setVertices({
+                ...vertices,
                 [i]: {
-                  ...draggingItems[i],
+                  ...vertices[i],
                   x: d.x + e.dx,
                   y: d.y + e.dy,
                 },
@@ -84,10 +81,10 @@ const Graph = ({ width, height }) => {
                   cy={y}
                   key={`dot-${i}`}
                   r={d.radius}
-                  fill="white"
+                  fill={d.color ? COLORS[d.color].bgColor : "white"}
                   fillOpacity={0.8}
-                  stroke="black"
-                  strokeWidth={isDragging ? 2 : 1.5}
+                  stroke={d.color ? COLORS[d.color].textColor : "black"}
+                  strokeWidth={isDragging ? 4 : 2}
                 />
                 <Text
                   key={i}
@@ -98,13 +95,13 @@ const Graph = ({ width, height }) => {
                     msUserSelect: "none",
                     userSelect: "none",
                   }}
-                  fill="black"
+                  fill={d.color ? COLORS[d.color].textColor : "black"}
                   textAnchor="middle"
                   verticalAnchor="middle"
                   x={d.x}
                   y={d.y}
                 >
-                  {i}
+                  {d.value}
                 </Text>
               </Group>
             )}

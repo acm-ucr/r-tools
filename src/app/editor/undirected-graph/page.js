@@ -1,4 +1,4 @@
-import Graph from "@/components/charts/Graph";
+import Graph from "@/components/Graph/Graph";
 
 const page = () => {
   return (
