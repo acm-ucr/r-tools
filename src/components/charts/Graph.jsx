@@ -1,75 +1,118 @@
 "use client";
-import * as d3 from "d3";
-import { useEffect, useRef } from "react";
+import React, { useState } from "react";
+import { Drag } from "@visx/drag";
+import { VERTICES, EDGES } from "@/mockdata/graphVertex";
+import { Line } from "@visx/shape";
+import { MarkerArrow } from "@visx/marker";
+import { Point } from "@visx/point";
+import { Text } from "@visx/text";
+import { Group } from "@visx/group";
 
-const Graph = () => {
-  const ref = useRef();
-  const width = 700;
-  const height = 700;
-  const data = [
-    { name: "A" },
-    { name: "B" },
-    { name: "C" },
-    { name: "D" },
-    { name: "E" },
-    { name: "F" },
-    { name: "G" },
-    { name: "H" },
-  ];
+const Graph = ({ width, height }) => {
+  const [draggingItems, setDraggingItems] = useState(VERTICES);
 
-  const simulation = d3
-    .forceSimulation()
-    .force(
-      "center",
-      d3
-        .forceCenter()
-        .x(width / 2)
-        .y(height / 2)
-    )
-    .force("collide", d3.forceCollide().strength(0.1).radius(30).iterations(1));
-  const dragstarted = (event, d) => {
-    if (!event.active) simulation.alphaTarget(0.03).restart();
-    d.fx = d.x;
-    d.fy = d.y;
-  };
-  const dragged = (event, d) => {
-    d.fx = event.x;
-    d.fy = event.y;
-  };
-  const dragended = (event, d) => {
-    if (!event.active) simulation.alphaTarget(0.03);
-    d.fx = null;
-    d.fy = null;
-  };
-  useEffect(() => {
-    const svg = d3
-      .select(ref.current)
-      .attr("width", width)
-      .attr("height", height);
-
-    const node = svg
-      .selectAll("circle")
-      .data(data)
-      .join("circle")
-      .attr("r", 25)
-      .attr("cx", width / 2)
-      .attr("cy", height / 2)
-      .style("fill", "white")
-      .attr("stroke", "#b3a2c8")
-      .style("stroke-width", 4)
-
-      .call(
-        d3
-          .drag()
-          .on("start", dragstarted)
-          .on("drag", dragged)
-          .on("end", dragended)
-      );
-    simulation
-      .nodes(data)
-      .on("tick", (d) => node.attr("cx", (d) => d.x).attr("cy", (d) => d.y));
-  });
-  return <svg ref={ref} />;
+  return (
+    <div className="Drag" style={{ touchAction: "none" }}>
+      <svg width={width} height={height}>
+        <MarkerArrow id="marker-arrow" fill="black" size={6} />
+        <rect fill="#ffffff" width={width} height={height} rx={14} />
+        {Object.entries(EDGES).map(([from, vertices]) =>
+          vertices.map((to, i) => {
+            const x1 = draggingItems[from].x;
+            const y1 = draggingItems[from].y;
+            const x2 = draggingItems[to].x;
+            const y2 = draggingItems[to].y;
+            const length = Math.sqrt(
+              (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)
+            );
+            const dx = (x1 - x2) / length;
+            const dy = (y1 - y2) / length;
+            return (
+              <Line
+                key={i}
+                from={
+                  new Point({
+                    x: x1 - dx * (draggingItems[from].radius + 2),
+                    y: y1 - dy * (draggingItems[from].radius + 2),
+                  })
+                }
+                to={
+                  new Point({
+                    x: x2 + dx * (draggingItems[from].radius + 2),
+                    y: y2 + dy * (draggingItems[from].radius + 2),
+                  })
+                }
+                strokeWidth={2}
+                stroke="black"
+                shapeRendering="geometricPrecision"
+                markerEnd="url(#marker-arrow)"
+              />
+            );
+          })
+        )}
+        {Object.entries(draggingItems).map(([i, d]) => (
+          <Drag
+            key={`drag-${i}`}
+            width={width}
+            height={height}
+            x={d.x}
+            y={d.y}
+            onDragMove={(e) => {
+              setDraggingItems({
+                ...draggingItems,
+                [i]: {
+                  ...draggingItems[i],
+                  x: d.x + e.dx,
+                  y: d.y + e.dy,
+                },
+              });
+            }}
+          >
+            {({ dragStart, dragEnd, dragMove, isDragging, x, y, dx, dy }) => (
+              <Group
+                cx={x}
+                cy={y}
+                onMouseMove={dragMove}
+                onMouseUp={dragEnd}
+                onMouseDown={dragStart}
+                onTouchStart={dragStart}
+                onTouchMove={dragMove}
+                onTouchEnd={dragEnd}
+              >
+                <circle
+                  cx={x}
+                  cy={y}
+                  key={`dot-${i}`}
+                  r={d.radius}
+                  fill="white"
+                  fillOpacity={0.8}
+                  stroke="black"
+                  strokeWidth={isDragging ? 2 : 1.5}
+                />
+                <Text
+                  key={i}
+                  style={{
+                    fontWeight: 600,
+                    fontSize: "25px",
+                    WebkitUserSelect: "none",
+                    msUserSelect: "none",
+                    userSelect: "none",
+                  }}
+                  fill="black"
+                  textAnchor="middle"
+                  verticalAnchor="middle"
+                  x={d.x}
+                  y={d.y}
+                >
+                  {i}
+                </Text>
+              </Group>
+            )}
+          </Drag>
+        ))}
+      </svg>
+    </div>
+  );
 };
 
 export default Graph;
