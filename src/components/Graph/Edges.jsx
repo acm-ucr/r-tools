@@ -7,7 +7,6 @@ const Edges = ({ vertices, edges }) => {
   const count = useMemo(() => {
     let count = 0;
     Object.values(edges).forEach((vertex) => (count += vertex.length));
-    console.log(count);
     return count;
   }, [edges]);
   return (
@@ -25,9 +24,9 @@ const Edges = ({ vertices, edges }) => {
             <div key={index} className="flex items-center my-2">
               <span
                 className={`${
-                  vertices[i].color
-                    ? COLORS[vertices[i].color].text
-                    : "text-white"
+                  vertices[i].color === "white"
+                    ? "text-white"
+                    : COLORS[vertices[i].color].text
                 } flex items-center`}
               >
                 <TbCircleFilled className="text-xs mr-1" />
@@ -35,14 +34,15 @@ const Edges = ({ vertices, edges }) => {
               </span>
               <HiArrowLongRight
                 className={`text-xl mx-2 ${
-                  vertices[to.to].color && COLORS[vertices[to.to].color].text
+                  vertices[to.to].color !== "white" &&
+                  COLORS[vertices[to.to].color].text
                 }`}
               />
               <span
                 className={`${
-                  vertices[to.to].color
-                    ? COLORS[vertices[to.to].color].text
-                    : "text-white"
+                  vertices[to.to].color === "white"
+                    ? "text-white"
+                    : COLORS[vertices[to.to].color].text
                 } flex items-center`}
               >
                 <TbCircleFilled className="text-xs mr-1" />
