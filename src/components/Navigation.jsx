@@ -43,7 +43,7 @@ const Navigation = () => {
                 />
               </div>
               {expanded === navigation.name && (
-                <div className="overflow-y-scroll absolute bg-rtools-blue-300 p-2 rounded max-h-[80vh] drop-shadow-2xl">
+                <div className="z-20 overflow-y-scroll absolute bg-rtools-blue-300 p-2 rounded max-h-[80vh] drop-shadow-2xl">
                   {navigation.sub.map((sub, subIndex) => (
                     <Card
                       key={subIndex}
