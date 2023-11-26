@@ -137,10 +137,6 @@ const page = () => {
         </div>
         <div className="flex flex-col gap-2">
           <Toolbar
-            vertices={vertices}
-            setVertices={setVertices}
-            edges={edges}
-            setEdges={setEdges}
             tool={tool}
             setTool={setTool}
             handleDelete={deleteVertex}
@@ -148,6 +144,7 @@ const page = () => {
             setSelectedVertex={setSelectedVertex}
             setSelectedColor={setSelectedColor}
             clear={clear}
+            cursorPos={cursorPos}
           />
           <Graph
             width={600}
