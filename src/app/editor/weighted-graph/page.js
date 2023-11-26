@@ -6,7 +6,7 @@ const page = () => {
   return (
     <>
       <Header text="Weighted Graph" />
-      <GraphPage directed={true} />
+      <GraphPage directed={true} weighted={true} />
     </>
   );
 };

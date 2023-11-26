@@ -4,7 +4,15 @@ import { HiArrowLongRight } from "react-icons/hi2";
 import { TbCircleFilled } from "react-icons/tb";
 import { BsDashLg } from "react-icons/bs";
 
-const Edges = ({ vertices, edges, directed }) => {
+const Edges = ({
+  vertices,
+  edges,
+  setEdges,
+  directed,
+  selectedEdge,
+  setSelectedEdge,
+  weighted,
+}) => {
   const count = useMemo(() => {
     let count = 0;
     Object.values(edges).forEach((vertex) => (count += vertex.length));
@@ -22,7 +30,16 @@ const Edges = ({ vertices, edges, directed }) => {
       <div className="overflow-y-scroll px-3">
         {Object.entries(edges).map(([i, d]) =>
           d.map((to, index) => (
-            <div key={index} className="flex items-center my-2">
+            <div
+              key={index}
+              className={`flex items-center my-1 cursor-pointer px-2 rounded py-1 ${
+                selectedEdge &&
+                i === selectedEdge.from &&
+                to.to === selectedEdge.to &&
+                "bg-rtools-blue-200"
+              }`}
+              onClick={() => setSelectedEdge({ from: i, to: to.to })}
+            >
               <span
                 className={`${
                   vertices[i].color === "white"
@@ -56,6 +73,27 @@ const Edges = ({ vertices, edges, directed }) => {
                 <TbCircleFilled className="text-xs mr-1" />
                 {vertices[to.to].value}
               </span>
+              {weighted &&
+                (selectedEdge &&
+                i === selectedEdge.from &&
+                to.to === selectedEdge.to ? (
+                  <input
+                    type="number"
+                    value={to.weight}
+                    className="ml-2 bg-white/30 rounded px-2"
+                    onChange={(e) =>
+                      setEdges({
+                        ...edges,
+                        [i]: edges[i].map((to) => {
+                          if (to.to === to.to)
+                            return { ...to, weight: parseInt(e.target.value) };
+                        }),
+                      })
+                    }
+                  />
+                ) : (
+                  <span className="font-bold ml-2"> {to.weight}</span>
+                ))}
             </div>
           ))
         )}

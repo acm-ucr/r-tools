@@ -11,12 +11,13 @@ import shortUUID from "short-uuid";
 import Cursor from "@/components/Graph/Cursor";
 import { min, max } from "d3";
 
-const GraphPage = ({ directed }) => {
+const GraphPage = ({ directed, weighted }) => {
   const [vertices, setVertices] = useState({});
   const [edges, setEdges] = useState({});
   const [value, setValue] = useState("");
   const [tool, setTool] = useState("cursor");
   const [selectedVertex, setSelectedVertex] = useState(null);
+  const [selectedEdge, setSelectedEdge] = useState(null);
   const [selectedColor, setSelectedColor] = useState();
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
 
@@ -162,6 +163,7 @@ const GraphPage = ({ directed }) => {
             selectedColor={selectedColor}
             deleteVertex={deleteVertex}
             directed={directed}
+            weighted={weighted}
           />
           <ColorPicker
             selectedColor={selectedColor}
@@ -169,7 +171,15 @@ const GraphPage = ({ directed }) => {
           />
         </div>
         <div className="flex flex-col gap-3 h-full w-1/5">
-          <Edges vertices={vertices} edges={edges} directed={directed} />
+          <Edges
+            vertices={vertices}
+            edges={edges}
+            directed={directed}
+            selectedEdge={selectedEdge}
+            setSelectedEdge={setSelectedEdge}
+            weighted={weighted}
+            setEdges={setEdges}
+          />
           <Button text="RESET COLOR" onClick={resetColor} />
           <Button text="DOWNLOAD PNG" onClick={() => {}} />
         </div>
