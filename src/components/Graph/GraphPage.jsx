@@ -136,6 +136,15 @@ const GraphPage = ({ directed, weighted }) => {
     svgImage.src = svgUrl;
   };
 
+  const importJSON = (e) => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = (e) => {
+      setEdges(JSON.parse(e.target.result).edges);
+      setVertices(JSON.parse(e.target.result).vertices);
+    };
+  };
+
   useEffect(() => {
     const keyDown = (e) => {
       if (e.key === "Backspace") {
@@ -150,6 +159,15 @@ const GraphPage = ({ directed, weighted }) => {
     };
   }, [selectedVertex]);
 
+  const downLoadJSON = () => {
+    const json = JSON.stringify({ vertices: vertices, edges: edges });
+    const blob = new Blob([json], { type: "application/json" });
+    const element = document.createElement("a");
+    element.download = "data.json";
+    element.href = window.URL.createObjectURL(blob);
+    element.click();
+    element.remove();
+  };
   return (
     <div
       className={`w-full ${
@@ -221,6 +239,8 @@ const GraphPage = ({ directed, weighted }) => {
           <Button text="RESET COLOR" onClick={resetColor} />
           <Button text="DOWNLOAD SVG" onClick={downloadSVG} />
           <Button text="DOWNLOAD PNG" onClick={downloadPNG} />
+          <Button text="DOWNLOAD JSON" onClick={downLoadJSON} />
+          <input type="file" onChange={importJSON} />
         </div>
       </div>
       <Cursor tool={tool} selectedColor={selectedColor} cursorPos={cursorPos} />
