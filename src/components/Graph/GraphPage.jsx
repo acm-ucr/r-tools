@@ -102,14 +102,38 @@ const GraphPage = ({ directed, weighted }) => {
     const svg = document
       .getElementById("graphsvg")
       .outerHTML.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
-    // const blob = svg.toDataURL("image/png");
-
     const blob = new Blob([svg], { type: "image/svg+xml" });
     const element = document.createElement("a");
     element.download = "w3c.svg";
     element.href = window.URL.createObjectURL(blob);
     element.click();
     element.remove();
+  };
+
+  const downloadPNG = () => {
+    const svg = document
+      .getElementById("graphsvg")
+      .outerHTML.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+    const DOMURL = window.URL || window.webkitURL || window;
+    const svgBlob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
+    const svgUrl = DOMURL.createObjectURL(svgBlob);
+    const svgImage = document.createElement("img");
+    document.body.appendChild(svgImage);
+    svgImage.onload = function () {
+      const canvas = document.createElement("canvas");
+      canvas.width = svgImage.clientWidth;
+      canvas.height = svgImage.clientHeight;
+      const canvasCtx = canvas.getContext("2d");
+      canvasCtx.drawImage(svgImage, 0, 0);
+      const imgData = canvas.toDataURL("image/png");
+      console.log(imgData);
+      const element = document.createElement("a");
+      element.download = "w3c.png";
+      element.href = imgData;
+      element.click();
+      element.remove();
+    };
+    svgImage.src = svgUrl;
   };
 
   useEffect(() => {
@@ -196,6 +220,7 @@ const GraphPage = ({ directed, weighted }) => {
           />
           <Button text="RESET COLOR" onClick={resetColor} />
           <Button text="DOWNLOAD SVG" onClick={downloadSVG} />
+          <Button text="DOWNLOAD PNG" onClick={downloadPNG} />
         </div>
       </div>
       <Cursor tool={tool} selectedColor={selectedColor} cursorPos={cursorPos} />
