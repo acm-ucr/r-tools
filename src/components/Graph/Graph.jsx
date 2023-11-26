@@ -21,6 +21,7 @@ const Graph = ({
   deleteVertex,
   selectedColor,
   setEdges,
+  directed,
 }) => {
   const colorVertex = (id, color) =>
     setVertices({
@@ -38,32 +39,37 @@ const Graph = ({
   return (
     <div>
       <svg width={width} height={height}>
-        <MarkerArrow id="marker-arrow-white" fill="black" size={4} />
-        <MarkerArrow
-          id="marker-arrow-teal"
-          fill={COLORS["teal"].textColor}
-          size={4}
-        />
-        <MarkerArrow
-          id="marker-arrow-pink"
-          fill={COLORS["pink"].textColor}
-          size={4}
-        />
-        <MarkerArrow
-          id="marker-arrow-purple"
-          fill={COLORS["purple"].textColor}
-          size={4}
-        />
-        <MarkerArrow
-          id="marker-arrow-yellow"
-          fill={COLORS["yellow"].textColor}
-          size={4}
-        />
-        <MarkerArrow
-          id="marker-arrow-orange"
-          fill={COLORS["orange"].textColor}
-          size={4}
-        />
+        {directed && (
+          <>
+            <MarkerArrow id="marker-arrow-white" fill="black" size={4} />
+            <MarkerArrow
+              id="marker-arrow-teal"
+              fill={COLORS["teal"].textColor}
+              size={4}
+            />
+            <MarkerArrow
+              id="marker-arrow-pink"
+              fill={COLORS["pink"].textColor}
+              size={4}
+            />
+            <MarkerArrow
+              id="marker-arrow-purple"
+              fill={COLORS["purple"].textColor}
+              size={4}
+            />
+            <MarkerArrow
+              id="marker-arrow-yellow"
+              fill={COLORS["yellow"].textColor}
+              size={4}
+            />
+            <MarkerArrow
+              id="marker-arrow-orange"
+              fill={COLORS["orange"].textColor}
+              size={4}
+            />
+          </>
+        )}
+
         <rect
           fill="#ffffff"
           width={width}

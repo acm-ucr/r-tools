@@ -5,7 +5,7 @@ const Vertices = ({
   edges,
   selectedVertex,
   setSelectedVertex,
-  tool,
+  directed,
 }) => {
   return (
     <div className="flex-grow bg-rtools-blue-300 rounded-xl py-2 px-3">
@@ -36,8 +36,10 @@ const Vertices = ({
             <div className="text-sm">{data.label}</div>
           </div>
           {selectedVertex === id &&
-            (edges[id] ? (
-              edges[id].map((to, index) => (
+            !directed &&
+            Object.entries(edges)
+              .filter(([from, to]) => from < id && to.includes(id))
+              .map(([from, to], index) => (
                 <div
                   key={index}
                   className="flex items-center ml-4"
@@ -52,9 +54,24 @@ const Vertices = ({
                   />
                   <div className="">{vertices[to.to].value}</div>
                 </div>
-              ))
-            ) : (
-              <div className="ml-4">no edges </div>
+              ))}
+          {selectedVertex === id &&
+            edges[id] &&
+            edges[id].map((to, index) => (
+              <div
+                key={index}
+                className="flex items-center ml-4"
+                onClick={() => setSelectedVertex(i)}
+              >
+                <div
+                  className={`w-3 h-3 rounded-full ${
+                    vertices[to.to].color === "white"
+                      ? "bg-white"
+                      : COLORS[vertices[to.to].color].bgDark
+                  } mr-2`}
+                />
+                <div className="">{vertices[to.to].value}</div>
+              </div>
             ))}
         </div>
       ))}
