@@ -2,8 +2,9 @@ import { COLORS } from "@/data/icons";
 import { useMemo } from "react";
 import { HiArrowLongRight } from "react-icons/hi2";
 import { TbCircleFilled } from "react-icons/tb";
+import { BsDashLg } from "react-icons/bs";
 
-const Edges = ({ vertices, edges }) => {
+const Edges = ({ vertices, edges, directed }) => {
   const count = useMemo(() => {
     let count = 0;
     Object.values(edges).forEach((vertex) => (count += vertex.length));
@@ -32,12 +33,19 @@ const Edges = ({ vertices, edges }) => {
                 <TbCircleFilled className="text-xs mr-1" />
                 {vertices[i].value}
               </span>
-              <HiArrowLongRight
-                className={`text-xl mx-2 ${
-                  vertices[to.to].color !== "white" &&
-                  COLORS[vertices[to.to].color].text
-                }`}
-              />
+              {directed ? (
+                <HiArrowLongRight
+                  className={`text-xl mx-2 ${
+                    to.color !== "white" && COLORS[to.color].text
+                  }`}
+                />
+              ) : (
+                <BsDashLg
+                  className={`text-xl mx-2 ${
+                    to.color !== "white" && COLORS[to.color].text
+                  }`}
+                />
+              )}
               <span
                 className={`${
                   vertices[to.to].color === "white"
