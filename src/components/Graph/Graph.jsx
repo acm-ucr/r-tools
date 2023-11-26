@@ -22,6 +22,8 @@ const Graph = ({
   selectedColor,
   setEdges,
   directed,
+  weighted,
+  svgRef,
 }) => {
   const colorVertex = (id, color) =>
     setVertices({
@@ -38,7 +40,7 @@ const Graph = ({
   };
   return (
     <div>
-      <svg width={width} height={height}>
+      <svg width={width} height={height} id="graphsvg">
         {directed && (
           <>
             <MarkerArrow id="marker-arrow-white" fill="black" size={4} />
@@ -89,33 +91,60 @@ const Graph = ({
             const dx = (x1 - x2) / length;
             const dy = (y1 - y2) / length;
             return (
-              <Line
-                onMouseEnter={(e) => {
-                  if (e.buttons === 1) {
-                    if (tool === "eraser") deleteEdge(from, to.to);
-                    if (tool === "brush") colorEdge(from, to.to, selectedColor);
+              <>
+                <Line
+                  onMouseEnter={(e) => {
+                    if (e.buttons === 1) {
+                      if (tool === "eraser") deleteEdge(from, to.to);
+                      if (tool === "brush")
+                        colorEdge(from, to.to, selectedColor);
+                    }
+                  }}
+                  key={i}
+                  from={
+                    new Point({
+                      x: x1 - dx * (vertices[from].radius + 2),
+                      y: y1 - dy * (vertices[from].radius + 2),
+                    })
                   }
-                }}
-                key={i}
-                from={
-                  new Point({
-                    x: x1 - dx * (vertices[from].radius + 2),
-                    y: y1 - dy * (vertices[from].radius + 2),
-                  })
-                }
-                to={
-                  new Point({
-                    x: x2 + dx * (vertices[from].radius + 2),
-                    y: y2 + dy * (vertices[from].radius + 2),
-                  })
-                }
-                strokeWidth={3}
-                stroke={
-                  to.color === "white" ? "black" : COLORS[to.color].textColor
-                }
-                shapeRendering="geometricPrecision"
-                markerEnd={`url(#marker-arrow-${to.color})`}
-              />
+                  to={
+                    new Point({
+                      x: x2 + dx * (vertices[from].radius + 2),
+                      y: y2 + dy * (vertices[from].radius + 2),
+                    })
+                  }
+                  strokeWidth={3}
+                  stroke={
+                    to.color === "white" ? "black" : COLORS[to.color].textColor
+                  }
+                  shapeRendering="geometricPrecision"
+                  markerEnd={`url(#marker-arrow-${to.color})`}
+                />
+                {weighted && (
+                  <Text
+                    x={x1 - dx * (length / 2)}
+                    y={y1 - dy * (length / 2)}
+                    style={{
+                      fontWeight: 600,
+                      fontSize: "25px",
+                      WebkitUserSelect: "none",
+                      msUserSelect: "none",
+                      userSelect: "none",
+                      textShadow:
+                        "2px 0px 0px white,0px 2px 0px white,-2px 0px 0px white,0px -2px 0px white,-2px -2px 0px white,2px 2px 0px white",
+                    }}
+                    fill={
+                      to.color === "white"
+                        ? "black"
+                        : COLORS[to.color].textColor
+                    }
+                    textAnchor="start"
+                    verticalAnchor="middle"
+                  >
+                    {to.weight}
+                  </Text>
+                )}
+              </>
             );
           })
         )}
