@@ -23,6 +23,7 @@ const Graph = ({
   setEdges,
   directed,
   weighted,
+  svgRef,
 }) => {
   const colorVertex = (id, color) =>
     setVertices({
@@ -39,7 +40,7 @@ const Graph = ({
   };
   return (
     <div>
-      <svg width={width} height={height}>
+      <svg width={width} height={height} id="graphsvg">
         {directed && (
           <>
             <MarkerArrow id="marker-arrow-white" fill="black" size={4} />

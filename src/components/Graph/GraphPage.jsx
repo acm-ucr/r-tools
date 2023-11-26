@@ -98,6 +98,20 @@ const GraphPage = ({ directed, weighted }) => {
     setVertices(newVertices);
   };
 
+  const downloadSVG = () => {
+    const svg = document
+      .getElementById("graphsvg")
+      .outerHTML.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+    // const blob = svg.toDataURL("image/png");
+
+    const blob = new Blob([svg], { type: "image/svg+xml" });
+    const element = document.createElement("a");
+    element.download = "w3c.svg";
+    element.href = window.URL.createObjectURL(blob);
+    element.click();
+    element.remove();
+  };
+
   useEffect(() => {
     const keyDown = (e) => {
       if (e.key === "Backspace") {
@@ -181,7 +195,7 @@ const GraphPage = ({ directed, weighted }) => {
             setEdges={setEdges}
           />
           <Button text="RESET COLOR" onClick={resetColor} />
-          <Button text="DOWNLOAD PNG" onClick={() => {}} />
+          <Button text="DOWNLOAD SVG" onClick={downloadSVG} />
         </div>
       </div>
       <Cursor tool={tool} selectedColor={selectedColor} cursorPos={cursorPos} />
