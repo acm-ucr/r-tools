@@ -36,15 +36,13 @@ const Edges = ({ vertices, edges, directed }) => {
               {directed ? (
                 <HiArrowLongRight
                   className={`text-xl mx-2 ${
-                    vertices[to.to].color !== "white" &&
-                    COLORS[vertices[to.to].color].text
+                    to.color !== "white" && COLORS[to.color].text
                   }`}
                 />
               ) : (
                 <BsDashLg
                   className={`text-xl mx-2 ${
-                    vertices[to.to].color !== "white" &&
-                    COLORS[vertices[to.to].color].text
+                    to.color !== "white" && COLORS[to.color].text
                   }`}
                 />
               )}
