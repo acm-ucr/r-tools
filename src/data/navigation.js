@@ -96,6 +96,13 @@ export const NAVIGATION = [
       },
       {
         icon: <BsBarChartFill />,
+        name: "Weighted Graph",
+        link: "/editor/weighted-graph",
+        description: "visualize selection sort",
+      },
+
+      {
+        icon: <BsBarChartFill />,
         name: "State Machine",
         link: "/editor/state-machine",
         description: "visualize selection sort",
