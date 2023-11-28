@@ -151,7 +151,7 @@ export const ALL_CARDS = () => {
   const tabArray = [];
   NAVIGATION.forEach((section) => {
     section.sub.forEach((card) => {
-      tabArray.push(card);
+      tabArray.push({ ...card, show: false });
     });
   });
   return tabArray;
