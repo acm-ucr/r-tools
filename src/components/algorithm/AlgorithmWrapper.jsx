@@ -16,7 +16,6 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
   const [play, setPlay] = useState(false);
 
   const handleGenerate = () => {
-    console.log("input", input);
     const validationRegex = /^\d+(,\s*\d+)*$/;
     if (!validationRegex.test(input)) {
       toast.error(
@@ -59,6 +58,7 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
     <>
       <div className="w-screen flex flex-col items-center justify-center">
         <Header text={title} />
+        <div className="p-3"/>
         <Input
           thick={true}
           value={input}
