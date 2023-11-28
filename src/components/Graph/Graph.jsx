@@ -30,6 +30,7 @@ const Graph = ({
       ...vertices,
       [id]: { ...vertices[id], color: color },
     });
+
   const colorEdge = (from, to, color) => {
     setEdges({
       ...edges,
@@ -38,6 +39,7 @@ const Graph = ({
       ),
     });
   };
+
   return (
     <div>
       <svg width={width} height={height} id="graphsvg">
