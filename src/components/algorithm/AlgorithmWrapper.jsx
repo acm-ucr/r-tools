@@ -58,7 +58,7 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
     <>
       <div className="w-screen flex flex-col items-center justify-center">
         <Header text={title} />
-        <div className="p-3"/>
+        <div className="p-3" />
         <Input
           thick={true}
           value={input}
