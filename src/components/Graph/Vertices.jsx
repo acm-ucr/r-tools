@@ -38,7 +38,12 @@ const Vertices = ({
           {selectedVertex === id &&
             !directed &&
             Object.entries(edges)
-              .filter(([from, to]) => from < id && to.includes(id))
+              .filter(([from, to]) =>
+                to.some((edge) => {
+                  console.log(edge);
+                  return edge.to === id;
+                })
+              )
               .map(([from, to], index) => (
                 <div
                   key={index}
@@ -47,12 +52,12 @@ const Vertices = ({
                 >
                   <div
                     className={`w-3 h-3 rounded-full ${
-                      vertices[to.to].color === "white"
+                      vertices[from].color === "white"
                         ? "bg-white"
-                        : COLORS[vertices[to.to].color].bgDark
+                        : COLORS[vertices[from].color].bgDark
                     } mr-2`}
                   />
-                  <div className="">{vertices[to.to].value}</div>
+                  <div className="">{vertices[from].value}</div>
                 </div>
               ))}
           {selectedVertex === id &&
