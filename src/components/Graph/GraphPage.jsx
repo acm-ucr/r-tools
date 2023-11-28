@@ -126,12 +126,13 @@ const GraphPage = ({ directed, weighted }) => {
       const canvasCtx = canvas.getContext("2d");
       canvasCtx.drawImage(svgImage, 0, 0);
       const imgData = canvas.toDataURL("image/png");
-      console.log(imgData);
       const element = document.createElement("a");
       element.download = "w3c.png";
       element.href = imgData;
       element.click();
       element.remove();
+      canvas.remove();
+      svgImage.remove();
     };
     svgImage.src = svgUrl;
   };
@@ -171,7 +172,8 @@ const GraphPage = ({ directed, weighted }) => {
   return (
     <div
       className={`w-full ${
-        (tool === "brush" || tool === "pen") && "cursor-none"
+        (tool === "brush" || tool === "pen" || tool === "eraser") &&
+        "cursor-none"
       }`}
     >
       <div className="flex w-full justify-evenly h-full ">
