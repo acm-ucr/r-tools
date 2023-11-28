@@ -1,4 +1,4 @@
-import { FaPaintBrush, FaPen } from "react-icons/fa";
+import { FaEraser, FaPaintBrush, FaPen } from "react-icons/fa";
 import { COLORS } from "@/data/icons";
 
 const Cursor = ({ tool, selectedColor, cursorPos }) => {
@@ -9,7 +9,9 @@ const Cursor = ({ tool, selectedColor, cursorPos }) => {
     pointerEvents: "none",
     color:
       selectedColor &&
-      (selectedColor === "white" ? "black" : COLORS[selectedColor].textColor),
+      (selectedColor === "white" || !selectedColor
+        ? "black"
+        : COLORS[selectedColor].textColor),
     position: "absolute",
     left: `${cursorPos.x}px`,
     top: `${cursorPos.y}px`,
@@ -18,6 +20,8 @@ const Cursor = ({ tool, selectedColor, cursorPos }) => {
     <FaPaintBrush style={style} />
   ) : tool === "pen" ? (
     <FaPen style={style} />
+  ) : tool === "eraser" ? (
+    <FaEraser style={style} />
   ) : null;
 };
 

@@ -85,7 +85,6 @@ const Edges = ({
                       setEdges({
                         ...edges,
                         [i]: edges[i].map((edge) => {
-                          console.log(edge);
                           if (edge.to === to.to)
                             return { ...to, weight: parseInt(e.target.value) };
                           return edge;
