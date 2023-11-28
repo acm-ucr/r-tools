@@ -84,9 +84,11 @@ const Edges = ({
                     onChange={(e) =>
                       setEdges({
                         ...edges,
-                        [i]: edges[i].map((to) => {
-                          if (to.to === to.to)
+                        [i]: edges[i].map((edge) => {
+                          console.log(edge);
+                          if (edge.to === to.to)
                             return { ...to, weight: parseInt(e.target.value) };
+                          return edge;
                         }),
                       })
                     }
