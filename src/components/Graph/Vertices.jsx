@@ -38,12 +38,7 @@ const Vertices = ({
           {selectedVertex === id &&
             !directed &&
             Object.entries(edges)
-              .filter(([from, to]) =>
-                to.some((edge) => {
-                  console.log(edge);
-                  return edge.to === id;
-                })
-              )
+              .filter(([from, to]) => to.some((edge) => edge.to === id))
               .map(([from, to], index) => (
                 <div
                   key={index}
