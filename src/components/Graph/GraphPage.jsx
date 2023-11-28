@@ -173,7 +173,8 @@ const GraphPage = ({ directed, weighted }) => {
   return (
     <div
       className={`w-full ${
-        (tool === "brush" || tool === "pen") && "cursor-none"
+        (tool === "brush" || tool === "pen" || tool === "eraser") &&
+        "cursor-none"
       }`}
     >
       <div className="flex w-full justify-evenly h-full ">
