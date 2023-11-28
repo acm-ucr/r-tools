@@ -132,6 +132,8 @@ const GraphPage = ({ directed, weighted }) => {
       element.href = imgData;
       element.click();
       element.remove();
+      canvas.remove();
+      svgImage.remove();
     };
     svgImage.src = svgUrl;
   };
