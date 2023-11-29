@@ -21,6 +21,7 @@ export const code = [
   "\xa0\xa0\xa0\xa0for (i = N - 1; i > 0; i--):",
   "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0arr[0], arr[i] = arr[i], arr[0]",
   "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0heapify(arr, i, 0)",
+  "",
 ];
 
 function* heapify(arr, N, i) {
@@ -84,9 +85,8 @@ export function* sort(arr) {
   yield { line: lineOffset, array: getArray(arr, []) };
   const N = arr.length;
   yield { line: lineOffset + 1, array: getArray(arr, []) };
-  yield { line: lineOffset + 2, array: getArray(arr, []) };
+  yield { line: lineOffset + 2, array: getArray(arr, [Math.floor(N / 2) - 1]) };
   for (let i = Math.floor(N / 2) - 1; i >= 0; i--) {
-    yield { line: lineOffset + 2, array: getArray(arr, [i]) };
     yield {
       line: lineOffset + 3,
       array: getArray(arr, [i, ...getChildrenIndices(arr, N, i)]),
@@ -96,6 +96,7 @@ export function* sort(arr) {
       line: lineOffset + 3,
       array: getArray(arr, [i, ...getChildrenIndices(arr, N, i)]),
     };
+    yield { line: lineOffset + 2, array: getArray(arr, [i - 1]) };
   }
   yield { line: lineOffset + 4, array: getArray(arr, []) };
 
@@ -115,8 +116,12 @@ export function* sort(arr) {
       line: lineOffset + 7,
       array: getArray(arr, [0, ...getChildrenIndices(arr, i, 0)]),
     };
-    yield { line: lineOffset + 5, array: getArray(arr, [N - 1]) };
+    yield { line: lineOffset + 5, array: getArray(arr, [i - 1]) };
   }
+  yield {
+    line: lineOffset + 8,
+    array: getArray(arr, []),
+  };
 }
 
 export const example = {
