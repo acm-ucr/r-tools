@@ -21,9 +21,15 @@ const BarChart = ({ width, height, data }) => {
       <Group top={verticalMargin / 2}>
         {data.map((d, i) => {
           const barWidth = (width / data.length) * 0.9;
-          const barHeight = (d.number * height) / max;
+          const barHeight = height;
           const barX = (i * width) / data.length;
-          const barY = height - (height / max) * d.number;
+          let barY = 0;
+
+          barY = Math.min(
+            height - (height * d.number) / max,
+            height - height * 0.14
+          );
+
           return (
             <>
               <Text
@@ -31,6 +37,7 @@ const BarChart = ({ width, height, data }) => {
                 y={barY - 5}
                 fill={Object.values(COLORS)[i % 5].textColor}
                 textAnchor="middle"
+                className="font-bold"
               >
                 {d.number}
               </Text>

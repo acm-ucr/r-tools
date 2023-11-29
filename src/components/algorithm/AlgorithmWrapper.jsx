@@ -16,7 +16,13 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
   const [play, setPlay] = useState(false);
 
   const handleGenerate = () => {
-    // TODO: array validation, if the input is not valid (has non-numeric value, or empty), show error in the toast
+    const validationRegex = /^\d+(,\s*\d+)*$/;
+    if (!validationRegex.test(input)) {
+      toast.error(
+        "Please enter a valid array (list of integers separated by commas)"
+      );
+      return;
+    }
     const arr = input.split(",").map((num) => parseInt(num));
     const sortFunction = sort(arr);
     setSteps(sortFunction);
@@ -50,8 +56,9 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
 
   return (
     <>
-      <div className="w-screen flex flex-col items-center h-screen justify-center">
+      <div className="w-screen flex flex-col items-center justify-center">
         <Header text={title} />
+        <div className="p-3" />
         <Input
           thick={true}
           value={input}
