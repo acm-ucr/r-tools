@@ -52,7 +52,7 @@ const Edges = ({
               </span>
               {directed ? (
                 <HiArrowLongRight
-                  className={`text-xl mx-2 ${
+                  className={`text-xl p-1 mx-2 ${
                     to.color !== "white" && COLORS[to.color].text
                   }`}
                 />
