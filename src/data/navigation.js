@@ -58,6 +58,12 @@ export const NAVIGATION = [
         link: "/algorithm/avl-trees",
         description: "visualize selection sort",
       },
+      {
+        icon: <BsBarChartFill />,
+        name: "Bogo Sort",
+        link: "/algorithm/bogo-sort",
+        description: "visualize selection sort",
+      },
     ],
   },
   {
