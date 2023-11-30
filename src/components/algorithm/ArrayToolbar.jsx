@@ -3,12 +3,13 @@ import { FaPause, FaRandom } from "react-icons/fa";
 import { FaRedo } from "react-icons/fa";
 import { FaPlay } from "react-icons/fa";
 import { FaCode } from "react-icons/fa";
-import { LuStepForward } from "react-icons/lu";
+import { LuStepForward, LuStepBack } from "react-icons/lu";
 
 const ArrayToolbar = ({
   random,
   restart,
   step,
+  back,
   show,
   setShow,
   setPlay,
@@ -41,6 +42,14 @@ const ArrayToolbar = ({
         >
           {play ? <FaPause className="mr-2" /> : <FaPlay className="mr-2" />}
           {play ? "pause" : "play"}
+        </div>
+
+        <div
+          onClick={back}
+          className="hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer"
+        >
+          <LuStepBack className="mr-2" />
+          step back
         </div>
 
         <div

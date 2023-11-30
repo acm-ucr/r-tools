@@ -11,8 +11,9 @@ import BinaryTree from "./BinaryTree";
 const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
   const [input, setInput] = useState("");
   const [steps, setSteps] = useState(null);
+  const [stepIndex, setStepIndex] = useState(0);
   const [current, setCurrent] = useState(null);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const [play, setPlay] = useState(false);
 
   const handleGenerate = () => {
@@ -25,6 +26,7 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
     }
     const arr = input.split(",").map((num) => parseInt(num));
     const sortFunction = sort(arr);
+    setStepIndex(0);
     setSteps(sortFunction);
     setCurrent(sortFunction.next().value);
   };
@@ -36,7 +38,20 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
       setPlay(false);
       return;
     } else {
+      setStepIndex(stepIndex + 1);
       setCurrent(next.value);
+    }
+  };
+
+  const handleBack = () => {
+    if (stepIndex > 0) {
+      const arr = input.split(",").map((num) => parseInt(num));
+      const sortFunction = sort(arr);
+      let currNext = null;
+      for (let i = 0; i < stepIndex; i++) currNext = sortFunction.next().value;
+      setSteps(sortFunction);
+      setCurrent(currNext);
+      setStepIndex(stepIndex - 1);
     }
   };
 
@@ -71,6 +86,7 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
           setPlay={setPlay}
           play={play}
           restart={handleGenerate}
+          back={handleBack}
           step={handleStep}
           show={show}
           setShow={setShow}
