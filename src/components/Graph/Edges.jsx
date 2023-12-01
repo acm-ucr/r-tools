@@ -19,7 +19,7 @@ const Edges = ({
     return count;
   }, [edges]);
   return (
-    <div className="h-[60vh] bg-rtools-blue-300 rounded-xl py-2 flex flex-col">
+    <div className="bg-rtools-blue-300 rounded-xl py-2 flex flex-col">
       <div className="flex justify-between px-3">
         <div>edges</div>
         <div>
@@ -28,76 +28,144 @@ const Edges = ({
         </div>
       </div>
       <div className="overflow-y-scroll px-3">
-        {Object.entries(edges).map(([i, d]) =>
-          d.map((to, index) => (
-            <div
-              key={index}
-              className={`flex items-center my-1 cursor-pointer px-2 rounded py-1 ${
-                selectedEdge &&
-                i === selectedEdge.from &&
-                to.to === selectedEdge.to &&
-                "bg-rtools-blue-200"
-              }`}
-              onClick={() => setSelectedEdge({ from: i, to: to.to })}
-            >
-              <span
-                className={`${
-                  vertices[i].color === "white"
-                    ? "text-white"
-                    : COLORS[vertices[i].color].text
-                } flex items-center`}
+        {!directed &&
+          Object.entries(edges).map(([i, d]) =>
+            d
+              .filter((edge) => {
+                return i < edge.to || !edges[edge.to].some((e) => e.to === i);
+              })
+              .map((to, index) => (
+                <div
+                  key={index}
+                  className={`flex items-center my-1 cursor-pointer px-2 rounded py-1 ${
+                    selectedEdge &&
+                    i === selectedEdge.from &&
+                    to.to === selectedEdge.to &&
+                    "bg-rtools-blue-200"
+                  }`}
+                  onClick={() => setSelectedEdge({ from: i, to: to.to })}
+                >
+                  <span
+                    className={`${
+                      vertices[i].color === "white"
+                        ? "text-white"
+                        : COLORS[vertices[i].color].text
+                    } flex items-center`}
+                  >
+                    <TbCircleFilled className="text-xs mr-1" />
+                    {vertices[i].value}
+                  </span>
+                  <BsDashLg
+                    className={`text-xl mx-2 ${
+                      to.color !== "white" && COLORS[to.color].text
+                    }`}
+                  />
+                  <span
+                    className={`${
+                      vertices[to.to].color === "white"
+                        ? "text-white"
+                        : COLORS[vertices[to.to].color].text
+                    } flex items-center`}
+                  >
+                    <TbCircleFilled className="text-xs mr-1" />
+                    {vertices[to.to].value}
+                  </span>
+                  {weighted &&
+                    (selectedEdge &&
+                    i === selectedEdge.from &&
+                    to.to === selectedEdge.to ? (
+                      <input
+                        type="number"
+                        value={to.weight}
+                        className="ml-2 bg-white/30 rounded px-2"
+                        onChange={(e) =>
+                          setEdges({
+                            ...edges,
+                            [i]: edges[i].map((edge) => {
+                              if (edge.to === to.to)
+                                return {
+                                  ...to,
+                                  weight: parseInt(e.target.value),
+                                };
+                              return edge;
+                            }),
+                          })
+                        }
+                      />
+                    ) : (
+                      <span className="font-bold ml-2"> {to.weight}</span>
+                    ))}
+                </div>
+              ))
+          )}
+        {directed &&
+          Object.entries(edges).map(([i, d]) =>
+            d.map((to, index) => (
+              <div
+                key={index}
+                className={`flex items-center my-1 cursor-pointer px-2 rounded py-1 ${
+                  selectedEdge &&
+                  i === selectedEdge.from &&
+                  to.to === selectedEdge.to &&
+                  "bg-rtools-blue-200"
+                }`}
+                onClick={() => setSelectedEdge({ from: i, to: to.to })}
               >
-                <TbCircleFilled className="text-xs mr-1" />
-                {vertices[i].value}
-              </span>
-              {directed ? (
+                <span
+                  className={`${
+                    vertices[i].color === "white"
+                      ? "text-white"
+                      : COLORS[vertices[i].color].text
+                  } flex items-center`}
+                >
+                  <TbCircleFilled className="text-xs mr-1" />
+                  {vertices[i].value}
+                </span>
+
                 <HiArrowLongRight
                   className={`text-xl p-1 mx-2 ${
                     to.color !== "white" && COLORS[to.color].text
                   }`}
                 />
-              ) : (
-                <BsDashLg
-                  className={`text-xl mx-2 ${
-                    to.color !== "white" && COLORS[to.color].text
-                  }`}
-                />
-              )}
-              <span
-                className={`${
-                  vertices[to.to].color === "white"
-                    ? "text-white"
-                    : COLORS[vertices[to.to].color].text
-                } flex items-center`}
-              >
-                <TbCircleFilled className="text-xs mr-1" />
-                {vertices[to.to].value}
-              </span>
-              {weighted &&
-                (selectedEdge &&
-                i === selectedEdge.from &&
-                to.to === selectedEdge.to ? (
-                  <input
-                    type="number"
-                    value={to.weight}
-                    className="ml-2 bg-white/30 rounded px-2"
-                    onChange={(e) =>
-                      setEdges({
-                        ...edges,
-                        [i]: edges[i].map((edge) => {
-                          if (edge.to === to.to)
-                            return { ...to, weight: parseInt(e.target.value) };
-                          return edge;
-                        }),
-                      })
-                    }
-                  />
-                ) : (
-                  <span className="font-bold ml-2"> {to.weight}</span>
-                ))}
-            </div>
-          ))
-        )}
+
+                <span
+                  className={`${
+                    vertices[to.to].color === "white"
+                      ? "text-white"
+                      : COLORS[vertices[to.to].color].text
+                  } flex items-center`}
+                >
+                  <TbCircleFilled className="text-xs mr-1" />
+                  {vertices[to.to].value}
+                </span>
+                {weighted &&
+                  (selectedEdge &&
+                  i === selectedEdge.from &&
+                  to.to === selectedEdge.to ? (
+                    <input
+                      type="number"
+                      value={to.weight}
+                      className="ml-2 bg-white/30 rounded px-2"
+                      onChange={(e) =>
+                        setEdges({
+                          ...edges,
+                          [i]: edges[i].map((edge) => {
+                            if (edge.to === to.to)
+                              return {
+                                ...to,
+                                weight: parseInt(e.target.value),
+                              };
+                            return edge;
+                          }),
+                        })
+                      }
+                    />
+                  ) : (
+                    <span className="font-bold ml-2"> {to.weight}</span>
+                  ))}
+              </div>
+            ))
+          )}
       </div>
     </div>
   );

@@ -84,23 +84,10 @@ export const NAVIGATION = [
     sub: [
       {
         icon: <BsBarChartFill />,
-        name: "Undirected Graph",
-        link: "/editor/undirected-graph",
+        name: "Graph",
+        link: "/editor/graph",
         description: "visualize selection sort",
       },
-      {
-        icon: <BsBarChartFill />,
-        name: "Directed Graph",
-        link: "/editor/directed-graph",
-        description: "visualize selection sort",
-      },
-      {
-        icon: <BsBarChartFill />,
-        name: "Weighted Graph",
-        link: "/editor/weighted-graph",
-        description: "visualize selection sort",
-      },
-
       {
         icon: <BsBarChartFill />,
         name: "State Machine",
