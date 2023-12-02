@@ -42,7 +42,7 @@ const Vertices = ({
                 to.some(
                   (edge) =>
                     edge.to === id &&
-                    !edges[id].some((toEdge) => toEdge.to === from)
+                    !edges[id]?.some((toEdge) => toEdge.to === from)
                 )
               )
               .map(([from, to], index) => (
