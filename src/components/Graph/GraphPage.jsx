@@ -8,7 +8,6 @@ import Edges from "@/components/Graph/Edges";
 import Button from "@/components/Button";
 import { useEffect, useState } from "react";
 import shortUUID from "short-uuid";
-import Cursor from "@/components/Graph/Cursor";
 import { min, max } from "d3";
 
 const GraphPage = ({ directed, weighted }) => {
@@ -170,12 +169,7 @@ const GraphPage = ({ directed, weighted }) => {
     element.remove();
   };
   return (
-    <div
-      className={`w-full ${
-        (tool === "brush" || tool === "pen" || tool === "eraser") &&
-        "cursor-none"
-      }`}
-    >
+    <div className={`w-full`}>
       <div className="flex w-full justify-evenly h-full ">
         <div className="flex flex-col gap-3 h-full w-1/5">
           <form>
@@ -245,7 +239,6 @@ const GraphPage = ({ directed, weighted }) => {
           <input type="file" onChange={importJSON} />
         </div>
       </div>
-      <Cursor tool={tool} selectedColor={selectedColor} cursorPos={cursorPos} />
     </div>
   );
 };
