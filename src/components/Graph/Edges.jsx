@@ -32,7 +32,7 @@ const Edges = ({
           Object.entries(edges).map(([i, d]) =>
             d
               .filter((edge) => {
-                return i < edge.to || !edges[edge.to].some((e) => e.to === i);
+                return i < edge.to || !edges[edge.to]?.some((e) => e.to === i);
               })
               .map((to, index) => (
                 <div
