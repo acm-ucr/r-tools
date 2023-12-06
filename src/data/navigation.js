@@ -132,6 +132,18 @@ export const NAVIGATION = [
       },
     ],
   },
+  {
+    name: "LATEX",
+    link: "/latex",
+    sub: [
+      {
+        icon: <BsBarChartFill />,
+        name: "TEST",
+        link: "/web-dev/tailwind",
+        description: "this is a test block",
+      },
+    ],
+  },
 ];
 
 export const ALL_CARDS = () => {
