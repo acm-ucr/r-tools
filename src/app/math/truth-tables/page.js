@@ -26,6 +26,9 @@ const page = () => {
 
   const onChange = (e) => {};
 
+  const description =
+    "Input a boolean expression like: A & B | C | (A' & B | C')\n\nClick ADD to add the inputted expression to the expressions list that are shown as a column on the truth table.\n\nRemove expressions from the expressions list by hovering over the expression table and clicking the cross.\n\nAdjust individual boolean operators by modifying the symbol box next to its respective operator located below the input box.";
+
   return (
     <div key={update}>
       <BoolWrapper
@@ -36,6 +39,7 @@ const page = () => {
         onChange={onChange}
         symbols={symbols}
         setSymbols={setSymbols}
+        description={description}
       />
       <div className="flex items-start flex-wrap gap-16 justify-center h-full">
         <Equations equations={equations} setEquations={setEquations} />
