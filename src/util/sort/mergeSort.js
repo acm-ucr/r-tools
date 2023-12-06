@@ -1,4 +1,3 @@
-import { merge } from "d3";
 import { getArray } from "./getArray";
 export const code = [
   "merge_sort(arr)",
@@ -37,26 +36,26 @@ export function* sort(arr) {
     }
     yield { line: 3, array: getArray(arr, []) };
     const middle = Math.floor(arr.length / 2);
-    yield { line: 4, array: getArray(arr, []) };
+    yield { line: 4, array: getArray(arr, [middle]) };
     const leftHalf = arr.slice(0, middle);
-    yield { line: 5, array: getArray(arr, []) };
+    yield { line: 5, array: getArray(arr, [leftHalf, middle]) };
     const rightHalf = arr.slice(middle);
-    yield { line: 6, array: getArray(arr, []) };
+    yield { line: 6, array: getArray(arr, [leftHalf, middle, rightHalf]) };
     const sortedLeft = yield* mergeSort(leftHalf);
-    yield { line: 7, array: getArray(arr, []) };
+    yield { line: 7, array: getArray(arr, [leftHalf, middle, rightHalf]) };
     const sortedRight = yield* mergeSort(rightHalf);
-    yield { line: 8, array: getArray(arr, []) };
+    yield { line: 8, array: getArray(arr, [leftHalf, middle, rightHalf]) };
     return yield* merge(sortedLeft, sortedRight);
   }
 
   function* merge(sortedLeft, sortedRight) {
     yield { line: 9, array: getArray(arr, []) };
-    let result = [];
+    const result = [];
     yield { line: 10, array: getArray(arr, []) };
     let leftIndex = 0;
-    yield { line: 11, array: getArray(arr, []) };
+    yield { line: 11, array: getArray(arr, [leftIndex]) };
     let rightIndex = 0;
-    yield { line: 12, array: getArray(arr, []) };
+    yield { line: 12, array: getArray(arr, [leftIndex, rightIndex]) };
     while (leftIndex < sortedLeft.length && rightIndex < sortedRight.length) {
       yield { line: 13, array: getArray(arr, []) };
       if (sortedLeft[leftIndex] < sortedRight[rightIndex]) {
@@ -64,13 +63,13 @@ export function* sort(arr) {
         result.push(sortedLeft[leftIndex]);
         yield { line: 15, array: getArray(arr, []) };
         leftIndex++;
-        yield { line: 16, array: getArray(arr, []) };
+        yield { line: 16, array: getArray(arr, [leftIndex]) };
       } else {
         yield { line: 17, array: getArray(arr, []) };
         result.push(sortedRight[rightIndex]);
         yield { line: 18, array: getArray(arr, []) };
         rightIndex++;
-        yield { line: 19, array: getArray(arr, []) };
+        yield { line: 19, array: getArray(arr, [rightIndex]) };
       }
     }
 
