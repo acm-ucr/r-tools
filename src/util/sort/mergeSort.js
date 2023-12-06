@@ -59,21 +59,21 @@ export function* sort(arr) {
     while (leftIndex < sortedLeft.length && rightIndex < sortedRight.length) {
       yield { line: 13, array: getArray(arr, []) };
       if (sortedLeft[leftIndex] < sortedRight[rightIndex]) {
-        yield { line: 14, array: getArray(arr, []) };
+        yield { line: 14, array: getArray(arr, [rightIndex]) };
         result.push(sortedLeft[leftIndex]);
-        yield { line: 15, array: getArray(arr, []) };
+        yield { line: 15, array: getArray(arr, [leftIndex]) };
         leftIndex++;
         yield { line: 16, array: getArray(arr, [leftIndex]) };
       } else {
-        yield { line: 17, array: getArray(arr, []) };
+        yield { line: 17, array: getArray(arr, [rightIndex]) };
         result.push(sortedRight[rightIndex]);
-        yield { line: 18, array: getArray(arr, []) };
+        yield { line: 18, array: getArray(arr, [rightIndex]) };
         rightIndex++;
         yield { line: 19, array: getArray(arr, [rightIndex]) };
       }
     }
 
-    yield { line: 20, array: getArray(arr, []) };
+    yield { line: 20, array: getArray(arr, [leftIndex, rightIndex]) };
     return result.concat(
       sortedLeft.slice(leftIndex),
       sortedRight.slice(rightIndex)
