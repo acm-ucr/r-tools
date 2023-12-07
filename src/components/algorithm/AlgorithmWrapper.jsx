@@ -8,7 +8,14 @@ import CodeView from "../CodeView";
 import Header from "../Header";
 import BinaryTree from "./BinaryTree";
 
-const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
+const AlgorithmWrapper = ({
+  title,
+  sort,
+  code,
+  example,
+  type = "sort",
+  description,
+}) => {
   const [input, setInput] = useState("");
   const [steps, setSteps] = useState(null);
   const [stepIndex, setStepIndex] = useState(0);
@@ -72,7 +79,7 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
   return (
     <>
       <div className="w-screen flex flex-col items-center justify-center">
-        <Header text={title} />
+        <Header text={title} description={description} />
         <div className="p-3" />
         <Input
           thick={true}

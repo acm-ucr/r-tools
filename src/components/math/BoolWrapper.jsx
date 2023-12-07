@@ -3,7 +3,6 @@
 import Input from "../Input";
 import BoolToolBar from "./BoolToolBar";
 import Header from "../Header";
-
 const BoolWrapper = ({
   title,
   onClick,
@@ -12,13 +11,13 @@ const BoolWrapper = ({
   onChange,
   symbols,
   setSymbols,
+  description,
 }) => {
   return (
     <div className="flex flex-col items-center">
-      <Header text={title} />
+      <Header text={title} description={description} />
       <div className="w-1/2 mt-9">
         <Input
-          placeholder="ex. A & B | C | (A' & B | C')"
           button="ADD"
           onClick={onClick}
           value={value}
