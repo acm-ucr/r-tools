@@ -112,6 +112,12 @@ export const NAVIGATION = [
         link: "/cheat-sheet/pre-req",
         description: "visualize selection sort",
       },
+      {
+        icon: <BsBarChartFill />,
+        name: "LATEX",
+        link: "/latex",
+        description: "visualize selection sort",
+      },
     ],
   },
   {
@@ -129,18 +135,6 @@ export const NAVIGATION = [
         name: "Next.js",
         link: "/web-dev/nextjs",
         description: "visualize selection sort",
-      },
-    ],
-  },
-  {
-    name: "LATEX",
-    link: "/latex",
-    sub: [
-      {
-        icon: <BsBarChartFill />,
-        name: "TEST",
-        link: "/web-dev/tailwind",
-        description: "this is a test block",
       },
     ],
   },
