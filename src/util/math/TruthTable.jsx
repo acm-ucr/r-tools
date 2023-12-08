@@ -1,5 +1,11 @@
-const TruthTable = ({ booleanEquations, symbols }) => {
-  const getUniqueVariables = (equations) => {
+class TruthTableUtils {
+  /**
+   * Takes a list of equations (strings) and symbols to get unique variables
+   * @param {Array.<string>} equations equations to process
+   * @param {Object.<string, string>} symbols operators to remove to get variables
+   * @return {Array.<string>} a list of unique variables seen in the equations
+   */
+  static getUniqueVariables(equations, symbols) {
     const uniqueVariables = [];
     const booleanSymbols = Object.values(symbols);
     const otherSymbols = [" ", "(", ")"];
@@ -16,33 +22,32 @@ const TruthTable = ({ booleanEquations, symbols }) => {
     });
 
     return [...new Set(uniqueVariables)];
-  };
+  }
 
-  const uniqueVariables = getUniqueVariables(booleanEquations);
-
-  const generateInputRows = (n) => {
+  /**
+   * Returns all possible inputs for n binary inputs. An input is an array of chars that can be either 'T' or 'F'
+   * @param {number} n number of inputs
+   * @return {Array.<Array.<'T'|'F'>>} an array of inputs
+   */
+  static generateInputRows(n) {
     if (n === 0) {
       return [[]];
     } else {
-      const prevArrays = generateInputRows(n - 1);
+      const prevArrays = TruthTableUtils.generateInputRows(n - 1);
       return [
         ...prevArrays.map((arr) => ["T", ...arr]),
         ...prevArrays.map((arr) => ["F", ...arr]),
       ];
     }
-  };
-  const inputRows = generateInputRows(uniqueVariables.length);
+  }
 
-  const variableRowValues = [];
-  inputRows.forEach((row, rowIndex) => {
-    const rowValue = {};
-    uniqueVariables.forEach((variable, variableIndex) => {
-      rowValue[variable] = inputRows[rowIndex][variableIndex] == "T" ? 1 : 0;
-    });
-    variableRowValues.push(rowValue);
-  });
-
-  const formatNotOperator = (inputString, notSymbol) => {
+  /**
+   * Handles not operator
+   * @param {string} inputString express to process
+   * @param {string} notSymbol string that represents the NOT operator
+   * @return {string} equation that is processed with nots?
+   */
+  static formatNotOperator(inputString, notSymbol) {
     const characters = inputString.split("");
 
     for (let i = 0; i < characters.length; i++) {
@@ -71,12 +76,28 @@ const TruthTable = ({ booleanEquations, symbols }) => {
     }
     const result = characters.join("");
     return result;
-  };
+  }
 
-  const formatExpression = (expression, variableValues) => {
+  /**
+   * Formats an expression with given variable substitutions and symbol substitutions.
+   * @param {string} expression expression to format with operator symbol aliases and variable substitutions (this is a template)
+   * @param {Object.<string, 'T'|'F'>} variableValues variable name to variable value map
+   * @param {Array.<string>} uniqueVariables a list of unique variables (generated from variableValues through getUniqueVariables)
+   * @param {{and: string, or: string, not: string}} symbols operator name to operator symbol map
+   * @return {string} formatted expression with symbol replacements
+   */
+  static formatExpression(
+    expression,
+    variableValues,
+    uniqueVariables,
+    symbols
+  ) {
     let modifiedExpression = expression;
 
-    modifiedExpression = formatNotOperator(modifiedExpression, symbols["not"]);
+    modifiedExpression = TruthTableUtils.formatNotOperator(
+      modifiedExpression,
+      symbols["not"]
+    );
     uniqueVariables.forEach((variable) => {
       modifiedExpression = modifiedExpression.replaceAll(
         variable,
@@ -87,9 +108,14 @@ const TruthTable = ({ booleanEquations, symbols }) => {
     modifiedExpression = modifiedExpression.replaceAll(symbols["or"], "|");
     modifiedExpression = modifiedExpression.replaceAll(" ", "");
     return modifiedExpression;
-  };
+  }
 
-  const evaluateExpressionWithoutParentheses = (expression) => {
+  /**
+   * Evaluates an expression consisting of known values and operators. (does not support parentheses).
+   * @param {string} expression fixed boolean expression to evaluate
+   * @return {'0'|'1'} value of the evaluated expression
+   */
+  static evaluateExpressionWithoutParentheses(expression) {
     let result = expression;
 
     // Evaluating negations
@@ -123,9 +149,14 @@ const TruthTable = ({ booleanEquations, symbols }) => {
     }
 
     return result;
-  };
+  }
 
-  const evaluateExpressionWithParentheses = (expression) => {
+  /**
+   * Evaluates an expression consisting of known values, operators, and parentheses.
+   * @param {string} expression fixed boolean expression to evaluate
+   * @return {'0'|'1'} value of the evaluated expression
+   */
+  static evaluateExpressionWithParentheses(expression) {
     let result = expression;
     for (let i = 0; i < result.length; i++) {
       if (result[i] == "(") {
@@ -137,120 +168,42 @@ const TruthTable = ({ booleanEquations, symbols }) => {
           j++;
         }
         j--;
-        const parRes = evaluateExpressionWithParentheses(
+        const parRes = TruthTableUtils.evaluateExpressionWithParentheses(
           result.substring(i + 1, j)
         );
         result = result.slice(0, i) + parRes + result.slice(j + 1);
         i = 0;
       }
     }
-    return evaluateExpressionWithoutParentheses(result);
-  };
+    return TruthTableUtils.evaluateExpressionWithoutParentheses(result);
+  }
 
-  const evaluateExpression = (expression) => {
+  /**
+   * Evaluates a boolean expression.
+   * @param {string} expression boolean expression to evaluate
+   * @return {'T'|'F'} value of the evaluated expression
+   */
+  static evaluateExpression(expression) {
     try {
       let result = "ERROR";
-      const evaluation = evaluateExpressionWithParentheses(expression);
+      const evaluation =
+        TruthTableUtils.evaluateExpressionWithParentheses(expression);
       if (evaluation == "1") result = "T";
       if (evaluation == "0") result = "F";
       return result;
     } catch (error) {
       return "ERROR";
     }
-  };
+  }
+}
 
-  return (
-    <div className="flex flex-row justify-center gap-2">
-      <table className="border-collapse bg-white text-rtools-blue-200 rounded-tl-2xl rounded-bl-2xl">
-        <thead>
-          <tr>
-            {uniqueVariables.map((variable, key) => (
-              <th
-                key={key}
-                className={`text-center border-black p-2 ${
-                  key === uniqueVariables.length - 1
-                    ? `border-b`
-                    : `border-r border-b`
-                }`}
-              >
-                {variable}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {inputRows.map((row, key) => (
-            <tr key={key}>
-              {row.map((character, key2) => (
-                <td
-                  key={key2}
-                  className={`border-black p-4 text-center
-                    ${key === inputRows.length - 1 ? `` : `border-t border-b`}
-                    ${key2 === row.length - 1 ? `` : `border-r`}`}
-                >
-                  {character}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <table className="border-collapse bg-white text-rtools-blue-200 rounded-tr-2xl rounded-br-2xl">
-        <thead>
-          <tr>
-            {booleanEquations.map((equation, key) => (
-              <th
-                key={key}
-                className={`whitespace-nowrap text-center border-black p-2 ${
-                  key === booleanEquations.length - 1
-                    ? `border-b`
-                    : `border-r border-b`
-                }`}
-              >
-                {equation}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {Array.from(
-            { length: Math.pow(2, uniqueVariables.length) },
-            (_, rowIndex) => (
-              <tr key={rowIndex}>
-                {Array.from(
-                  { length: booleanEquations.length },
-                  (_, columnIndex) => (
-                    <td
-                      key={columnIndex}
-                      className={`border-black p-4 text-center
-                    ${
-                      rowIndex ===
-                      Math.pow(2, uniqueVariables.length).length - 1
-                        ? ``
-                        : `border-t`
-                    }
-                    ${
-                      columnIndex === booleanEquations.length - 1
-                        ? ``
-                        : `border-r`
-                    }`}
-                    >
-                      {evaluateExpression(
-                        formatExpression(
-                          booleanEquations[columnIndex],
-                          variableRowValues[rowIndex]
-                        )
-                      )}
-                    </td>
-                  )
-                )}
-              </tr>
-            )
-          )}
-        </tbody>
-      </table>
-    </div>
-  );
-};
-
-export default TruthTable;
+export default TruthTableUtils;
+export const {
+  getUniqueVariables,
+  generateInputRows,
+  formatNotOperator,
+  formatExpression,
+  evaluateExpressionWithParentheses,
+  evaluateExpressionWithoutParentheses,
+  evaluateExpression,
+} = TruthTableUtils;
