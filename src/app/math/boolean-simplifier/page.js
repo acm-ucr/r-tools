@@ -6,8 +6,8 @@ import { generateTable } from "@/util/math/TruthTable";
 import { useState, useEffect } from "react";
 
 const page = () => {
-  const [expression, setExpression] = useState("(A&B)|(A&C)|((A|B)&C)");
-  const [symbols] = useState({ and: "&", or: "|", not: "!" });
+  const [expression, setExpression] = useState("(A*B)+(A*C)+((A+B)*C)");
+  const [symbols] = useState({ and: "*", or: "+", not: "!" });
 
   const [expressionSOP, setExpressionSOP] = useState("");
   useEffect(() => {

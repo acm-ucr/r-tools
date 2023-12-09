@@ -200,13 +200,13 @@ class TruthTableUtils {
    * Generates the implicit table for a particular input using bitmasks. Returns null if invalid input.
    * @param {string} expression expression to generate table (all possible inputs)
    * @param {{and: string, or: string, not: string}} symbols operator mapping
-   * @return {null|{variables: Array.<string>, result: Array.<-1|1>}} 
+   * @return {null|{variables: Array.<string>, result: Array.<-1|1>}}
    * variable ordering used, and result[i] is the result when i is used as inputs.
-   * 
+   *
    * jth bit (1<<j) of i is substituted for variables[j], if jth bit is 1, use T, otherwise use F.
    * The binary representation of i (which input) is used to determine the values of the variables.
    * Binary representation is used so checking what inputs can be covered by a specific minterm is easier to check.
-   * 
+   *
    * -1 denotes F, 1 denotes T (0 to denote X).
    */
   static generateTable(expression, symbols = { and: "&", or: "|", not: "'" }) {
