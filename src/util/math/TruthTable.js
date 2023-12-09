@@ -2,7 +2,7 @@ class TruthTableUtils {
   /**
    * Takes a list of equations (strings) and symbols to get unique variables
    * @param {Array.<string>} equations equations to process
-   * @param {Object.<string, string>} symbols operators to remove to get variables
+   * @param {{and: string, or: string, not: string}} symbols operator mapping (gets filtered)
    * @return {Array.<string>} a list of unique variables seen in the equations
    */
   static getUniqueVariables(equations, symbols) {
@@ -179,7 +179,7 @@ class TruthTableUtils {
   }
 
   /**
-   * Evaluates a boolean expression.
+   * Evaluates a boolean expression. REQUIRES BOOLEAN LITERALS IN 1/0 FORM!
    * @param {string} expression boolean expression to evaluate
    * @return {'T'|'F'} value of the evaluated expression
    */
@@ -195,6 +195,44 @@ class TruthTableUtils {
       return "ERROR";
     }
   }
+
+  /**
+   * Generates the implicit table for a particular input using bitmasks. Returns null if invalid input.
+   * @param {string} expression expression to generate table (all possible inputs)
+   * @param {{and: string, or: string, not: string}} symbols operator mapping
+   * @return {null|{variables: Array.<string>, result: Array.<-1|1>}} variable ordering used, and result[i] is the result when i is used as inputs. jth bit (1<<j) of i is substituted for variables[j]. -1 denotes F, 1 denotes T (0 to denote X).
+   */
+  static generateTable(expression, symbols = { and: "&", or: "|", not: "'" }) {
+    try {
+      const variables = TruthTableUtils.getUniqueVariables(
+        [expression],
+        symbols
+      );
+      const n = variables.length;
+      return {
+        variables: variables,
+        result: [...new Array(2 ** n)].map((_, i) =>
+          TruthTableUtils.evaluateExpression(
+            TruthTableUtils.formatExpression(
+              expression,
+              Object.fromEntries(
+                variables.map((variable, j) => [
+                  variable,
+                  i & (1 << j) ? "1" : "0",
+                ])
+              ),
+              variables,
+              symbols
+            )
+          ) === "T"
+            ? 1
+            : -1
+        ),
+      };
+    } catch (error) {
+      return null;
+    }
+  }
 }
 
 export default TruthTableUtils;
@@ -206,4 +244,5 @@ export const {
   evaluateExpressionWithParentheses,
   evaluateExpressionWithoutParentheses,
   evaluateExpression,
+  generateTable,
 } = TruthTableUtils;
