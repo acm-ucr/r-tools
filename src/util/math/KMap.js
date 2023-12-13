@@ -45,31 +45,57 @@ export default function kMapSolver(outputs, variables) {
     masks[popcount(i)].push(i);
   }
 
-  const mintermBitmask = [];
-  for (const masklist of masks) {
-    for (const mask of masklist) {
-      let ok = true; // does it conflict with a F [-1]
-      let used = false; // does it overlap with an existing T [1]
-      for (let i = 0 | 0; i < 1 << n; ++i) {
-        if ((i & mask) == mask) {
-          if (outputs[i] === -1) {
-            ok = false;
-            break;
-          } else if (outputs[i] === 1) {
-            used = true;
+  const mintermBitmask = []; // in each entry: 1 bit denotes the variable is used
+  const mintermInversionBitmask = []; // in each entry: 1 bit denotes the variable is inverted
+  for (let k = 0; k < masks.length; ++k) {
+    const maskList = masks[k];
+    for (const mask of maskList) {
+      // what variables we'll use => bits that need to be checked
+      for (let invBits = 0 | 0; invBits < 1 << n; ++invBits) {
+        if ((mask & invBits) !== invBits) continue; // make sure invBit mask overlaps with actual mask (containing bits to read)
+        const xorMask = mask ^ invBits;
+        const invertedMask = (mask ^ ~invBits) & mask;
+        let ok = true; // does it conflict with a F [-1]
+        const used = []; // what indices where it overlap with an existing T [1]
+        for (let i = 0; i < 1 << n; ++i) {
+          // validating each truth value (the ith input)
+          const normal = (i & xorMask) === xorMask; // requires a 1 matches the xorMask
+          const inverted = (~i & invertedMask) === invertedMask; // requires a 0 matches the invertedMask
+          if (normal && inverted) {
+            // if it matches one of the used variables, needs to check
+            if (outputs[i] === -1) {
+              ok = false;
+              break;
+            } else if (outputs[i] === 1) {
+              used.push(i);
+            }
+          }
+        }
+        if (ok && used.length) {
+          mintermBitmask.push(mask);
+          mintermInversionBitmask.push(invertedMask);
+          // mark as used
+          for (const i of used) {
             outputs[i] = 0;
           }
         }
       }
-      if (ok && used) {
-        mintermBitmask.push(mask);
-      }
     }
   }
-  const minterms = mintermBitmask.map((mask) =>
-    poplocation(mask).map((i) => variables[i])
-  );
+  const minterms = [];
+  for (let i = 0; i < mintermBitmask.length; ++i) {
+    const mask = mintermBitmask[i];
+    const inversionMask = mintermInversionBitmask[i];
+    const terms = poplocation(mask).map((k) => {
+      const inverted = inversionMask & (1 << k);
+      const variable = variables[k];
+      return inverted ? variable + "'" : variable;
+    }); // consists of X and X' strings
+    const minterm = terms.join("") || "1"; // joining variables with AND
+    minterms.push(minterm);
+  }
   return {
-    expressionSOP: minterms.map((x) => x.join("")).join("+"),
+    expressionSOP: minterms.join("+"),
+    // joining minterms with OR
   };
 }
