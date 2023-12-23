@@ -90,7 +90,10 @@ const AlgorithmWrapper = ({
   return (
     <>
       <div className="flex flex-col items-center justify-center w-screen min-h-[80vh]">
-        <Header text={title} description={description} />
+        <Header
+          text={title}
+          description='Enter a comma-separated list of integers, click "Generate" to visualize, and use "Play" and "Pause" to observe the step-by-step sorting process. Explore different inputs with "Reset"'
+        />
         <div className="pt-6 w-3/5">
           <Input
             thick={true}

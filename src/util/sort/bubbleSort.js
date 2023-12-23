@@ -10,13 +10,18 @@ export const code = [
 
 export function* sort(arr) {
   for (let i = 0; i < arr.length - 1; i++) {
-    yield { line: 0, array: getArray(arr, [i]) };
     for (let j = 0; j < arr.length - i - 1; j++) {
-      yield { line: 1, array: getArray(arr, [i, j]) };
+      yield {
+        line: 1,
+        array: getArray(arr, { [j]: "j", [j + 1]: "j+1" }),
+      };
       if (arr[j] > arr[j + 1]) {
-        yield { line: 2, array: getArray(arr, [i, j]) };
+        yield {
+          line: 2,
+          array: getArray(arr, { [j]: "j", [j + 1]: "j+1" }),
+        };
         [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-        yield { line: 3, array: getArray(arr, [i, j]) };
+        yield { line: 3, array: getArray(arr, { [j]: "j" }) };
       }
     }
   }
