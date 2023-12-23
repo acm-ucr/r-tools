@@ -13,7 +13,9 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@monaco-editor/react": "^4.6.0",
+    "@codemirror/lang-cpp": "^6.0.2",
+    "@codemirror/lang-javascript": "^6.2.1",
+    "@uiw/react-codemirror": "^4.21.21",
     "@visx/drag": "^3.3.0",
     "@visx/gradient": "^3.3.0",
     "@visx/group": "^3.3.0",
@@ -30,7 +32,8 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.10.1",
-    "short-uuid": "^4.2.2"
+    "short-uuid": "^4.2.2",
+    "thememirror": "^2.0.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.15",

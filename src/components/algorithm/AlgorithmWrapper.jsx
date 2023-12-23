@@ -89,7 +89,7 @@ const AlgorithmWrapper = ({
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center w-screen">
+      <div className="flex flex-col items-center justify-center w-screen min-h-[80vh]">
         <Header text={title} description={description} />
         <div className="pt-6 w-3/5">
           <Input
