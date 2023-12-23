@@ -12,19 +12,28 @@ export const code = [
 
 export function* sort(arr) {
   for (let i = 0; i < arr.length - 1; i++) {
-    yield { line: 0, array: getArray(arr, [i]) };
+    yield { line: 0, array: getArray(arr, { [i]: "i" }) };
     let minIndex = i;
-    yield { line: 1, array: getArray(arr, [i, minIndex]) };
+    yield { line: 1, array: getArray(arr, { [i]: "i", [minIndex]: "min" }) };
     for (let j = i + 1; j < arr.length; j++) {
-      yield { line: 2, array: getArray(arr, [i, minIndex, j]) };
+      yield {
+        line: 2,
+        array: getArray(arr, { [i]: "i", [minIndex]: "min", [j]: "j" }),
+      };
       if (arr[j] < arr[minIndex]) {
-        yield { line: 3, array: getArray(arr, [i, minIndex, j]) };
+        yield {
+          line: 3,
+          array: getArray(arr, { [i]: "i", [minIndex]: "min", [j]: "j" }),
+        };
         minIndex = j;
-        yield { line: 4, array: getArray(arr, [i, minIndex, j]) };
+        yield {
+          line: 4,
+          array: getArray(arr, { [i]: "i", [minIndex]: "min", [j]: "j" }),
+        };
       }
     }
     [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
-    yield { line: 5, array: getArray(arr, [i, minIndex]) };
+    yield { line: 5, array: getArray(arr, { [i]: "i", [minIndex]: "min" }) };
   }
 }
 

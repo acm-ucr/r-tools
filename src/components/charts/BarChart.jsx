@@ -4,7 +4,6 @@ import { Text } from "@visx/text";
 import { Group } from "@visx/group";
 import { COLORS } from "@/data/icons";
 import { useMemo } from "react";
-import { Polygon } from "@visx/shape";
 
 const verticalMargin = 120;
 
@@ -55,14 +54,15 @@ const BarChart = ({ width, height, data }) => {
                 }
               />
               {d.highlight && (
-                <Group left={barX + barWidth / 2} top={barY - 40}>
-                  <Polygon
-                    sides={3}
-                    size={15}
-                    fill={Object.values(COLORS)[i % 5].textColor}
-                    rotate={30}
-                  />
-                </Group>
+                <Text
+                  x={barX + barWidth / 2}
+                  y={barY - 40}
+                  fill={Object.values(COLORS)[i % 5].textColor}
+                  textAnchor="middle"
+                  className="font-bold"
+                >
+                  {d.highlight}
+                </Text>
               )}
             </>
           );

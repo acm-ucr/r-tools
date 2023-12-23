@@ -9,7 +9,7 @@ import { coolGlow } from "thememirror";
 const CodeView = ({ codes, editor, currLine }) => {
   const [select, setSelect] = useState(Object.keys(codes)[0]);
   return (
-    <div className="rounded-lg bg-rtools-blue-300 w-full h-full pb-1">
+    <div className="rounded-lg bg-rtools-blue-300 w-full h-fit pb-1">
       <div className="flex justify-between p-2 border-b-2 border-rtools-blue-100">
         <div className="flex items-center gap-2">
           <FaCircle className="text-rtools-pink-200 text-lg" />

@@ -113,7 +113,11 @@ const AlgorithmWrapper = ({
           random={handleRandom}
         />
         {current && (
-          <div className={`grid ${show ? "grid-cols-2" : "grid-cols-1"}`}>
+          <div
+            className={`grid gap-3 items-center ${
+              show ? "grid-cols-2" : "grid-cols-1"
+            }`}
+          >
             {type === "sort" && (
               <BarChart width={600} height={450} data={current.array} />
             )}
@@ -124,10 +128,8 @@ const AlgorithmWrapper = ({
           </div>
         )}
       </div>
-      <div className="snap-start w-screen h-[90vh] flex items-center justify-center">
-        <div className="w-7/12 ">
-          <CodeView editor={true} codes={example} />
-        </div>
+      <div className="snap-start h-[90vh] flex items-center justify-center w-7/12">
+        <CodeView editor={true} codes={example} />
       </div>
     </>
   );
