@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
       >
         <Toaster />
         <Navigation />
-        <div className="flex flex-col flex-grow w-full pt-[8vh]">
+        <div className="flex flex-col flex-grow w-full pt-[8vh] items-center justify-center">
           {children}
         </div>
         <Footer />

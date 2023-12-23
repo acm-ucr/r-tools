@@ -15,7 +15,7 @@ const Input = ({
     setValue(e.target.value);
   };
   return (
-    <div className="justify-center flex items-center">
+    <div className="justify-center flex items-center w-full">
       <div
         className={`flex rounded-full w-full ${
           thick ? "p-2 px-3" : "p-1"

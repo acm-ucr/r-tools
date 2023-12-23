@@ -36,3 +36,6 @@ export const example = {
   "C++":
     '#include <iostream>\n\nvoid selectionSort(int arr[], int n) {\n    for (int i = 0; i < n - 1; i++) {\n        // Assume the current index is the minimum\n        int minIndex = i;\n\n        // Check the rest of the array to find the minimum element\n        for (int j = i + 1; j < n; j++) {\n            if (arr[j] < arr[minIndex]) {\n                minIndex = j;\n            }\n        }\n\n        // Swap the found minimum element with the first element\n        std::swap(arr[i], arr[minIndex]);\n    }\n}\n\nint main() {\n    // Example usage:\n    int myArray[] = {64, 25, 12, 22, 11};\n    int n = sizeof(myArray) / sizeof(myArray[0]);\n\n    selectionSort(myArray, n);\n\n    std::cout << "Sorted array: ";\n    for (int i = 0; i < n; i++) {\n        std::cout << myArray[i] << " ";\n    }\n\n    return 0;\n}',
 };
+
+export const description =
+  'Enter a comma-separated list of integers, click "Generate" to visualize, and use "Play" and "Pause" to observe the step-by-step sorting process. Explore different inputs with "Reset"';

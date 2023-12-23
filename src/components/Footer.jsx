@@ -10,7 +10,6 @@ const Footer = () => {
       <div className="text-sm whitespace-nowrap">
         © Copyright acm@ucr All rights reserved
       </div>
-      <div className="text-base">contact.acmucr@gmail.com</div>
     </div>
   );
 };

@@ -24,6 +24,12 @@ const AlgorithmWrapper = ({
   const [play, setPlay] = useState(false);
 
   const handleGenerate = () => {
+    if (!input) {
+      toast.error(
+        "Please enter a valid array (list of integers separated by commas)"
+      );
+      return;
+    }
     const validationRegex = /^\d+(,\s*\d+)*$/;
     if (!validationRegex.test(input)) {
       toast.error(
@@ -63,7 +69,12 @@ const AlgorithmWrapper = ({
   };
 
   const handleRandom = () => {
-    // TODO: generate a random array string and put it in input
+    const size = Math.floor(Math.random() * 10) + 5;
+    const arr = [];
+    for (let i = 0; i < size; i++) {
+      arr.push(Math.floor(Math.random() * 100));
+    }
+    setInput(arr.join(", "));
   };
 
   useEffect(() => {
@@ -78,17 +89,19 @@ const AlgorithmWrapper = ({
 
   return (
     <>
-      <div className="w-screen flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center justify-center w-screen">
         <Header text={title} description={description} />
-        <div className="p-3" />
-        <Input
-          thick={true}
-          value={input}
-          setValue={setInput}
-          button="Generate"
-          onClick={handleGenerate}
-          clear={true}
-        />
+        <div className="pt-6 w-3/5">
+          <Input
+            thick={true}
+            value={input}
+            setValue={setInput}
+            button="Generate"
+            onClick={handleGenerate}
+            clear={true}
+            placeholder="integers separated by commas (ex. 10, 25, 200, 3, 56, 34, 21, 63)"
+          />
+        </div>
         <ArrayToolbar
           setPlay={setPlay}
           play={play}
