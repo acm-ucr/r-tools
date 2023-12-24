@@ -135,6 +135,12 @@ export const NAVIGATION = [
         link: "/cheat-sheet/pre-req",
         description: "visualize selection sort",
       },
+      {
+        icon: <BsBarChartFill />,
+        name: "LATEX",
+        link: "/latex",
+        description: "visualize selection sort",
+      },
     ],
   },
   {

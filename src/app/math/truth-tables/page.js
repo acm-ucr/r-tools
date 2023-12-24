@@ -3,6 +3,7 @@
 import BoolWrapper from "@/components/math/BoolWrapper";
 import Equations from "@/components/math/Equations";
 import TruthTable from "@/components/math/TruthTable";
+import { formatInput } from "@/util/math/TruthTable";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -16,17 +17,9 @@ const page = () => {
       toast("Please enter an equation");
       return;
     }
-    const formatedEquation = value
-      .replaceAll(/\s/g, "")
-      .replaceAll(symbols.and, "∧")
-      .replaceAll(symbols.or, "∨")
-      .replaceAll(symbols.not, "¬");
-    const valid = new RegExp(
-      "^(([()]*)([¬]*)[A-Za-z ]([∧∨]([(]*)([¬]*)[A-Za-z][)]*)*)$",
-      "g"
-    );
+    const formatedEquation = formatInput(value, symbols);
 
-    if (!valid.test(formatedEquation)) {
+    if (!formatedEquation) {
       toast("❌ Please enter a valid equation");
       return;
     }
