@@ -28,7 +28,7 @@ const Input = ({
           onChange={handleInputChange}
         />
         <button
-          className={`rounded-full text-rtools-blue-400 ${
+          className={`hover:opacity-90 rounded-full text-rtools-blue-400 ${
             thick && "p-2"
           } px-4 bg-rtools-green`}
           onClick={onClick}
