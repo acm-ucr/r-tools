@@ -13,7 +13,7 @@ const Tooltip = ({ description }) => {
         onMouseLeave={() => setShow(false)}
       />
       {show && (
-        <div className="absolute border border-black rounded-xl bg-white text-black p-2 w-80 whitespace-pre-line shadow-md">
+        <div className="absolute border border-rtools-blue-300 rounded-xl bg-white text-black p-2 w-80 whitespace-pre-line shadow-md">
           {description}
         </div>
       )}

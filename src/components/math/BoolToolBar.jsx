@@ -14,6 +14,7 @@ const BoolToolBar = ({ symbols, setSymbols }) => {
               className="bg-transparent w-8 h-6 rounded outline-none"
               defaultValue={value}
               value={symbols[symbol]}
+              type="text"
               onChange={(e) => {
                 setSymbols({ ...symbols, [symbol]: e.target.value });
               }}
