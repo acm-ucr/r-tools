@@ -8,14 +8,7 @@ import CodeView from "../CodeView";
 import Header from "../Header";
 import BinaryTree from "./BinaryTree";
 
-const AlgorithmWrapper = ({
-  title,
-  sort,
-  code,
-  example,
-  type = "sort",
-  description,
-}) => {
+const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
   const [input, setInput] = useState("");
   const [steps, setSteps] = useState(null);
   const [stepIndex, setStepIndex] = useState(0);

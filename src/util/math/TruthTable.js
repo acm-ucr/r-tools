@@ -2,7 +2,6 @@ class TruthTableUtils {
   /**
    * Takes a list of equations (strings) and symbols to get unique variables
    * @param {Array.<string>} equations equations to process
-   * @param {{and: string, or: string, not: string}} symbols operator mapping (gets filtered)
    * @return {Array.<string>} a list of unique variables seen in the equations
    */
   static getUniqueVariables(equations) {
@@ -93,7 +92,6 @@ class TruthTableUtils {
    * @param {string} expression expression to format with operator symbol aliases and variable substitutions (this is a template)
    * @param {Object.<string, 'T'|'F'>} variableValues variable name to variable value map
    * @param {Array.<string>} uniqueVariables a list of unique variables (generated from variableValues through getUniqueVariables)
-   * @param {{and: string, or: string, not: string}} symbols operator name to operator symbol map
    * @return {string} formatted expression with symbol replacements
    */
   static formatExpression(expression, variableValues, uniqueVariables) {
@@ -197,7 +195,6 @@ class TruthTableUtils {
   /**
    * Generates the implicit table for a particular input using bitmasks. Returns null if invalid input.
    * @param {string} expression expression to generate table (all possible inputs)
-   * @param {{and: string, or: string, not: string}} symbols operator mapping
    * @return {null|{variables: Array.<string>, result: Array.<-1|1>}}
    * variable ordering used, and result[i] is the result when i is used as inputs.
    *
@@ -207,12 +204,9 @@ class TruthTableUtils {
    *
    * -1 denotes F, 1 denotes T (0 to denote X).
    */
-  static generateTable(expression, symbols = { and: "&", or: "|", not: "'" }) {
+  static generateTable(expression) {
     try {
-      const variables = TruthTableUtils.getUniqueVariables(
-        [expression],
-        symbols
-      );
+      const variables = TruthTableUtils.getUniqueVariables([expression]);
       const n = variables.length;
       return {
         variables: variables,
@@ -226,8 +220,7 @@ class TruthTableUtils {
                   i & (1 << j) ? "1" : "0",
                 ])
               ),
-              variables,
-              symbols
+              variables
             )
           ) === "T"
             ? 1

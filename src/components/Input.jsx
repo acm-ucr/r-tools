@@ -26,15 +26,18 @@ const Input = ({
           placeholder={placeholder}
           value={value}
           onChange={handleInputChange}
+          type="text"
         />
-        <button
-          className={`hover:opacity-90 rounded-full text-rtools-blue-400 ${
-            thick && "p-2"
-          } px-4 bg-rtools-green`}
-          onClick={onClick}
-        >
-          {button}
-        </button>
+        {button && (
+          <button
+            className={`hover:opacity-90 rounded-full text-rtools-blue-400 ${
+              thick && "p-2"
+            } px-4 bg-rtools-green`}
+            onClick={onClick}
+          >
+            {button}
+          </button>
+        )}
       </div>
       {clear && (
         <button onClick={handleClear} className="px-3">
