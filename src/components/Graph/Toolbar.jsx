@@ -1,6 +1,7 @@
 import { BsCursorFill } from "react-icons/bs";
 import { FaEraser, FaPaintBrush, FaPen, FaTrash } from "react-icons/fa";
 import { useState } from "react";
+import { clear, deleteVertex } from "@/util/editor/graphFunctions";
 
 const style = "text-rtools-blue-100 hover:text-white cursor-pointer";
 const tools = [
@@ -28,23 +29,15 @@ const tools = [
   },
 ];
 
-export const Toolbar = ({
-  tool,
-  setTool,
-  handleDelete,
-  setSelectedVertex,
-  setSelectedColor,
-  selectedVertex,
-  clear,
-  cursorPos,
-}) => {
+export const Toolbar = ({ data, setData }) => {
   const [notes, setNotes] = useState(null);
+
   return (
     <div className="w-full flex justify-between">
       <div className="flex gap-2 text-xl ml-2">
         <FaTrash
           className={style}
-          onClick={() => handleDelete(selectedVertex)}
+          onClick={() => deleteVertex(data, setData, data.selectedVertex)}
           onMouseEnter={() =>
             setNotes("Select to delete currently highlighted node")
           }
@@ -54,40 +47,37 @@ export const Toolbar = ({
           <div
             key={index}
             className={`${
-              tool === t.name ? "text-white" : "text-rtools-blue-100"
-            } hover:text-white cursor-pointer`}
-            onMouseEnter={() => setNotes(t.notes)}
+              data.tool === t.name ? "text-white" : "text-rtools-blue-100"
+            } hover:text-white cursor-pointer relative`}
+            onMouseEnter={() => setNotes(t.name)}
             onMouseLeave={() => setNotes(null)}
             onClick={() => {
-              setTool(t.name);
-              setSelectedVertex(null);
-              if (t.name === "pen" || t.name === "brush") {
-                setSelectedColor("white");
-              } else setSelectedColor(null);
+              setData({
+                ...data,
+                tool: t.name,
+                selectedVertex: null,
+                selectedColor:
+                  t.name === "pen" || t.name === "brush" || t.name === "eraser"
+                    ? "white"
+                    : null,
+              });
             }}
           >
             {t.icon}
+            {notes === t.name && (
+              <div className="bg-white text-black p-2 rounded-md shadow-md text-base w-48 absolute">
+                {t.notes}
+              </div>
+            )}
           </div>
         ))}
       </div>
       <div
-        onClick={clear}
+        onClick={() => clear(data, setData)}
         className="text-rtools-blue-100 hover:text-white cursor-pointer"
       >
         clear
       </div>
-      {notes && (
-        <div
-          className="bg-white text-black p-2 rounded-md shadow-md w-1/5"
-          style={{
-            position: "absolute",
-            left: `${cursorPos.x}px`,
-            top: `${cursorPos.y}px`,
-          }}
-        >
-          {notes}
-        </div>
-      )}
     </div>
   );
 };

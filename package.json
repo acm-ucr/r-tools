@@ -16,6 +16,7 @@
     "@codemirror/lang-cpp": "^6.0.2",
     "@codemirror/lang-javascript": "^6.2.1",
     "@uiw/react-codemirror": "^4.21.21",
+    "@visx/curve": "^3.3.0",
     "@visx/drag": "^3.3.0",
     "@visx/gradient": "^3.3.0",
     "@visx/group": "^3.3.0",
