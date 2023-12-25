@@ -181,10 +181,10 @@ export const ALL_CARDS = () => {
 };
 
 export const NAVIGATION =
-  process.env.NEXT_PUBLIC_PROD === "production"
-    ? DEV.filter((section, index) => {
+  process.env.NEXT_PUBLIC_PROD === "dev"
+    ? DEV
+    : DEV.filter((section, index) => {
         const filteredSub = section.sub.filter((tab) => tab.release);
         DEV[index].sub = filteredSub;
         return filteredSub.length > 0;
-      })
-    : DEV;
+      });
