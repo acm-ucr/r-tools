@@ -15,7 +15,7 @@ const Input = ({
     setValue(e.target.value);
   };
   return (
-    <div className="justify-center flex items-center">
+    <div className="justify-center flex items-center w-full">
       <div
         className={`flex rounded-full w-full ${
           thick ? "p-2 px-3" : "p-1"
@@ -26,15 +26,18 @@ const Input = ({
           placeholder={placeholder}
           value={value}
           onChange={handleInputChange}
+          type="text"
         />
-        <button
-          className={`rounded-full text-rtools-blue-400 ${
-            thick && "p-2"
-          } px-4 bg-rtools-green`}
-          onClick={onClick}
-        >
-          {button}
-        </button>
+        {button && (
+          <button
+            className={`hover:opacity-90 rounded-full text-rtools-blue-400 ${
+              thick && "p-2"
+            } px-4 bg-rtools-green`}
+            onClick={onClick}
+          >
+            {button}
+          </button>
+        )}
       </div>
       {clear && (
         <button onClick={handleClear} className="px-3">

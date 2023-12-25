@@ -1,47 +1,54 @@
 "use client";
 
 import BoolWrapper from "@/components/math/BoolWrapper";
-import TruthTable from "@/components/math/TruthTable";
 import Equations from "@/components/math/Equations";
+import TruthTable from "@/components/math/TruthTable";
+import { formatInput } from "@/util/math/TruthTable";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const page = () => {
-  const [equations, setEquations] = useState([
-    "x | y",
-    "x & y & z",
-    "x' | y'",
-    "x | (y & z)",
-    "x & (y' | z)",
-  ]);
+  const [equations, setEquations] = useState([]);
   const [value, setValue] = useState("");
-  const [symbols, setSymbols] = useState({ and: "&", or: "|", not: "'" });
-  const [update, setUpdate] = useState(false); // Used to force an update lol
-  const onClick = () => {
-    const newUpdate = !update;
-    setUpdate(newUpdate);
-    const oldEquations = equations;
-    oldEquations.push(value);
-    setEquations(oldEquations);
-  };
+  const [symbols, setSymbols] = useState({ and: "&", or: "|", not: "!" });
 
-  const onChange = (e) => {};
+  const onClick = () => {
+    if (value === "") {
+      toast("Please enter an equation");
+      return;
+    }
+    const formatedEquation = formatInput(value, symbols);
+
+    if (!formatedEquation) {
+      toast("❌ Please enter a valid equation");
+      return;
+    }
+    if (equations.includes(formatedEquation)) {
+      toast("❌ Equation already exists");
+      return;
+    }
+    setEquations([...equations, formatedEquation]);
+    setValue("");
+  };
+  const description =
+    "Input a boolean expression\n\nClick GENERATE to add the inputted expression to the expressions list that are shown as a column on the truth table.\n\nRemove expressions from the expressions list by hovering over the expression table and clicking the cross.\n\nAdjust individual boolean operators by modifying the symbol box next to its respective operator located below the input box.";
 
   return (
-    <div key={update}>
+    <>
       <BoolWrapper
         title="Truth Table Generator"
         onClick={onClick}
         value={value}
         setValue={setValue}
-        onChange={onChange}
         symbols={symbols}
         setSymbols={setSymbols}
+        description={description}
       />
-      <div className="flex items-start flex-wrap gap-16 justify-center h-full">
+      <div className="flex gap-3">
         <Equations equations={equations} setEquations={setEquations} />
         <TruthTable booleanEquations={equations} symbols={symbols} />
       </div>
-    </div>
+    </>
   );
 };
 

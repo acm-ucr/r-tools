@@ -67,13 +67,7 @@ const Navigation = () => {
         </div>
       </div>
       <div>
-        <Input
-          button="CLEAR"
-          placeholder="search"
-          value={value}
-          setValue={setValue}
-          onClick={() => setValue("")}
-        />
+        <Input placeholder="search" value={value} setValue={setValue} />
         {value !== "" && (
           <div className="overflow-y-scroll absolute bg-rtools-blue-300 p-2 rounded max-h-[80vh] mt-2 drop-shadow-2xl">
             {results.filter((card) => card.name.toLowerCase().includes(value))

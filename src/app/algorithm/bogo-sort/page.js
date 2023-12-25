@@ -1,7 +1,8 @@
 "use client";
 import AlgorithmWrapper from "@/components/algorithm/AlgorithmWrapper";
-import { code, sort } from "@/util/sort/mergeSort";
-import { example } from "@/util/sort/mergeSort";
+import { code, sort } from "@/util/sort/bogoSort";
+import { example } from "@/util/sort/bogoSort";
+
 const page = () => {
   return (
     <>
@@ -9,7 +10,7 @@ const page = () => {
         code={code}
         sort={sort}
         example={example}
-        title="Merge Sort"
+        title="Bogo Sort"
       />
     </>
   );

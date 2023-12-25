@@ -11,11 +11,18 @@ import BinaryTree from "./BinaryTree";
 const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
   const [input, setInput] = useState("");
   const [steps, setSteps] = useState(null);
+  const [stepIndex, setStepIndex] = useState(0);
   const [current, setCurrent] = useState(null);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
   const [play, setPlay] = useState(false);
 
   const handleGenerate = () => {
+    if (!input) {
+      toast.error(
+        "Please enter a valid array (list of integers separated by commas)"
+      );
+      return;
+    }
     const validationRegex = /^\d+(,\s*\d+)*$/;
     if (!validationRegex.test(input)) {
       toast.error(
@@ -25,6 +32,7 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
     }
     const arr = input.split(",").map((num) => parseInt(num));
     const sortFunction = sort(arr);
+    setStepIndex(0);
     setSteps(sortFunction);
     setCurrent(sortFunction.next().value);
   };
@@ -36,12 +44,30 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
       setPlay(false);
       return;
     } else {
+      setStepIndex(stepIndex + 1);
       setCurrent(next.value);
     }
   };
 
+  const handleBack = () => {
+    if (stepIndex > 0) {
+      const arr = input.split(",").map((num) => parseInt(num));
+      const sortFunction = sort(arr);
+      let currNext = null;
+      for (let i = 0; i < stepIndex; i++) currNext = sortFunction.next().value;
+      setSteps(sortFunction);
+      setCurrent(currNext);
+      setStepIndex(stepIndex - 1);
+    }
+  };
+
   const handleRandom = () => {
-    // TODO: generate a random array string and put it in input
+    const size = Math.floor(Math.random() * 10) + 5;
+    const arr = [];
+    for (let i = 0; i < size; i++) {
+      arr.push(Math.floor(Math.random() * 100));
+    }
+    setInput(arr.join(", "));
   };
 
   useEffect(() => {
@@ -56,28 +82,38 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
 
   return (
     <>
-      <div className="w-screen flex flex-col items-center justify-center">
-        <Header text={title} />
-        <div className="p-3" />
-        <Input
-          thick={true}
-          value={input}
-          setValue={setInput}
-          button="Generate"
-          onClick={handleGenerate}
-          clear={true}
+      <div className="flex flex-col items-center justify-center w-screen min-h-[80vh]">
+        <Header
+          text={title}
+          description='Enter a comma-separated list of integers, click "Generate" to visualize, and use "Play" and "Pause" to observe the step-by-step sorting process. Explore different inputs with "Reset"'
         />
+        <div className="pt-6 w-3/5">
+          <Input
+            thick={true}
+            value={input}
+            setValue={setInput}
+            button="Generate"
+            onClick={handleGenerate}
+            clear={true}
+            placeholder="integers separated by commas (ex. 10, 25, 200, 3, 56, 34, 21, 63)"
+          />
+        </div>
         <ArrayToolbar
           setPlay={setPlay}
           play={play}
           restart={handleGenerate}
+          back={handleBack}
           step={handleStep}
           show={show}
           setShow={setShow}
           random={handleRandom}
         />
         {current && (
-          <div className={`grid ${show ? "grid-cols-2" : "grid-cols-1"}`}>
+          <div
+            className={`grid gap-3 items-center ${
+              show ? "grid-cols-2" : "grid-cols-1"
+            }`}
+          >
             {type === "sort" && (
               <BarChart width={600} height={450} data={current.array} />
             )}
@@ -88,10 +124,8 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
           </div>
         )}
       </div>
-      <div className="snap-start w-screen h-[90vh] flex items-center justify-center">
-        <div className="w-7/12 ">
-          <CodeView editor={true} codes={example} />
-        </div>
+      <div className="snap-start h-[90vh] flex items-center justify-center w-7/12">
+        <CodeView editor={true} codes={example} />
       </div>
     </>
   );

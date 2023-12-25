@@ -1,45 +1,27 @@
 "use client";
 import { Drag } from "@visx/drag";
-import { Line } from "@visx/shape";
+import { LinePath } from "@visx/shape";
 import { MarkerArrow } from "@visx/marker";
-import { Point } from "@visx/point";
 import { Text } from "@visx/text";
 import { Group } from "@visx/group";
-import { COLORS } from "@/data/icons";
+import { COLORS } from "@/data/colors";
+import {
+  addEdge,
+  setEdgeColor,
+  deleteEdge,
+} from "@/util/editor/graphFunctions";
+import { curveCatmullRom } from "@visx/curve";
 
 const Graph = ({
   width,
   height,
-  vertices,
-  setVertices,
-  edges,
-  selectedVertex,
-  setSelectedVertex,
-  tool,
-  addEdge,
-  deleteEdge,
-  deleteVertex,
-  selectedColor,
-  setEdges,
   directed,
   weighted,
-  svgRef,
+  setData,
+  data,
+  editable,
+  undirectedEdge,
 }) => {
-  const colorVertex = (id, color) =>
-    setVertices({
-      ...vertices,
-      [id]: { ...vertices[id], color: color },
-    });
-
-  const colorEdge = (from, to, color) => {
-    setEdges({
-      ...edges,
-      [from]: edges[from].map((e) =>
-        e.to === to ? { ...e, color: color } : e
-      ),
-    });
-  };
-
   return (
     <div>
       <svg width={width} height={height} id="graphsvg">
@@ -73,159 +55,266 @@ const Graph = ({
             />
           </>
         )}
-
         <rect
           fill="#ffffff"
           width={width}
           height={height}
           rx={14}
-          onMouseDown={() => setSelectedVertex(null)}
+          onMouseDown={() => {
+            setData({ ...data, selectedVertex: null, selectedEdge: null });
+          }}
         />
-        {Object.entries(edges).map(([from, data]) =>
-          data.map((to, i) => {
-            const x1 = vertices[from].x;
-            const y1 = vertices[from].y;
-            const x2 = vertices[to.to].x;
-            const y2 = vertices[to.to].y;
-            const length = Math.sqrt(
-              (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)
-            );
-            const dx = (x1 - x2) / length;
-            const dy = (y1 - y2) / length;
-            return (
-              <>
-                <Line
-                  onMouseEnter={(e) => {
-                    if (e.buttons === 1) {
-                      if (tool === "eraser") deleteEdge(from, to.to);
-                      if (tool === "brush")
-                        colorEdge(from, to.to, selectedColor);
+        {Object.entries(directed ? data.edges : undirectedEdge.oneWay).map(
+          ([from, destinations]) =>
+            destinations.map((to, i) => {
+              const x1 = data.vertices[from].x;
+              const y1 = data.vertices[from].y;
+              const x2 = data.vertices[to.to].x;
+              const y2 = data.vertices[to.to].y;
+              const length = Math.sqrt(
+                (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)
+              );
+              const dx = (x1 - x2) / length;
+              const dy = (y1 - y2) / length;
+              const fromX = x1 - dx * (data.vertices[from].radius + 2);
+              const fromY = y1 - dy * (data.vertices[from].radius + 2);
+              const toX = x2 + dx * (data.vertices[from].radius + 2);
+              const toY = y2 + dy * (data.vertices[from].radius + 2);
+              return (
+                <>
+                  <LinePath
+                    markerEnd={`url(#marker-arrow-${to.color})`}
+                    onMouseDown={(e) => {
+                      setData({
+                        ...data,
+                        selectedEdge: { from: from, to: to.to },
+                      });
+                    }}
+                    onMouseEnter={(e) => {
+                      if (e.buttons === 1) {
+                        if (data.tool === "eraser")
+                          deleteEdge(data, setData, from, to.to);
+                        if (data.tool === "brush")
+                          setEdgeColor(
+                            data,
+                            setData,
+                            from,
+                            to.to,
+                            data.selectedColor
+                          );
+                      }
+                    }}
+                    key={i}
+                    curve={curveCatmullRom}
+                    data={
+                      directed &&
+                      data.edges[to.to]?.some((vertex) => vertex.to === from)
+                        ? [
+                            { x: fromX, y: fromY },
+                            {
+                              x: (x1 + x2) / 2 + (length / 25) * dy,
+                              y: (y1 + y2) / 2 + -(length / 25) * dx,
+                            },
+                            { x: toX, y: toY },
+                          ]
+                        : [
+                            { x: fromX, y: fromY },
+                            { x: toX, y: toY },
+                          ]
                     }
-                  }}
-                  key={i}
-                  from={
-                    new Point({
-                      x: x1 - dx * (vertices[from].radius + 2),
-                      y: y1 - dy * (vertices[from].radius + 2),
-                    })
-                  }
-                  to={
-                    new Point({
-                      x: x2 + dx * (vertices[from].radius + 2),
-                      y: y2 + dy * (vertices[from].radius + 2),
-                    })
-                  }
-                  strokeWidth={3}
-                  stroke={
-                    to.color === "white" ? "black" : COLORS[to.color].textColor
-                  }
-                  shapeRendering="geometricPrecision"
-                  markerEnd={`url(#marker-arrow-${to.color})`}
-                />
-                {weighted && (
+                    x={(d) => d.x}
+                    y={(d) => d.y}
+                    shapeRendering="geometricPrecision"
+                    strokeWidth={
+                      data.selectedEdge &&
+                      data.selectedEdge.from === from &&
+                      data.selectedEdge.to === to.to
+                        ? 6
+                        : 3
+                    }
+                    stroke={
+                      to.color === "white"
+                        ? "black"
+                        : COLORS[to.color].textColor
+                    }
+                  />
+                </>
+              );
+            })
+        )}
+        {editable &&
+          Object.entries(data.vertices).map(([id, d]) => (
+            <Drag
+              key={id}
+              width={width}
+              height={height}
+              x={d.x}
+              y={d.y}
+              onDragStart={() => {
+                setData({
+                  ...data,
+                  selectedVertex: data.selectedVertex === id ? null : id,
+                });
+                if (data.tool === "pen" && data.selectedVertex) {
+                  addEdge(
+                    data,
+                    setData,
+                    data.selectedVertex,
+                    id,
+                    data.selectedColor
+                  );
+                }
+              }}
+              onDragMove={(e) => {
+                setData({
+                  ...data,
+                  vertices: {
+                    ...data.vertices,
+                    [id]: {
+                      ...data.vertices[id],
+                      x: d.x + e.dx,
+                      y: d.y + e.dy,
+                    },
+                  },
+                });
+              }}
+            >
+              {({ dragStart, dragEnd, dragMove, isDragging }) => (
+                <Group
+                  onMouseMove={dragMove}
+                  onMouseUp={dragEnd}
+                  onMouseDown={dragStart}
+                >
+                  <circle
+                    cx={d.x}
+                    cy={d.y}
+                    key={`circle-${id}`}
+                    r={d.radius}
+                    fill={
+                      d.color === "white" ? "white" : COLORS[d.color].bgColor
+                    }
+                    fillOpacity={0.8}
+                    stroke={
+                      d.color === "white" ? "black" : COLORS[d.color].textColor
+                    }
+                    strokeWidth={
+                      isDragging || data.selectedVertex === id ? 4 : 2
+                    }
+                    onMouseMove={(e) => {
+                      if (e.buttons === 1)
+                        if (data.tool === "brush")
+                          colorVertex(id, data.selectedColor);
+                    }}
+                    onMouseDown={() => {
+                      if (data.tool === "brush")
+                        colorVertex(id, data.selectedColor);
+                    }}
+                  />
                   <Text
-                    x={x1 - dx * (length / 2)}
-                    y={y1 - dy * (length / 2)}
+                    key={`text-${id}`}
                     style={{
                       fontWeight: 600,
                       fontSize: "25px",
                       WebkitUserSelect: "none",
                       msUserSelect: "none",
                       userSelect: "none",
-                      textShadow:
-                        "2px 0px 0px white,0px 2px 0px white,-2px 0px 0px white,0px -2px 0px white,-2px -2px 0px white,2px 2px 0px white",
                     }}
                     fill={
-                      to.color === "white"
-                        ? "black"
-                        : COLORS[to.color].textColor
+                      d.color === "white" ? "black" : COLORS[d.color].textColor
                     }
-                    textAnchor="start"
+                    textAnchor="middle"
                     verticalAnchor="middle"
+                    x={d.x}
+                    y={d.y}
                   >
-                    {to.weight}
+                    {d.value}
                   </Text>
-                )}
-              </>
-            );
-          })
-        )}
-        {Object.entries(vertices).map(([id, d]) => (
-          <Drag
-            key={id}
-            width={width}
-            height={height}
-            x={d.x}
-            y={d.y}
-            onDragStart={() => {
-              if (selectedVertex === id) {
-                setSelectedVertex(null);
-                return;
-              }
-              if (tool === "pen" && selectedVertex) {
-                addEdge(selectedVertex, id, selectedColor);
-              }
-              setSelectedVertex(id);
-            }}
-            onDragMove={(e) => {
-              setVertices({
-                ...vertices,
-                [id]: {
-                  ...vertices[id],
-                  x: d.x + e.dx,
-                  y: d.y + e.dy,
-                },
-              });
-            }}
-          >
-            {({ dragStart, dragEnd, dragMove, isDragging }) => (
-              <Group
-                onMouseMove={dragMove}
-                onMouseUp={dragEnd}
-                onMouseDown={dragStart}
+                </Group>
+              )}
+            </Drag>
+          ))}
+        {!editable &&
+          Object.entries(data.vertices).map(([id, d]) => (
+            <Group key={id}>
+              <circle
+                cx={d.x}
+                cy={d.y}
+                key={`circle-${id}`}
+                r={d.radius}
+                fill={d.color === "white" ? "white" : COLORS[d.color].bgColor}
+                fillOpacity={0.8}
+                stroke={
+                  d.color === "white" ? "black" : COLORS[d.color].textColor
+                }
+                strokeWidth={2}
+              />
+              <Text
+                key={`text-${id}`}
+                style={{
+                  fontWeight: 600,
+                  fontSize: "25px",
+                  WebkitUserSelect: "none",
+                  msUserSelect: "none",
+                  userSelect: "none",
+                }}
+                fill={d.color === "white" ? "black" : COLORS[d.color].textColor}
+                textAnchor="middle"
+                verticalAnchor="middle"
+                x={d.x}
+                y={d.y}
               >
-                <circle
-                  cx={d.x}
-                  cy={d.y}
-                  key={`circle-${id}`}
-                  r={d.radius}
-                  fill={d.color === "white" ? "white" : COLORS[d.color].bgColor}
-                  fillOpacity={0.8}
-                  stroke={
-                    d.color === "white" ? "black" : COLORS[d.color].textColor
-                  }
-                  strokeWidth={isDragging || selectedVertex === id ? 4 : 2}
-                  onMouseMove={(e) => {
-                    if (e.buttons === 1)
-                      if (tool === "brush") colorVertex(id, selectedColor);
-                  }}
-                  onMouseDown={() => {
-                    if (tool === "brush") colorVertex(id, selectedColor);
-                  }}
-                />
-                <Text
-                  key={`text-${id}`}
-                  style={{
-                    fontWeight: 600,
-                    fontSize: "25px",
-                    WebkitUserSelect: "none",
-                    msUserSelect: "none",
-                    userSelect: "none",
-                  }}
-                  fill={
-                    d.color === "white" ? "black" : COLORS[d.color].textColor
-                  }
-                  textAnchor="middle"
-                  verticalAnchor="middle"
-                  x={d.x}
-                  y={d.y}
-                >
-                  {d.value}
-                </Text>
-              </Group>
-            )}
-          </Drag>
-        ))}
+                {d.value}
+              </Text>
+            </Group>
+          ))}
+        {Object.entries(directed ? data.edges : undirectedEdge.oneWay).map(
+          ([from, edge]) =>
+            edge.map((to, i) => {
+              const x1 = data.vertices[from].x;
+              const y1 = data.vertices[from].y;
+              const x2 = data.vertices[to.to].x;
+              const y2 = data.vertices[to.to].y;
+              const length = Math.sqrt(
+                (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)
+              );
+              const dx = (x1 - x2) / length;
+              const dy = (y1 - y2) / length;
+              return (
+                <>
+                  {weighted && (
+                    <Text
+                      onMouseDown={(e) => {
+                        setData({
+                          ...data,
+                          selectedEdge: { from: from, to: to.to },
+                        });
+                      }}
+                      x={(x1 + x2) / 2 + (length / 25) * dy}
+                      y={(y1 + y2) / 2 + -(length / 25) * dx}
+                      style={{
+                        fontWeight: 600,
+                        fontSize: "25px",
+                        WebkitUserSelect: "none",
+                        msUserSelect: "none",
+                        userSelect: "none",
+                        textShadow:
+                          "2px 0px 0px white,0px 2px 0px white,-2px 0px 0px white,0px -2px 0px white,-2px -2px 0px white,2px 2px 0px white",
+                      }}
+                      fill={
+                        to.color === "white"
+                          ? "black"
+                          : COLORS[to.color].textColor
+                      }
+                      textAnchor="start"
+                      verticalAnchor="middle"
+                    >
+                      {to.weight}
+                    </Text>
+                  )}
+                </>
+              );
+            })
+        )}
       </svg>
     </div>
   );
