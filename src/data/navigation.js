@@ -16,7 +16,7 @@ import { SiTailwindcss } from "react-icons/si";
 import { TbBrandNextjs } from "react-icons/tb";
 import { FaPowerOff } from "react-icons/fa6";
 
-export const NAVIGATION = [
+const DEV = [
   {
     name: "ALGORITHM",
     link: "/algorithm",
@@ -26,12 +26,14 @@ export const NAVIGATION = [
         name: "Selection Sort",
         link: "/algorithm/selection-sort",
         description: "visualize selection sort",
+        release: true,
       },
       {
         icon: <TbChartBubbleFilled />,
         name: "Bubble Sort",
         link: "/algorithm/bubble-sort",
         description: "visualize selection sort",
+        release: true,
       },
       {
         icon: <FaCodeMerge />,
@@ -50,6 +52,7 @@ export const NAVIGATION = [
         name: "Insertion Sort",
         link: "/algorithm/insertion-sort",
         description: "visualize selection sort",
+        release: true,
       },
       {
         icon: <GiSewedShell />,
@@ -68,6 +71,7 @@ export const NAVIGATION = [
         name: "Heaps",
         link: "/algorithm/heaps",
         description: "visualize selection sort",
+        release: true,
       },
       {
         icon: <PiTreeStructureDuotone />,
@@ -92,12 +96,14 @@ export const NAVIGATION = [
         name: "Boolean Simplifier",
         link: "/math/boolean-simplifier",
         description: "visualize selection sort",
+        release: true,
       },
       {
         icon: <PiTable />,
         name: "Truth Tables",
         link: "/math/truth-tables",
         description: "visualize selection sort",
+        release: true,
       },
     ],
   },
@@ -110,6 +116,7 @@ export const NAVIGATION = [
         name: "Graph",
         link: "/editor/graph",
         description: "visualize selection sort",
+        release: true,
       },
       {
         icon: <FaPowerOff />,
@@ -172,3 +179,12 @@ export const ALL_CARDS = () => {
   });
   return tabArray;
 };
+
+export const NAVIGATION =
+  process.env.NEXT_PUBLIC_PROD === "production"
+    ? DEV.filter((section, index) => {
+        const filteredSub = section.sub.filter((tab) => tab.release);
+        DEV[index].sub = filteredSub;
+        return filteredSub.length > 0;
+      })
+    : DEV;
