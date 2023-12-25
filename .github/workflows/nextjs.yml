@@ -65,7 +65,6 @@ jobs:
           path: ./out
     env:
       NEXT_PUBLIC_PROD: ${{secrets.NEXT_PUBLIC_PROD}}
-    #   NEXT_PUBLIC_CALENDAR_ID: ${{secrets.NEXT_PUBLIC_CALENDAR_ID}}
 
   # Deployment job
   deploy:
