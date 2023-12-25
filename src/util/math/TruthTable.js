@@ -2,26 +2,18 @@ class TruthTableUtils {
   /**
    * Takes a list of equations (strings) and symbols to get unique variables
    * @param {Array.<string>} equations equations to process
-   * @param {{and: string, or: string, not: string}} symbols operator mapping (gets filtered)
    * @return {Array.<string>} a list of unique variables seen in the equations
    */
-  static getUniqueVariables(equations, symbols) {
-    const uniqueVariables = [];
-    const booleanSymbols = Object.values(symbols);
-    const otherSymbols = [" ", "(", ")"];
-    const symbolsToRemove = [...booleanSymbols, ...otherSymbols];
+  static getUniqueVariables(equations) {
+    const variables = new Set();
+    const symbolsToRemove = ["∧", "∨", "¬", "(", ")"];
 
     equations.forEach((equation) => {
-      let equationWithoutSymbols = equation;
-      symbolsToRemove.forEach((symbol) => {
-        equationWithoutSymbols = equationWithoutSymbols.replaceAll(symbol, "");
-      });
-      equationWithoutSymbols.split("").forEach((character) => {
-        uniqueVariables.push(character);
+      equation.split("").forEach((character) => {
+        if (!symbolsToRemove.includes(character)) variables.add(character);
       });
     });
-
-    return [...new Set(uniqueVariables)];
+    return [...variables];
   }
 
   /**
@@ -39,6 +31,23 @@ class TruthTableUtils {
         ...prevArrays.map((arr) => ["F", ...arr]),
       ];
     }
+  }
+  /**
+   * Returns all possible inputs for each unique variable.
+   * @param {Array.<string>} uniqueVariables an array of unique variable
+   * @param {Array.<Array.<'T'|'F'>>} inputRows an array of inputs
+   * @return {Array.<Array.<T>>} an array of inputs
+   */
+  static generateVariableRowValues(uniqueVariables, inputRows) {
+    const variableRowValues = [];
+    inputRows.forEach((row, rowIndex) => {
+      const rowValue = {};
+      uniqueVariables.forEach((variable, variableIndex) => {
+        rowValue[variable] = inputRows[rowIndex][variableIndex] == "T" ? 1 : 0;
+      });
+      variableRowValues.push(rowValue);
+    });
+    return variableRowValues;
   }
 
   /**
@@ -83,30 +92,17 @@ class TruthTableUtils {
    * @param {string} expression expression to format with operator symbol aliases and variable substitutions (this is a template)
    * @param {Object.<string, 'T'|'F'>} variableValues variable name to variable value map
    * @param {Array.<string>} uniqueVariables a list of unique variables (generated from variableValues through getUniqueVariables)
-   * @param {{and: string, or: string, not: string}} symbols operator name to operator symbol map
    * @return {string} formatted expression with symbol replacements
    */
-  static formatExpression(
-    expression,
-    variableValues,
-    uniqueVariables,
-    symbols
-  ) {
+  static formatExpression(expression, variableValues, uniqueVariables) {
     let modifiedExpression = expression;
 
-    modifiedExpression = TruthTableUtils.formatNotOperator(
-      modifiedExpression,
-      symbols["not"]
-    );
     uniqueVariables.forEach((variable) => {
       modifiedExpression = modifiedExpression.replaceAll(
         variable,
         variableValues[variable]
       );
     });
-    modifiedExpression = modifiedExpression.replaceAll(symbols["and"], "&");
-    modifiedExpression = modifiedExpression.replaceAll(symbols["or"], "|");
-    modifiedExpression = modifiedExpression.replaceAll(" ", "");
     return modifiedExpression;
   }
 
@@ -120,7 +116,7 @@ class TruthTableUtils {
 
     // Evaluating negations
     for (let i = 0; i < result.length; i++) {
-      if (result[i] === "!") {
+      if (result[i] === "¬") {
         result =
           result.slice(0, i) +
           (result[i + 1] == "1" ? "0" : "1") +
@@ -129,7 +125,7 @@ class TruthTableUtils {
     }
     // Evaluating ANDs
     for (let i = 0; i < result.length; i++) {
-      if (result[i] === "&") {
+      if (result[i] === "∧") {
         result =
           result.slice(0, i - 1) +
           (result[i - 1] == "1" && result[i + 1] == "1" ? "1" : "0") +
@@ -139,7 +135,7 @@ class TruthTableUtils {
     }
     // Evaluating ORs
     for (let i = 0; i < result.length; i++) {
-      if (result[i] === "|") {
+      if (result[i] === "∨") {
         result =
           result.slice(0, i - 1) +
           (result[i - 1] == "1" || result[i + 1] == "1" ? "1" : "0") +
@@ -199,7 +195,6 @@ class TruthTableUtils {
   /**
    * Generates the implicit table for a particular input using bitmasks. Returns null if invalid input.
    * @param {string} expression expression to generate table (all possible inputs)
-   * @param {{and: string, or: string, not: string}} symbols operator mapping
    * @return {null|{variables: Array.<string>, result: Array.<-1|1>}}
    * variable ordering used, and result[i] is the result when i is used as inputs.
    *
@@ -209,12 +204,9 @@ class TruthTableUtils {
    *
    * -1 denotes F, 1 denotes T (0 to denote X).
    */
-  static generateTable(expression, symbols = { and: "&", or: "|", not: "'" }) {
+  static generateTable(expression) {
     try {
-      const variables = TruthTableUtils.getUniqueVariables(
-        [expression],
-        symbols
-      );
+      const variables = TruthTableUtils.getUniqueVariables([expression]);
       const n = variables.length;
       return {
         variables: variables,
@@ -228,8 +220,7 @@ class TruthTableUtils {
                   i & (1 << j) ? "1" : "0",
                 ])
               ),
-              variables,
-              symbols
+              variables
             )
           ) === "T"
             ? 1
@@ -240,14 +231,64 @@ class TruthTableUtils {
       return null;
     }
   }
+
+  /**
+   * replace the operators with the symbols
+   * @param {string} input expression to generate table (all possible inputs)
+   * @param {{and: string, or: string, not: string}} symbols operator mapping
+   * @return {null|string} formatted expression
+   */
+  static formatInput(input, symbols) {
+    const formatedEquation = input
+      .replaceAll(/\s/g, "")
+      .replaceAll(symbols.and, "∧")
+      .replaceAll(symbols.or, "∨")
+      .replaceAll(symbols.not, "¬");
+    const valid = new RegExp(
+      "^(([()]*)([¬]*)[A-Za-z ]([∧∨]([(]*)([¬]*)[A-Za-z][)]*)*)$",
+      "g"
+    );
+
+    if (!valid.test(formatedEquation)) return null;
+    return formatedEquation;
+  }
+  /**
+   * generate the output table
+   * @param {Array.<string>} uniqueVariables an array of the unique variables
+   * @param {Array.<string>} booleanEquations operator mapping
+   * @param {Array.<string>} inputRows operator mapping
+   * @return {Array.<string>} formatted expression
+   */
+  static generateOutputRows(uniqueVariables, booleanEquations, inputRows) {
+    const variableRowValues = generateVariableRowValues(
+      uniqueVariables,
+      inputRows
+    );
+    return Array.from(
+      { length: Math.pow(2, uniqueVariables.length) },
+      (_, rowIndex) =>
+        Array.from({ length: booleanEquations.length }, (_, columnIndex) =>
+          evaluateExpression(
+            formatExpression(
+              booleanEquations[columnIndex],
+              variableRowValues[rowIndex],
+              uniqueVariables
+            )
+          )
+        )
+    );
+  }
 }
 
 export default TruthTableUtils;
 export const {
   getUniqueVariables,
+  generateVariableRowValues,
   generateInputRows,
+  generateOutputRows,
   formatNotOperator,
   formatExpression,
+  formatInput,
   evaluateExpressionWithParentheses,
   evaluateExpressionWithoutParentheses,
   evaluateExpression,

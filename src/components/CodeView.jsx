@@ -1,30 +1,15 @@
 "use client";
 
-import Editor from "@monaco-editor/react";
 import { useState } from "react";
-import { LANGUAGES } from "@/data/language";
+import { cpp } from "@codemirror/lang-cpp";
 import { FaCircle } from "react-icons/fa";
+import CodeMirror from "@uiw/react-codemirror";
+import { coolGlow } from "thememirror";
 
-const setEditorTheme = (monaco) => {
-  monaco.editor.defineTheme("my-theme", {
-    base: "vs-dark",
-    inherit: true,
-    rules: [
-      { token: "comment", foreground: "B3EFB9" },
-      { token: "keyword", foreground: "12D0D5" },
-      { token: "number", foreground: "FF8AB4" },
-      { token: "string", foreground: "FFC700" },
-      { token: "tag", foreground: "BE8AFF" },
-    ],
-    colors: {
-      "editor.foreground": "#FFFFFF",
-    },
-  });
-};
 const CodeView = ({ codes, editor, currLine }) => {
   const [select, setSelect] = useState(Object.keys(codes)[0]);
   return (
-    <div className="rounded-lg bg-rtools-blue-300 w-full h-full pb-1">
+    <div className="rounded-lg bg-rtools-blue-300 w-full h-fit pb-1">
       <div className="flex justify-between p-2 border-b-2 border-rtools-blue-100">
         <div className="flex items-center gap-2">
           <FaCircle className="text-rtools-pink-200 text-lg" />
@@ -48,18 +33,12 @@ const CodeView = ({ codes, editor, currLine }) => {
       </div>
       <div className="rounded-xl bg-rtools-black mx-2.5 my-3 overflow-hidden">
         {editor && (
-          <Editor
-            beforeMount={setEditorTheme}
-            style={{ rounded: "lg" }}
-            height="70vh"
-            language={LANGUAGES[select]}
+          <CodeMirror
+            readOnly={true}
             value={codes[select]}
-            theme="my-theme"
-            options={{
-              readOnly: true,
-              minimap: { enabled: false },
-              scrollBeyondLastLine: false,
-            }}
+            height="70vh"
+            extensions={[cpp()]}
+            theme={coolGlow}
           />
         )}
         {!editor &&

@@ -1,18 +1,21 @@
 "use client";
 
-import Input from "@/components/Input";
+import BoolWrapper from "@/components/math/BoolWrapper";
 import kMapSolver from "@/util/math/KMap";
-import { generateTable } from "@/util/math/TruthTable";
-import { useState, useEffect } from "react";
+import { formatInput, generateTable } from "@/util/math/TruthTable";
+import { useState } from "react";
 
 const page = () => {
-  const [expression, setExpression] = useState("(A*B)+(A*C)+((A+B)*C)");
-  const [symbols] = useState({ and: "*", or: "+", not: "!" });
+  const [value, setValue] = useState("(A*B)+(!A*C)+((A+B)*C)");
+  const [expression, setExpression] = useState("");
+  const [symbols, setSymbols] = useState({ and: "*", or: "+", not: "!" });
 
   const [expressionSOP, setExpressionSOP] = useState("");
-  useEffect(() => {
+  const onClick = () => {
     try {
-      const table = generateTable(expression, symbols); // might return null if failed
+      const formatedInput = formatInput(value, symbols);
+      setExpression(formatedInput);
+      const table = generateTable(formatedInput); // might return null if failed
       if (table !== null) {
         const { result, variables } = table;
         const { expressionSOP } = kMapSolver(result, variables);
@@ -23,14 +26,22 @@ const page = () => {
       console.error(error);
       setExpressionSOP("???");
     }
-  }, [expression, symbols]);
+  };
 
   return (
-    <div className="flex flex-col">
-      <Input value={expression} setValue={setExpression}></Input>
+    <>
+      <BoolWrapper
+        title="Boolean Equation Simplifier"
+        value={value}
+        setValue={setValue}
+        symbols={symbols}
+        setSymbols={setSymbols}
+        onClick={onClick}
+        description="Input a boolean expression\n\nAdjust individual boolean operators by modifying the symbol box next to its respective operator located below the input box."
+      />
       <div>{"Eq:" + expression}</div>
       <div>{"SOP:" + expressionSOP}</div>
-    </div>
+    </>
   );
 };
 

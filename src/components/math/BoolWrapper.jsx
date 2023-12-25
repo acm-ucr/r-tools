@@ -14,11 +14,11 @@ const BoolWrapper = ({
   description,
 }) => {
   return (
-    <div className="flex flex-col items-center">
+    <>
       <Header text={title} description={description} />
-      <div className="w-1/2 mt-9">
+      <div className="w-3/5 my-6">
         <Input
-          button="ADD"
+          button={onClick && "GENERATE"}
           onClick={onClick}
           value={value}
           setValue={setValue}
@@ -27,10 +27,8 @@ const BoolWrapper = ({
           onChange={onChange}
         />
       </div>
-      <div className="my-3">
-        <BoolToolBar symbols={symbols} setSymbols={setSymbols} />
-      </div>
-    </div>
+      <BoolToolBar symbols={symbols} setSymbols={setSymbols} />
+    </>
   );
 };
 
