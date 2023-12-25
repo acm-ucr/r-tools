@@ -18,7 +18,7 @@ const BoolWrapper = ({
       <Header text={title} description={description} />
       <div className="w-3/5 my-6">
         <Input
-          button={onClick && "ADD"}
+          button={onClick && "GENERATE"}
           onClick={onClick}
           value={value}
           setValue={setValue}

@@ -3,7 +3,7 @@
 import BoolWrapper from "@/components/math/BoolWrapper";
 import kMapSolver from "@/util/math/KMap";
 import { formatInput, generateTable } from "@/util/math/TruthTable";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const page = () => {
   const [value, setValue] = useState("(A*B)+(!A*C)+((A+B)*C)");
@@ -11,12 +11,11 @@ const page = () => {
   const [symbols, setSymbols] = useState({ and: "*", or: "+", not: "!" });
 
   const [expressionSOP, setExpressionSOP] = useState("");
-
-  useEffect(() => {
+  const onClick = () => {
     try {
-      setExpression(formatInput(value, symbols));
-      const table = generateTable(expression); // might return null if failed
-      console.log(table);
+      const formatedInput = formatInput(value, symbols);
+      setExpression(formatedInput);
+      const table = generateTable(formatedInput); // might return null if failed
       if (table !== null) {
         const { result, variables } = table;
         const { expressionSOP } = kMapSolver(result, variables);
@@ -27,7 +26,7 @@ const page = () => {
       console.error(error);
       setExpressionSOP("???");
     }
-  }, [value, symbols]);
+  };
 
   return (
     <>
@@ -37,6 +36,7 @@ const page = () => {
         setValue={setValue}
         symbols={symbols}
         setSymbols={setSymbols}
+        onClick={onClick}
         description="Input a boolean expression\n\nAdjust individual boolean operators by modifying the symbol box next to its respective operator located below the input box."
       />
       <div>{"Eq:" + expression}</div>

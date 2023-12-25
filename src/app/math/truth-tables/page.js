@@ -31,7 +31,7 @@ const page = () => {
     setValue("");
   };
   const description =
-    "Input a boolean expression\n\nClick ADD to add the inputted expression to the expressions list that are shown as a column on the truth table.\n\nRemove expressions from the expressions list by hovering over the expression table and clicking the cross.\n\nAdjust individual boolean operators by modifying the symbol box next to its respective operator located below the input box.";
+    "Input a boolean expression\n\nClick GENERATE to add the inputted expression to the expressions list that are shown as a column on the truth table.\n\nRemove expressions from the expressions list by hovering over the expression table and clicking the cross.\n\nAdjust individual boolean operators by modifying the symbol box next to its respective operator located below the input box.";
 
   return (
     <>
