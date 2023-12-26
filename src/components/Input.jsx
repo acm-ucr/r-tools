@@ -1,11 +1,12 @@
 const Input = ({
   placeholder,
   button,
-  onClick,
+  onSubmit,
   value,
   setValue,
   clear,
   thick,
+  onClick,
 }) => {
   const handleClear = () => {
     setValue("");
@@ -16,10 +17,11 @@ const Input = ({
   };
   return (
     <form
+      onClick={onClick}
       className="justify-center flex items-center w-full"
       onSubmit={(e) => {
         e.preventDefault();
-        if (onClick) onClick();
+        if (onSubmit) onSubmit();
       }}
     >
       <div
