@@ -1,7 +1,6 @@
 "use client";
 import AlgorithmWrapper from "@/components/algorithm/AlgorithmWrapper";
-import { code, sort } from "@/util/sort/bucketSort";
-import { example } from "@/util/sort/bucketSort";
+import { code, sort, example } from "@/util/sort/bucketSort";
 
 const page = () => {
   return (
