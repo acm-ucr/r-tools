@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { NAVIGATION, ALL_CARDS } from "@/data/navigation";
-import { COLORS } from "@/data/icons";
+import { COLORS } from "@/data/colors";
 import Logo from "../Assets/RToolsLogo.svg";
 import Input from "@/components/Input";
 import Card from "./Card";
