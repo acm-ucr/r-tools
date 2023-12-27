@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import CodeView from "../CodeView";
 import Header from "../Header";
 import BinaryTree from "./BinaryTree";
+import Table from "../Table";
 
 const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
   const [input, setInput] = useState("");
@@ -38,6 +39,7 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
   };
 
   const handleStep = () => {
+    if (!steps) return;
     const next = steps.next();
     if (next.done) {
       toast.success("Array Sorted!");
@@ -118,6 +120,13 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
               <BarChart width={600} height={450} data={current.array} />
             )}
             {type === "heap" && <BinaryTree arr={current.array} />}
+            {type === "tables" && (
+              <div className="flex flex-col items-start gap-2">
+                {current.tables.map((table, key) => (
+                  <Table key={key} matrix={table} />
+                ))}
+              </div>
+            )}
             {show && (
               <CodeView codes={code} code={code} currLine={current.line} />
             )}
