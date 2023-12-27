@@ -1,5 +1,5 @@
-import { COLORS } from "@/data/icons";
-import { SIZE } from "@/data/icons";
+import { COLORS } from "@/data/colors";
+import { SIZE } from "@/data/size";
 
 const Icon = ({ color, icon, size }) => {
   return (

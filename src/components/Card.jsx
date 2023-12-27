@@ -5,9 +5,20 @@ const HOVER = {
   up: "hover:-translate-y-1",
   highlight: "hover:bg-rtools-blue-200",
 };
-const Card = ({ row, icon, description, name, color, link, hover, size }) => {
+const Card = ({
+  row,
+  icon,
+  description,
+  name,
+  color,
+  link,
+  hover,
+  size,
+  onClick,
+}) => {
   return (
     <Link
+      onClick={onClick}
       href={link}
       className={`${row ? "flex-row" : "flex-col"} ${HOVER[hover]} ${
         row ? "items-center justify-center" : "items-start"

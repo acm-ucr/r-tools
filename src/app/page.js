@@ -3,7 +3,7 @@ import Card from "@/components/Card";
 import Input from "@/components/Input";
 import Landing from "@/components/home/Landing";
 import { NAVIGATION, ALL_CARDS } from "@/data/navigation";
-import { COLORS } from "@/data/icons";
+import { COLORS } from "@/data/colors";
 import { useState } from "react";
 
 const Home = () => {

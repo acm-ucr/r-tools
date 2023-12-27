@@ -35,7 +35,7 @@ const GraphPage = ({ directed, weighted }) => {
           <Input
             placeholder="ex. A"
             button="add"
-            onClick={() => addVertex(data, setData, size)}
+            onSubmit={() => addVertex(data, setData, size)}
             value={data.value}
             setValue={(newValue) => {
               setData({ ...data, value: newValue });

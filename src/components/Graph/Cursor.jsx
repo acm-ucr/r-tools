@@ -1,5 +1,5 @@
 import { FaEraser, FaPaintBrush, FaPen } from "react-icons/fa";
-import { COLORS } from "@/data/icons";
+import { COLORS } from "@/data/colors";
 
 const Cursor = ({ tool, selectedColor, cursorPos }) => {
   const style = {

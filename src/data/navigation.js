@@ -5,7 +5,6 @@ import { FaCodeMerge } from "react-icons/fa6";
 import { VscInsert } from "react-icons/vsc";
 import { GiSewedShell } from "react-icons/gi";
 import { FaBucket } from "react-icons/fa6";
-import { PiTreeStructureDuotone } from "react-icons/pi";
 import { CgListTree } from "react-icons/cg";
 import { BiMath } from "react-icons/bi";
 import { PiTable } from "react-icons/pi";
@@ -72,12 +71,6 @@ const DEV = [
         link: "/algorithm/heaps",
         description: "visualize selection sort",
         release: true,
-      },
-      {
-        icon: <PiTreeStructureDuotone />,
-        name: "AVL Trees",
-        link: "/algorithm/avl-trees",
-        description: "visualize selection sort",
       },
       {
         icon: <BsBarChartFill />,

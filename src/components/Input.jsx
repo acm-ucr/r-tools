@@ -1,11 +1,12 @@
 const Input = ({
   placeholder,
   button,
-  onClick,
+  onSubmit,
   value,
   setValue,
   clear,
   thick,
+  onClick,
 }) => {
   const handleClear = () => {
     setValue("");
@@ -15,7 +16,14 @@ const Input = ({
     setValue(e.target.value);
   };
   return (
-    <div className="justify-center flex items-center w-full">
+    <form
+      onClick={onClick}
+      className="justify-center flex items-center w-full"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (onSubmit) onSubmit();
+      }}
+    >
       <div
         className={`flex rounded-full w-full ${
           thick ? "p-2 px-3" : "p-1"
@@ -33,7 +41,6 @@ const Input = ({
             className={`hover:opacity-90 rounded-full text-rtools-blue-400 ${
               thick && "p-2"
             } px-4 bg-rtools-green`}
-            onClick={onClick}
           >
             {button}
           </button>
@@ -44,7 +51,7 @@ const Input = ({
           clear
         </button>
       )}
-    </div>
+    </form>
   );
 };
 

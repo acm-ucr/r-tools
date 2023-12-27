@@ -1,4 +1,4 @@
-import { getArray } from "./getArray";
+import { getArray } from "./visualize.js";
 export const code = [
   "merge_sort(arr)",
   "\xa0\xa0\xa0\xa0if length of arr <=1",

@@ -5,8 +5,8 @@ const Landing = () => {
     <div className="flex flex-col items-center mt-5 mb-2">
       <Image src={Logo} height={250} width={250} />
       <p className="text-center py-3 text-blue-100 text-sm w-2/5">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut qu consectetur adipiscing elit, sed do eius
+        Empower your studies with essential CS tools. Elevate your learning
+        experience effortlessly!
       </p>
     </div>
   );

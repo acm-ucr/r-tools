@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { NAVIGATION, ALL_CARDS } from "@/data/navigation";
-import { COLORS } from "@/data/icons";
+import { COLORS } from "@/data/colors";
 import Logo from "../Assets/RToolsLogo.svg";
 import Input from "@/components/Input";
 import Card from "./Card";
@@ -13,12 +13,26 @@ const Navigation = () => {
   const [expanded, setExpanded] = useState("");
   const results = useMemo(ALL_CARDS);
   const [value, setValue] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
+  const ref = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        setShowSearch(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
 
   return (
     <div className="w-full h-[8vh] flex bg-rtools-blue-400 justify-between items-center px-3 fixed z-10">
       <div className="flex items-center">
         <Link onClick={() => setSelected("")} className="mr-10" href="/">
-          <img src={Logo.src} className="h-[4vh]" />
+          <img src={Logo.src} className="h-[4vh]" alt="logo" />
         </Link>
         <div className="flex gap-4">
           {NAVIGATION.map((navigation, index) => (
@@ -66,9 +80,14 @@ const Navigation = () => {
           ))}
         </div>
       </div>
-      <div>
-        <Input placeholder="search" value={value} setValue={setValue} />
-        {value !== "" && (
+      <div ref={ref}>
+        <Input
+          placeholder="search"
+          value={value}
+          setValue={setValue}
+          onClick={() => setShowSearch(true)}
+        />
+        {value !== "" && showSearch && (
           <div className="overflow-y-scroll absolute bg-rtools-blue-300 p-2 rounded max-h-[80vh] mt-2 drop-shadow-2xl">
             {results.filter((card) => card.name.toLowerCase().includes(value))
               .length > 0 ? (
@@ -76,6 +95,10 @@ const Navigation = () => {
                 .filter((card) => card.name.toLowerCase().includes(value))
                 .map((sub, subIndex) => (
                   <Card
+                    onClick={() => {
+                      console.log("click");
+                      setShowSearch(false);
+                    }}
                     key={subIndex}
                     row={true}
                     icon={sub.icon}
