@@ -64,6 +64,7 @@ const DEV = [
         name: "Bucket Sort",
         link: "/algorithm/bucket-sort",
         description: "visualize selection sort",
+        release: true,
       },
       {
         icon: <CgListTree />,
