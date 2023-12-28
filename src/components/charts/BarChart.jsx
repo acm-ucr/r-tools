@@ -2,7 +2,7 @@
 import { Bar } from "@visx/shape";
 import { Text } from "@visx/text";
 import { Group } from "@visx/group";
-import { COLORS } from "@/data/icons";
+import { COLORS } from "@/data/colors";
 import { useMemo } from "react";
 
 const verticalMargin = 120;

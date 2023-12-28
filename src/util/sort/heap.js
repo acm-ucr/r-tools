@@ -1,4 +1,4 @@
-import { getArray as getArray } from "./getArray";
+import { getArray as getArray } from "./visualize.js";
 
 export const code = [
   "heapify(arr, N, i):",

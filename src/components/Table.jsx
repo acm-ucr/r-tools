@@ -1,3 +1,5 @@
+import { COLORS } from "@/data/colors";
+
 const Table = ({ matrix, rounded, roundedLeft, roundedRight, header }) => {
   return (
     <table
@@ -7,7 +9,7 @@ const Table = ({ matrix, rounded, roundedLeft, roundedRight, header }) => {
     >
       <tbody>
         <tr>
-          {header.map((data, key) => (
+          {header?.map((data, key) => (
             <th
               key={key}
               className="whitespace-nowrap text-center border-black border-1 p-2"
@@ -21,9 +23,12 @@ const Table = ({ matrix, rounded, roundedLeft, roundedRight, header }) => {
             {row.map((data, key2) => (
               <td
                 key={key2}
-                className="whitespace-nowrap border-black p-2 text-center border-1"
+                className={`whitespace-nowrap border-black p-2 text-center border-1 ${
+                  data.color &&
+                  COLORS[data.color].bg + " " + COLORS[data.color].text
+                }`}
               >
-                {data}
+                {data.data || data}
               </td>
             ))}
           </tr>

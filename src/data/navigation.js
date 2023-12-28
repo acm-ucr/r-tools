@@ -5,7 +5,6 @@ import { FaCodeMerge } from "react-icons/fa6";
 import { VscInsert } from "react-icons/vsc";
 import { GiSewedShell } from "react-icons/gi";
 import { FaBucket } from "react-icons/fa6";
-import { PiTreeStructureDuotone } from "react-icons/pi";
 import { CgListTree } from "react-icons/cg";
 import { BiMath } from "react-icons/bi";
 import { PiTable } from "react-icons/pi";
@@ -40,6 +39,7 @@ const DEV = [
         name: "Merge Sort",
         link: "/algorithm/merge-sort",
         description: "visualize selection sort",
+        release: true,
       },
       {
         icon: <FaSortAmountUp />,
@@ -65,18 +65,12 @@ const DEV = [
         name: "Bucket Sort",
         link: "/algorithm/bucket-sort",
         description: "visualize selection sort",
+        release: true,
       },
       {
         icon: <CgListTree />,
         name: "Heaps",
         link: "/algorithm/heaps",
-        description: "visualize selection sort",
-        release: true,
-      },
-      {
-        icon: <PiTreeStructureDuotone />,
-        name: "AVL Trees",
-        link: "/algorithm/avl-trees",
         description: "visualize selection sort",
       },
       {

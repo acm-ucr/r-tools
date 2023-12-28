@@ -1,4 +1,4 @@
-import { getArray } from "./getArray";
+import { getArray } from "./visualize.js";
 
 export const code = [
   "function quickSort(arr, low, high) {",

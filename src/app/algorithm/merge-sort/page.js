@@ -1,7 +1,7 @@
 "use client";
 import AlgorithmWrapper from "@/components/algorithm/AlgorithmWrapper";
-import { code, sort } from "@/util/sort/mergeSort";
-import { example } from "@/util/sort/mergeSort";
+import { code, sort, example } from "@/util/sort/mergeSort";
+
 const page = () => {
   return (
     <>
@@ -10,6 +10,7 @@ const page = () => {
         sort={sort}
         example={example}
         title="Merge Sort"
+        type="tables"
       />
     </>
   );

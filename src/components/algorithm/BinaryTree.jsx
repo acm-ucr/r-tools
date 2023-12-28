@@ -4,7 +4,7 @@ import React from "react";
 import { LinkVerticalLine } from "@visx/shape";
 import { Group } from "@visx/group";
 import { hierarchy, Tree } from "@visx/hierarchy";
-import { COLORS } from "@/data/icons";
+import { COLORS } from "@/data/colors";
 import { Text } from "@visx/text";
 
 const treeNode = (value) => {
