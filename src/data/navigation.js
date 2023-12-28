@@ -39,6 +39,7 @@ const DEV = [
         name: "Merge Sort",
         link: "/algorithm/merge-sort",
         description: "visualize selection sort",
+        release: true,
       },
       {
         icon: <FaSortAmountUp />,
@@ -64,13 +65,13 @@ const DEV = [
         name: "Bucket Sort",
         link: "/algorithm/bucket-sort",
         description: "visualize selection sort",
+        release: true,
       },
       {
         icon: <CgListTree />,
         name: "Heaps",
         link: "/algorithm/heaps",
         description: "visualize selection sort",
-        release: true,
       },
       {
         icon: <BsBarChartFill />,
