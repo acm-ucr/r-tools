@@ -72,7 +72,6 @@ const DEV = [
         name: "Heaps",
         link: "/algorithm/heaps",
         description: "visualize selection sort",
-        release: true,
       },
       {
         icon: <BsBarChartFill />,
