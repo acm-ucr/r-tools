@@ -31,17 +31,15 @@ const GraphPage = ({ directed, weighted }) => {
   return (
     <div className="flex w-full justify-evenly h-full">
       <div className="flex flex-col gap-3 h-full w-1/5">
-        <form>
-          <Input
-            placeholder="ex. A"
-            button="add"
-            onSubmit={() => addVertex(data, setData, size)}
-            value={data.value}
-            setValue={(newValue) => {
-              setData({ ...data, value: newValue });
-            }}
-          />
-        </form>
+        <Input
+          placeholder="ex. A"
+          button="add"
+          onSubmit={() => addVertex(data, setData, size)}
+          value={data.value}
+          setValue={(newValue) => {
+            setData({ ...data, value: newValue });
+          }}
+        />
         <VerticesList
           data={data}
           setData={setData}
