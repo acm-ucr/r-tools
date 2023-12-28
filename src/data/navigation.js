@@ -39,6 +39,7 @@ const DEV = [
         name: "Merge Sort",
         link: "/algorithm/merge-sort",
         description: "visualize selection sort",
+        release: true,
       },
       {
         icon: <FaSortAmountUp />,
