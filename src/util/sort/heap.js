@@ -1,127 +1,205 @@
-import { getArray as getArray } from "./visualize.js";
+import { getArrayColor, getTable } from "./visualize.js";
 
 export const code = [
-  "heapify(arr, N, i):",
+  "function heapSort(arr):",
+  "\xa0\xa0\xa0\xa0n = arr.length",
+  "\xa0\xa0\xa0\xa0// Build a max heap (rearrange array)",
+  "\xa0\xa0\xa0\xa0for i from floor(n/2) - 1 to 0:",
+  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0heapify(arr, i, n)",
+  "",
+  "\xa0\xa0\xa0\xa0// One by one extract elements from the heap",
+  "\xa0\xa0\xa0\xa0for i from n - 1 to 1:",
+  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0// Swap the root (maximum element) with the last element",
+  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0swap(arr[0], arr[i])",
+  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0// Call heapify on the reduced heap",
+  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0heapify(arr, 0, i)",
+  "",
+  "function heapify(arr, i, n):",
   "\xa0\xa0\xa0\xa0largest = i",
   "\xa0\xa0\xa0\xa0left = 2 * i + 1",
   "\xa0\xa0\xa0\xa0right = 2 * i + 2",
-  "\xa0\xa0\xa0\xa0if left < N and arr[left] > arr[largest]:",
+  "\xa0\xa0\xa0\xa0// Compare with left child",
+  "\xa0\xa0\xa0\xa0if left < n and arr[left] > arr[largest]:",
   "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0largest = left",
-  "\xa0\xa0\xa0\xa0if right < N and arr[right] > arr[largest:",
+  "\xa0\xa0\xa0\xa0// Compare with right child",
+  "\xa0\xa0\xa0\xa0if right < n and arr[right] > arr[largest]:",
   "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0largest = right",
-  "\xa0\xa0\xa0\xa0if (largest != i):",
-  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0arr[i], arr[largest] = arr[largest], arr[i]",
-  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0heapify(arr, N, largest)",
   "",
-  "heapSort(arr):",
-  "\xa0\xa0\xa0\xa0N = arr.length",
-  "\xa0\xa0\xa0\xa0for (i = floor(N / 2) - 1; i >= 0; i--):",
-  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0heapify(arr, N, i)",
-  "",
-  "\xa0\xa0\xa0\xa0for (i = N - 1; i > 0; i--):",
-  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0arr[0], arr[i] = arr[i], arr[0]",
-  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0heapify(arr, i, 0)",
+  "\xa0\xa0\xa0\xa0// Swap if the largest is not the root",
+  "\xa0\xa0\xa0\xa0if largest != i:",
+  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0swap(arr[i], arr[largest])",
+  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0// Recursively heapify the affected sub-tree",
+  "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0heapify(arr, largest, n)",
   "",
 ];
 
-function* heapify(arr, N, i) {
-  const lineOffset = 0;
-  yield { line: lineOffset, array: getArray(arr, []) };
+function* heapify(arr, i, n) {
   let largest = i;
-  yield { line: lineOffset + 1, array: getArray(arr, [largest]) };
-  const l = 2 * i + 1;
-  yield { line: lineOffset + 2, array: getArray(arr, [l, largest]) };
-  const r = 2 * i + 2;
-  yield { line: lineOffset + 3, array: getArray(arr, [l, r, largest]) };
-  yield { line: lineOffset + 4, array: getArray(arr, [l, largest]) };
-  if (l < N && arr[l] > arr[largest]) {
-    largest = l;
-    yield { line: lineOffset + 5, array: getArray(arr, [largest]) };
+  const left = 2 * i + 1;
+  const right = 2 * i + 2;
+  yield {
+    line: 14,
+    array: getTable([arr], [{ row: 0, col: largest, color: "purple" }]),
+    heap: getArrayColor(arr, { [largest]: "purple" }),
+  };
+  yield {
+    line: 15,
+    array: getTable(
+      [arr],
+      [
+        { row: 0, col: largest, color: "purple" },
+        { row: 0, col: left, color: "purple" },
+      ]
+    ),
+    heap: getArrayColor(arr, { [largest]: "purple", [left]: "purple" }),
+  };
+  yield {
+    line: 16,
+    array: getTable(
+      [arr],
+      [
+        { row: 0, col: largest, color: "purple" },
+        { row: 0, col: left, color: "purple" },
+        { row: 0, col: right, color: "purple" },
+      ]
+    ),
+    heap: getArrayColor(arr, {
+      [largest]: "purple",
+      [left]: "purple",
+      [right]: "purple",
+    }),
+  };
+  if (left < n && arr[left] > arr[largest]) {
+    yield {
+      line: 18,
+      array: getTable(
+        [arr],
+        [
+          { row: 0, col: largest, color: "purple" },
+          { row: 0, col: left, color: "purple" },
+        ]
+      ),
+      heap: getArrayColor(arr, {
+        [largest]: "purple",
+        [left]: "purple",
+      }),
+    };
+    largest = left;
+    yield {
+      line: 19,
+      array: getTable(
+        [arr],
+        [
+          { row: 0, col: largest, color: "purple" },
+          { row: 0, col: left, color: "purple" },
+        ]
+      ),
+      heap: getArrayColor(arr, {
+        [largest]: "purple",
+        [left]: "purple",
+      }),
+    };
   }
-  yield { line: lineOffset + 6, array: getArray(arr, [r, largest]) };
-  if (r < N && arr[r] > arr[largest]) {
-    largest = r;
-    yield { line: lineOffset + 7, array: getArray(arr, [largest]) };
+  if (right < n && arr[right] > arr[largest]) {
+    yield {
+      line: 21,
+      array: getTable(
+        [arr],
+        [
+          { row: 0, col: largest, color: "purple" },
+          { row: 0, col: right, color: "purple" },
+        ]
+      ),
+      heap: getArrayColor(arr, {
+        [largest]: "purple",
+        [right]: "purple",
+      }),
+    };
+    largest = right;
+    yield {
+      line: 22,
+      array: getTable(
+        [arr],
+        [
+          { row: 0, col: largest, color: "purple" },
+          { row: 0, col: right, color: "purple" },
+        ]
+      ),
+      heap: getArrayColor(arr, {
+        [largest]: "purple",
+        [right]: "purple",
+      }),
+    };
   }
-  yield { line: lineOffset + 8, array: getArray(arr, [largest, i]) };
   if (largest != i) {
-    yield { line: lineOffset + 9, array: getArray(arr, [largest, i]) };
     const swap = arr[i];
     arr[i] = arr[largest];
     arr[largest] = swap;
-    yield { line: lineOffset + 9, array: getArray(arr, [largest, i]) };
     yield {
-      line: lineOffset + 10,
-      array: getArray(arr, [largest, ...getChildrenIndices(arr, N, largest)]),
+      line: 27,
+      array: getTable(
+        [arr],
+        [
+          { row: 0, col: largest, color: "purple" },
+          { row: 0, col: i, color: "purple" },
+          { row: 0, col: right, color: "purple" },
+        ]
+      ),
+      heap: getArrayColor(arr, { [largest]: "purple", [i]: "purple" }),
     };
-    yield* heapify(arr, N, largest);
     yield {
-      line: lineOffset + 10,
-      array: getArray(arr, [largest, ...getChildrenIndices(arr, N, largest)]),
+      line: 28,
+      array: getTable([arr], [{ row: 0, col: largest, color: "teal" }]),
+      heap: getArrayColor(arr, { [largest]: "teal" }),
     };
+    yield* heapify(arr, largest, n);
   }
 }
 
-const getChildrenIndices = (arr, n, i) => {
-  let result = [];
-
-  const leftChildIndex = 2 * i + 1;
-  if (leftChildIndex < n) {
-    result.push(leftChildIndex);
-    const leftChildrenIndices = getChildrenIndices(arr, n, leftChildIndex);
-    result = [...result, ...leftChildrenIndices];
-  }
-  const rightChildIndex = 2 * i + 2;
-  if (rightChildIndex < n) {
-    result.push(rightChildIndex);
-    const rightChildrenIndices = getChildrenIndices(arr, n, rightChildIndex);
-    result = [...result, ...rightChildrenIndices];
-  }
-  return result;
-};
-
 export function* sort(arr) {
-  const lineOffset = 12;
-  yield { line: lineOffset, array: getArray(arr, []) };
-  const N = arr.length;
-  yield { line: lineOffset + 1, array: getArray(arr, []) };
-  yield { line: lineOffset + 2, array: getArray(arr, [Math.floor(N / 2) - 1]) };
-  for (let i = Math.floor(N / 2) - 1; i >= 0; i--) {
+  for (let i = Math.floor(arr.length / 2) - 1; i >= 0; i--) {
     yield {
-      line: lineOffset + 3,
-      array: getArray(arr, [i, ...getChildrenIndices(arr, N, i)]),
+      line: 3,
+      array: getTable([arr], [{ row: 0, col: i, color: "teal" }]),
+      heap: getArrayColor(arr, { [i]: "teal" }),
     };
-    yield* heapify(arr, N, i);
     yield {
-      line: lineOffset + 3,
-      array: getArray(arr, [i, ...getChildrenIndices(arr, N, i)]),
+      line: 4,
+      array: getTable([arr], [{ row: 0, col: i, color: "teal" }]),
+      heap: getArrayColor(arr, { [i]: "teal" }),
     };
-    yield { line: lineOffset + 2, array: getArray(arr, [i - 1]) };
+    yield* heapify(arr, i, arr.length);
   }
-  yield { line: lineOffset + 4, array: getArray(arr, []) };
 
-  yield { line: lineOffset + 5, array: getArray(arr, [N - 1]) };
-  for (let i = N - 1; i > 0; i--) {
-    yield { line: lineOffset + 6, array: getArray(arr, [i, 0]) };
-    const temp = arr[0];
-    arr[0] = arr[i];
-    arr[i] = temp;
-    yield { line: lineOffset + 6, array: getArray(arr, [0, i]) };
+  for (let i = arr.length - 1; i > 0; i--) {
     yield {
-      line: lineOffset + 7,
-      array: getArray(arr, [0, ...getChildrenIndices(arr, i, 0)]),
+      line: 7,
+      array: getTable(
+        [arr],
+        [
+          { row: 0, col: i, color: "pink" },
+          { row: 0, col: 0, color: "pink" },
+        ]
+      ),
+
+      heap: getArrayColor(arr, { [i]: "pink", 0: "pink" }),
     };
-    yield* heapify(arr, i, 0);
+    const swap = arr[i];
+    arr[i] = arr[0];
+    arr[0] = swap;
     yield {
-      line: lineOffset + 7,
-      array: getArray(arr, [0, ...getChildrenIndices(arr, i, 0)]),
+      line: 9,
+      array: getTable(
+        [arr],
+        [
+          { row: 0, col: i, color: "pink" },
+          { row: 0, col: 0, color: "pink" },
+        ]
+      ),
+      heap: getArrayColor(arr, { [i]: "pink", 0: "pink" }),
     };
-    yield { line: lineOffset + 5, array: getArray(arr, [i - 1]) };
+    yield* heapify(arr, 0, i);
   }
-  yield {
-    line: lineOffset + 8,
-    array: getArray(arr, []),
-  };
 }
 
 export const example = {

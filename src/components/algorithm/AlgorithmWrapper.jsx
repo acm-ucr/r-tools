@@ -119,7 +119,12 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
             {type === "sort" && (
               <BarChart width={600} height={450} data={current.array} />
             )}
-            {type === "heap" && <BinaryTree arr={current.array} />}
+            {type === "heap" && (
+              <div className="flex flex-col items-center gap-2">
+                <Table matrix={current.array} />
+                <BinaryTree arr={current.heap} />
+              </div>
+            )}
             {type === "tables" && (
               <div className="flex flex-col items-start gap-2">
                 {current.tables.map((table, key) => (
