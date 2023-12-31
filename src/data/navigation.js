@@ -69,9 +69,10 @@ const DEV = [
       },
       {
         icon: <CgListTree />,
-        name: "Heaps",
+        name: "Heap Sort",
         link: "/algorithm/heaps",
-        description: "visualize selection sort",
+        description: "visualize heap sort",
+        release: true,
       },
       {
         icon: <BsBarChartFill />,
