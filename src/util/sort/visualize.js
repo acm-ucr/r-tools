@@ -3,6 +3,11 @@ export const getArray = (arr, selection) =>
     number: num,
     highlight: selection[index],
   }));
+export const getArrayColor = (arr, selection) =>
+  arr.map((num, index) => ({
+    number: num,
+    color: selection[index],
+  }));
 
 export const getTable = (table, selection) =>
   table.map((row, index) =>
