@@ -9,10 +9,6 @@ import { CgListTree } from "react-icons/cg";
 import { BiMath } from "react-icons/bi";
 import { PiTable } from "react-icons/pi";
 import { PiGraph } from "react-icons/pi";
-import { PiGraphBold } from "react-icons/pi";
-import { FaGithub } from "react-icons/fa";
-import { SiTailwindcss } from "react-icons/si";
-import { TbBrandNextjs } from "react-icons/tb";
 import { FaPowerOff } from "react-icons/fa6";
 
 const DEV = [
@@ -31,40 +27,40 @@ const DEV = [
         icon: <TbChartBubbleFilled />,
         name: "Bubble Sort",
         link: "/algorithm/bubble-sort",
-        description: "visualize selection sort",
+        description: "visualize bubble sort",
         release: true,
       },
       {
         icon: <FaCodeMerge />,
         name: "Merge Sort",
         link: "/algorithm/merge-sort",
-        description: "visualize selection sort",
+        description: "visualize merge sort",
         release: true,
       },
       {
         icon: <FaSortAmountUp />,
         name: "Quick Sort",
         link: "/algorithm/quick-sort",
-        description: "visualize selection sort",
+        description: "visualize quick sort",
       },
       {
         icon: <VscInsert />,
         name: "Insertion Sort",
         link: "/algorithm/insertion-sort",
-        description: "visualize selection sort",
+        description: "visualize insertion sort",
         release: true,
       },
       {
         icon: <GiSewedShell />,
         name: "Shell Sort",
         link: "/algorithm/shell-sort",
-        description: "visualize selection sort",
+        description: "visualize shell sort",
       },
       {
         icon: <FaBucket />,
         name: "Bucket Sort",
         link: "/algorithm/bucket-sort",
-        description: "visualize selection sort",
+        description: "visualize bucket sort",
         release: true,
       },
       {
@@ -78,7 +74,7 @@ const DEV = [
         icon: <BsBarChartFill />,
         name: "Bogo Sort",
         link: "/algorithm/bogo-sort",
-        description: "visualize selection sort",
+        description: "O(∞) sorting algorithm",
       },
     ],
   },
@@ -90,14 +86,14 @@ const DEV = [
         icon: <BiMath />,
         name: "Boolean Simplifier",
         link: "/math/boolean-simplifier",
-        description: "visualize selection sort",
+        description: "boolean algebra calculator",
         release: true,
       },
       {
         icon: <PiTable />,
         name: "Truth Tables",
         link: "/math/truth-tables",
-        description: "visualize selection sort",
+        description: "build truth tables for boolean expressions",
         release: true,
       },
     ],
@@ -110,56 +106,14 @@ const DEV = [
         icon: <PiGraph />,
         name: "Graph",
         link: "/editor/graph",
-        description: "visualize selection sort",
+        description: "draw graphs",
         release: true,
       },
       {
         icon: <FaPowerOff />,
         name: "State Machine",
         link: "/editor/state-machine",
-        description: "visualize selection sort",
-      },
-    ],
-  },
-  {
-    name: "CHEAT SHEET",
-    link: "/cheat-sheet",
-    sub: [
-      {
-        icon: <FaGithub />,
-        name: "Github",
-        link: "/cheat-sheet/github",
-        description: "visualize selection sort",
-      },
-      {
-        icon: <PiGraphBold />,
-        name: "Pre-req Acyclic Graph",
-        link: "/cheat-sheet/pre-req",
-        description: "visualize selection sort",
-      },
-      {
-        icon: <BsBarChartFill />,
-        name: "LATEX",
-        link: "/latex",
-        description: "visualize selection sort",
-      },
-    ],
-  },
-  {
-    name: "WEB DEV",
-    link: "/web-dev",
-    sub: [
-      {
-        icon: <SiTailwindcss />,
-        name: "Tailwind",
-        link: "/web-dev/tailwind",
-        description: "visualize selection sort",
-      },
-      {
-        icon: <TbBrandNextjs />,
-        name: "Next.js",
-        link: "/web-dev/nextjs",
-        description: "visualize selection sort",
+        description: " ",
       },
     ],
   },
