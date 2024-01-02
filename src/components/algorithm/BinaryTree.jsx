@@ -11,7 +11,7 @@ const treeNode = (value) => {
   return {
     name: value.number,
     children: [],
-    highlight: value.highlight,
+    color: value.color,
   };
 };
 
@@ -92,25 +92,25 @@ const BinaryTree = ({
                   return (
                     <Group top={top} left={left} key={key}>
                       <circle
-                        strokeWidth={node.data.highlight ? 6 : 0}
+                        strokeWidth={node.data.color ? 6 : 1}
                         stroke={
-                          Object.values(COLORS)[
-                            key % Object.keys(COLORS).length
-                          ].textColor
+                          node.data.color
+                            ? COLORS[node.data.color].textColor
+                            : "black"
                         }
                         r={nodeSize}
                         fill={
-                          Object.values(COLORS)[
-                            key % Object.keys(COLORS).length
-                          ].bgColor
+                          node.data.color
+                            ? COLORS[node.data.color].bgColor
+                            : "white"
                         }
                       />
                       <Text
                         style={{ fontWeight: 600, fontSize: "25px" }}
                         fill={
-                          Object.values(COLORS)[
-                            key % Object.keys(COLORS).length
-                          ].textColor
+                          node.data.color
+                            ? COLORS[node.data.color].textColor
+                            : "black"
                         }
                         textAnchor="middle"
                         dy=".33em"
