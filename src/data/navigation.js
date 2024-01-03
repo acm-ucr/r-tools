@@ -99,20 +99,20 @@ const DEV = [
     ],
   },
   {
-    name: "EDITOR",
-    link: "/editor",
+    name: "GRAPH",
+    link: "/graph",
     sub: [
       {
         icon: <PiGraph />,
-        name: "Graph",
-        link: "/editor/graph",
+        name: "Editor",
+        link: "/graph/editor",
         description: "draw graphs",
         release: true,
       },
       {
         icon: <FaPowerOff />,
         name: "State Machine",
-        link: "/editor/state-machine",
+        link: "/graph/state-machine",
         description: " ",
       },
     ],
