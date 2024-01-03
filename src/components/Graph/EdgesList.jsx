@@ -8,7 +8,7 @@ const EdgesList = ({ directed, weighted, data, setData, edges }) => {
     return count;
   }, [edges]);
   return (
-    <div className=" bg-rtools-blue-300 rounded-xl py-2 flex flex-col w-full">
+    <div className=" bg-rtools-blue-300 rounded-xl py-2 flex flex-col w-full h-[40vh]">
       <div className="flex justify-between px-3">
         <div>edges</div>
         <div>

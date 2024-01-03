@@ -2,7 +2,7 @@ import VerticesEntry from "./VerticesEntry";
 
 const VerticesList = ({ data, setData, edges }) => {
   return (
-    <div className="flex-grow bg-rtools-blue-300 rounded-xl py-2 px-3">
+    <div className="flex-grow bg-rtools-blue-300 rounded-xl py-2 px-3 h-[70vh] overflow-y-scroll">
       <div className="flex justify-between">
         <div>vertices</div>
         <div>
