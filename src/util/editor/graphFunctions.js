@@ -1,5 +1,6 @@
-import shortUUID from "short-uuid";
 class GraphFunctions {
+  static currentID = 0;
+
   /**
    * Add a vertex to the graph with a randomly generated id and the value of the input box.
    * @param {Object} data graph data
@@ -8,14 +9,14 @@ class GraphFunctions {
    */
   static addVertex = (data, setData, size) => {
     event.preventDefault();
-    const id = shortUUID.generate();
+    const id = this.currentID++;
     setData({
       ...data,
-      value: "",
+      input: "",
       vertices: {
         ...data.vertices,
         [id]: {
-          value: data.value,
+          value: data.input,
           radius: 25,
           x: Math.random() * (size - 100) + 50,
           y: Math.random() * (size - 100) + 50,
@@ -229,33 +230,48 @@ class GraphFunctions {
   };
 
   /**
-   * Return an object with twoWay and oneWay properties.
-   * oneWay is a map of vertex ids to a list of edges that come out of that vertex.
-   * twoWay is a map of vertex ids to a list of edges that come out of that vertex and go into that vertex.
+   * Return the modified graph so that if there is at least an edge from vertex1
+   * to vertex2 then change it to an one way edge from the vertex with a smaller id to the bigger
    * @param {Object} data graph data
-   * @return {Object} an object with twoWay and oneWay properties.
+   * @return {Object} an object with oneWay undirected graph
    */
-  static getUndirectedEdge = (data) => {
-    if (!data.vertices || !data.edges) return { oneWay: {}, twoWay: {} };
-    const oneWay = {};
-    const twoWay = {};
+  static getOneWayUndirectedEdge = (data) => {
+    if (!data.vertices || !data.edges) return {};
+    const result = {};
     Object.keys(data.vertices).forEach((vertex) => {
-      oneWay[vertex] = [];
-      twoWay[vertex] = [];
+      result[vertex] = [];
     });
-    Object.entries(data.edges).forEach(([from, to]) => {
-      to.forEach((e) => {
-        if (
-          !oneWay[e.to].some((to) => to.to === from) &&
-          !oneWay[from].some((to) => to.to === e.to)
-        )
-          oneWay[from].push(e);
-        if (!twoWay[e.to].some((to) => to.to === from))
-          twoWay[e.to].push({ ...e, to: from });
-        if (!twoWay[from].some((to) => to.to === e.to)) twoWay[from].push(e);
+    Object.entries(data.edges).forEach(([vertex1, edges]) => {
+      edges.forEach((vertex2) => {
+        const from = vertex1 < vertex2.to ? vertex1 : vertex2.to;
+        const to = vertex1 < vertex2.to ? vertex2.to : vertex1;
+        if (!result[from].some((e) => e.to === to))
+          result[from].push({ ...vertex2, to: to });
       });
     });
-    return { oneWay: oneWay, twoWay: twoWay };
+    return result;
+  };
+
+  /**
+   * Return the modified graph so that if there is at least an edge from vertex1 to vertex2 then change it to a two way edge
+   * @param {Object} data graph data
+   * @return {Object} an object with oneWay undirected graph
+   */
+  static getTwoWayUndirectedEdge = (data) => {
+    if (!data.vertices || !data.edges) return {};
+    const result = {};
+    Object.keys(data.vertices).forEach((vertex) => {
+      result[vertex] = [];
+    });
+    Object.entries(data.edges).forEach(([vertex1, edges]) => {
+      edges.forEach((vertex2) => {
+        if (!result[vertex1].some((e) => e.to === vertex2.to)) {
+          result[vertex1].push({ ...vertex2, to: vertex2.to });
+          result[vertex2.to].push({ ...vertex2, to: vertex1 });
+        }
+      });
+    });
+    return result;
   };
 
   /**
@@ -331,6 +347,7 @@ export const {
   setEdgeColor,
   setEdgeWeight,
   setVertexColor,
-  getUndirectedEdge,
+  getOneWayUndirectedEdge,
+  getTwoWayUndirectedEdge,
   getAdjacencyMatrix,
 } = GraphFunctions;
