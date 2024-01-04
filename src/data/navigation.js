@@ -110,6 +110,13 @@ const DEV = [
         release: true,
       },
       {
+        icon: <PiGraph />,
+        name: "Dijkstra",
+        link: "/graph/dijkstra",
+        description: "run Dijkstra on graphs",
+        release: true,
+      },
+      {
         icon: <FaPowerOff />,
         name: "State Machine",
         link: "/graph/state-machine",
