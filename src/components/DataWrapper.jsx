@@ -11,6 +11,8 @@ const DataWrapper = ({ children }) => {
     selectedColor: null,
     input: "",
     tool: "cursor",
+    directed: false,
+    weighted: false,
   });
   return (
     <DataContext.Provider value={{ data, setData }}>

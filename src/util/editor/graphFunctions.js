@@ -165,16 +165,38 @@ class GraphFunctions {
    * @param {Object} e file input component event
    * @param {Object} data graph data
    * @param {function} setData function to modifu graph data
+   * @param {boolean} editable if the graph is editable or used in algorithm pages
    */
-  static importJSON = async (e, data, setData) => {
+  static importJSON = async (e, data, setData, editable = true) => {
     const fileReader = new FileReader();
     fileReader.readAsText(e.target.files[0], "UTF-8");
     fileReader.onload = (e) => {
-      setData({
-        ...data,
-        vertices: JSON.parse(e.target.result).vertices,
-        edges: JSON.parse(e.target.result).edges,
-      });
+      if (editable)
+        setData({
+          ...data,
+          vertices: JSON.parse(e.target.result).vertices,
+          edges: JSON.parse(e.target.result).edges,
+        });
+      else {
+        const newVertices = {};
+        const newEdges = {};
+        Object.entries(JSON.parse(e.target.result).vertices).forEach(
+          ([key, vertex]) => {
+            newVertices[key] = { ...vertex, color: "white" };
+          }
+        );
+        Object.entries(JSON.parse(e.target.result).edges).forEach(
+          ([key, edge]) => {
+            newEdges[key] = edge.map((e) => ({ ...e, color: "white" }));
+          }
+        );
+        setData({
+          ...data,
+          vertices: newVertices,
+          edges: newEdges,
+          tool: "cursor",
+        });
+      }
     };
   };
 
@@ -364,6 +386,29 @@ class GraphFunctions {
       selectedVertex: data.selectedVertex === vertex ? null : vertex,
     });
   };
+
+  /**
+   * prepare graph to run an algorithm
+   * @param {Object} data graph data
+   * @param {function} setData function to modifu graph data
+   * @return {void}
+   */
+  static initForAlgo = (data, setData) => {
+    const newVertices = {};
+    Object.entries(data.vertices).forEach(([key, vertex]) => {
+      newVertices[key] = { ...vertex, color: "white" };
+    });
+    const newEdges = {};
+    Object.entries(data.edges).forEach(([key, edge]) => {
+      newEdges[key] = edge.map((e) => ({ ...e, color: "white" }));
+    });
+    setData({
+      ...data,
+      vertices: newVertices,
+      edges: newEdges,
+      tool: "cursor",
+    });
+  };
 }
 
 export default GraphFunctions;
@@ -386,4 +431,5 @@ export const {
   getAdjacencyMatrix,
   setSelectedVertex,
   setSelectedEdge,
+  initForAlgo,
 } = GraphFunctions;
