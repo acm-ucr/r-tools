@@ -11,6 +11,9 @@ import {
   deleteEdge,
   getOneWayUndirectedEdge,
   setVertexColor,
+  setSelectedVertex,
+  setSelectedEdge,
+  deleteVertex,
 } from "@/util/editor/graphFunctions";
 import { curveCatmullRom } from "@visx/curve";
 
@@ -87,10 +90,7 @@ const Graph = ({
                 <LinePath
                   markerEnd={`url(#marker-arrow-${to.color})`}
                   onMouseDown={(e) => {
-                    setData({
-                      ...data,
-                      selectedEdge: { from: from, to: to.to },
-                    });
+                    setSelectedEdge(data, setData, { from: from, to: to.to });
                   }}
                   onMouseEnter={(e) => {
                     if (e.buttons === 1) {
@@ -151,10 +151,7 @@ const Graph = ({
               x={d.x}
               y={d.y}
               onDragStart={() => {
-                setData({
-                  ...data,
-                  selectedVertex: data.selectedVertex === id ? null : id,
-                });
+                setSelectedVertex(data, setData, id);
                 if (data.tool === "pen" && data.selectedVertex) {
                   addEdge(
                     data,
@@ -201,13 +198,18 @@ const Graph = ({
                       isDragging || data.selectedVertex === id ? 4 : 2
                     }
                     onMouseMove={(e) => {
-                      if (e.buttons === 1)
+                      if (e.buttons === 1) {
                         if (data.tool === "brush")
                           setVertexColor(data, setData, id, data.selectedColor);
+                        if (data.tool === "eraser")
+                          deleteVertex(data, setData, id);
+                      }
                     }}
                     onMouseDown={() => {
                       if (data.tool === "brush")
                         setVertexColor(data, setData, id, data.selectedColor);
+                      if (data.tool === "eraser")
+                        deleteVertex(data, setData, id);
                     }}
                   />
                   <Text
@@ -285,10 +287,7 @@ const Graph = ({
                 {weighted && (
                   <Text
                     onMouseDown={(e) => {
-                      setData({
-                        ...data,
-                        selectedEdge: { from: from, to: to.to },
-                      });
+                      setSelectedEdge(data, setData, { from: from, to: to.to });
                     }}
                     x={(x1 + x2) / 2 + (length / 25) * dy}
                     y={(y1 + y2) / 2 + -(length / 25) * dx}

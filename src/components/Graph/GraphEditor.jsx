@@ -12,6 +12,7 @@ import {
   downloadSVG,
   importJSON,
   resetColor,
+  setEdgeWeight,
   getTwoWayUndirectedEdge,
   getOneWayUndirectedEdge,
 } from "@/util/editor/graphFunctions";
@@ -106,7 +107,14 @@ const GraphEditor = () => {
           <Button text="DOWNLOAD SVG" onClick={downloadSVG} />
           <Button text="DOWNLOAD PNG" onClick={downloadPNG} />
           <Button text="DOWNLOAD JSON" onClick={() => downLoadJSON(data)} />
-          <input type="file" onChange={(e) => importJSON(e, data, setData)} />
+          <input
+            type="file"
+            onChange={(e) => {
+              importJSON(e, data, setData);
+              e.target.value = null;
+            }}
+            value={null}
+          />
         </div>
       </div>
     </>

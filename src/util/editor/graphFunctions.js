@@ -38,8 +38,8 @@ class GraphFunctions {
     delete newVertices[id];
     const newEdges = {};
     Object.entries(data.edges).forEach(([edge, d]) => {
-      if (edge !== data.selectedVertex) {
-        newEdges[edge] = d.filter((e) => e.to != data.selectedVertex);
+      if (edge !== id) {
+        newEdges[edge] = d.filter((e) => e.to !== id);
       }
     });
     setData({
@@ -330,6 +330,40 @@ class GraphFunctions {
       },
     });
   };
+
+  /**
+   * Set the selected edge to the edge specified by edge.
+   * @param {Object} data graph data
+   * @param {function} setData function to modifu graph data
+   * @param {Object} edge the edge to set as selected
+   * @return {void}
+   */
+  static setSelectedEdge = (data, setData, edge) => {
+    setData({
+      ...data,
+      selectedVertex: null,
+      selectedEdge:
+        data.selectedEdge &&
+        data.selectedEdge.to === edge.to &&
+        data.selectedEdge.from === edge.from
+          ? null
+          : edge,
+    });
+  };
+  /**
+   * Set the selected vertex to the vertex specified by vertex.
+   * @param {Object} data graph data
+   * @param {function} setData function to modifu graph data
+   * @param {string} vertex the vertex to set as selected
+   * @return {void}
+   */
+  static setSelectedVertex = (data, setData, vertex) => {
+    setData({
+      ...data,
+      selectedEdge: null,
+      selectedVertex: data.selectedVertex === vertex ? null : vertex,
+    });
+  };
 }
 
 export default GraphFunctions;
@@ -350,4 +384,6 @@ export const {
   getOneWayUndirectedEdge,
   getTwoWayUndirectedEdge,
   getAdjacencyMatrix,
+  setSelectedVertex,
+  setSelectedEdge,
 } = GraphFunctions;
