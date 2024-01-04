@@ -3,7 +3,7 @@ import EdgesList from "@/components/Graph/EdgesList";
 import Toggle from "@/components/Graph/Toggle";
 import VerticesList from "@/components/Graph/VerticesList";
 import Input from "@/components/Input";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Button from "@/components/Button";
 import {
   addVertex,
@@ -12,25 +12,19 @@ import {
   downloadSVG,
   importJSON,
   resetColor,
+  setEdgeWeight,
   getTwoWayUndirectedEdge,
   getOneWayUndirectedEdge,
 } from "@/util/editor/graphFunctions";
 import { Toolbar } from "@/components/Graph/Toolbar";
 import Graph from "@/components/Graph/Graph";
 import ColorPicker from "@/components/Graph/ColorPicker";
+import DataContext from "../DataContext";
 const size = 500;
 const GraphEditor = () => {
   const [directed, setDirected] = useState(true);
   const [weighted, setWeighted] = useState(false);
-  const [data, setData] = useState({
-    vertices: {},
-    edges: {},
-    selectedVertex: null,
-    selectedEdge: null,
-    selectedColor: null,
-    input: "",
-    tool: "cursor",
-  });
+  const { data, setData } = useContext(DataContext);
   const handleUserKeyPress = (e) => {
     if (e.code.startsWith("Digit") && data.selectedEdge)
       setEdgeWeight(
@@ -106,7 +100,14 @@ const GraphEditor = () => {
           <Button text="DOWNLOAD SVG" onClick={downloadSVG} />
           <Button text="DOWNLOAD PNG" onClick={downloadPNG} />
           <Button text="DOWNLOAD JSON" onClick={() => downLoadJSON(data)} />
-          <input type="file" onChange={(e) => importJSON(e, data, setData)} />
+          <input
+            type="file"
+            onChange={(e) => {
+              importJSON(e, data, setData);
+              e.target.value = null;
+            }}
+            value={null}
+          />
         </div>
       </div>
     </>

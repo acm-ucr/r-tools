@@ -1,7 +1,7 @@
 import { BsCursorFill } from "react-icons/bs";
 import { FaEraser, FaPaintBrush, FaPen, FaTrash } from "react-icons/fa";
 import { useState } from "react";
-import { clear, deleteVertex } from "@/util/editor/graphFunctions";
+import { clear, deleteEdge, deleteVertex } from "@/util/editor/graphFunctions";
 
 const style = "text-rtools-blue-100 hover:text-white cursor-pointer";
 const tools = [
@@ -37,7 +37,17 @@ export const Toolbar = ({ data, setData }) => {
       <div className="flex gap-2 text-xl ml-2">
         <FaTrash
           className={style}
-          onClick={() => deleteVertex(data, setData, data.selectedVertex)}
+          onClick={() => {
+            if (data.selectedVertex)
+              deleteVertex(data, setData, data.selectedVertex);
+            if (data.selectedEdge)
+              deleteEdge(
+                data,
+                setData,
+                data.selectedEdge.from,
+                data.selectedEdge.to
+              );
+          }}
           onMouseEnter={() =>
             setNotes("Select to delete currently highlighted node")
           }

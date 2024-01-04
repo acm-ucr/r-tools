@@ -5,6 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Montserrat } from "next/font/google";
 import Footer from "@/components/Footer";
 import { Toaster } from "react-hot-toast";
+import DataWrapper from "@/components/DataWrapper";
+
 const montserrat = Montserrat({ subsets: ["latin"] });
 
 export const metadata = {
@@ -18,12 +20,14 @@ export default function RootLayout({ children }) {
       <body
         className={`${montserrat.className} bg-rtools-blue-400 min-h-screen text-white flex flex-col`}
       >
-        <Toaster />
-        <Navigation />
-        <div className="flex flex-col flex-grow w-full pt-[8vh] items-center justify-center overflow-x-hidden">
-          {children}
-        </div>
-        <Footer />
+        <DataWrapper>
+          <Toaster />
+          <Navigation />
+          <div className="flex flex-col flex-grow w-full pt-[8vh] items-center justify-center overflow-x-hidden">
+            {children}
+          </div>
+          <Footer />
+        </DataWrapper>
       </body>
     </html>
   );
