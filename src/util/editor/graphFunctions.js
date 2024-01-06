@@ -403,29 +403,6 @@ class GraphFunctions {
       selectedVertex: data.selectedVertex === vertex ? null : vertex,
     });
   };
-
-  /**
-   * prepare graph to run an algorithm
-   * @param {Object} data graph data
-   * @param {function} setData function to modifu graph data
-   * @return {void}
-   */
-  static initForAlgo = (data, setData) => {
-    const newVertices = {};
-    Object.entries(data.vertices).forEach(([key, vertex]) => {
-      newVertices[key] = { ...vertex, color: "white" };
-    });
-    const newEdges = {};
-    Object.entries(data.edges).forEach(([key, edge]) => {
-      newEdges[key] = edge.map((e) => ({ ...e, color: "white" }));
-    });
-    setData({
-      ...data,
-      vertices: newVertices,
-      edges: newEdges,
-      tool: "cursor",
-    });
-  };
 }
 
 export default GraphFunctions;
@@ -448,5 +425,4 @@ export const {
   getAdjacencyMatrix,
   setSelectedVertex,
   setSelectedEdge,
-  initForAlgo,
 } = GraphFunctions;

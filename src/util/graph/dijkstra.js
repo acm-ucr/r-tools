@@ -40,6 +40,7 @@ const generateGraph = (
   });
   return { vertices: newVertices, edges: newEdges };
 };
+
 class MinHeap {
   constructor() {
     this.heap = [];
@@ -91,18 +92,24 @@ class MinHeap {
     return this.heap.length;
   }
 }
+
 export function* algorithm(data, start) {
+  /* highlight color:
+    yellow: cloud
+    purple: edges in the minheap
+    pink: the edge with the
+    teal: the current vertex
+   */
   const vertices = data.vertices;
   const edges = data.edges;
   const visited = {};
   const distances = {};
   const previous = {};
-  let current = start;
-  const pq = new MinHeap();
+  const minHeap = new MinHeap();
 
   // initialize distances and previous
   Object.entries(vertices).forEach(([id, vertex]) => {
-    if (id === current) {
+    if (id === start) {
       distances[id] = 0;
     } else {
       distances[id] = Infinity;
@@ -110,29 +117,34 @@ export function* algorithm(data, start) {
     previous[id] = null;
   });
 
-  pq.push({ from: current, to: current });
-  while (pq.getLength()) {
-    const minEdge = pq.pop();
-    current = minEdge.to;
+  minHeap.push({ from: start, to: start });
+
+  while (minHeap.getLength()) {
+    const minEdge = minHeap.pop();
+    const current = minEdge.to;
     edges[minEdge.from] = edges[minEdge.from].map((edge) => {
       if (edge.to === minEdge.to) return { ...edge, color: "yellow" };
       return edge;
     });
+
     yield {
       table: generateTable(vertices, start, distances, previous),
       graph: generateGraph(vertices, edges, {}, [
         { from: minEdge.from, to: minEdge.to, color: "pink" },
       ]),
     };
+
     if (!visited[current]) {
       visited[current] = true;
-      vertices[current].color = "yellow";
+      vertices[current].color = "teal";
       yield {
         table: generateTable(vertices, start, distances, previous),
         graph: { vertices: vertices, edges: edges },
       };
+      // iterate through the edges come out of the current vertex
       for (let i = 0; i < edges[current].length; i++) {
         const edge = edges[current][i];
+        // if the vertex is visited, move the edge into the cloud, skip
         if (visited[edge.to]) {
           edges[current][i].color = "yellow";
           yield {
@@ -143,7 +155,7 @@ export function* algorithm(data, start) {
           };
           continue;
         }
-        pq.push({ from: current, ...edges[current][i] });
+        minHeap.push({ from: current, ...edges[current][i] });
         edges[current][i].color = "purple";
         const newDistance = distances[current] + edge.weight;
         yield {
@@ -157,6 +169,8 @@ export function* algorithm(data, start) {
           previous[edge.to] = vertices[current].value;
         }
       }
+
+      vertices[current].color = "yellow";
       yield {
         table: generateTable(vertices, start, distances, previous),
         graph: { vertices: vertices, edges: edges },

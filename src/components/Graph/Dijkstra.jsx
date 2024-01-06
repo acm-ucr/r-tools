@@ -2,7 +2,7 @@
 import { useContext, useEffect, useState } from "react";
 import Graph from "@/components/Graph/Graph";
 import DataContext from "../DataContext";
-import { initForAlgo, importJSON } from "@/util/editor/graphFunctions";
+import { importJSON } from "@/util/editor/graphFunctions";
 import { algorithm } from "@/util/graph/dijkstra";
 import toast from "react-hot-toast";
 import Table from "../Table";
@@ -25,20 +25,34 @@ const Dijkstra = () => {
       setCurrent(next.value);
     }
   };
-  const handleRun = () => {
+  const handlePlay = () => {
     if (!data.selectedVertex) {
-      toast.error("Please select a starting vertex");
+      toast.error("Please select a vertex to start");
       return;
     }
-    const graphAlgorithm = algorithm(data, data.selectedVertex);
-    setStepIndex(0);
-    setSteps(graphAlgorithm);
-    setCurrent(graphAlgorithm.next().value);
+    setPlay(!play);
   };
 
   useEffect(() => {
-    setCurrent(null);
-    initForAlgo(data, setData);
+    const newData = data;
+    Object.entries(data.vertices).forEach(([key, vertex]) => {
+      newData.vertices[key] = { ...vertex, color: "white" };
+    });
+    Object.entries(data.edges).forEach(([key, edge]) => {
+      newData.edges[key] = edge.map((e) => ({ ...e, color: "white" }));
+    });
+    setData({
+      ...newData,
+      tool: "cursor",
+    });
+    if (data.selectedVertex) {
+      const graphAlgorithm = algorithm(newData, data.selectedVertex);
+      setStepIndex(0);
+      setSteps(graphAlgorithm);
+      setCurrent(graphAlgorithm.next().value);
+    } else {
+      setCurrent(null);
+    }
   }, [data.selectedVertex]);
 
   useEffect(() => {
@@ -53,20 +67,14 @@ const Dijkstra = () => {
 
   return (
     <>
-      <div className="flex gap-10 justify-center my-2">
-        {data.directed ? <div>directed</div> : <div>undirected</div>}
-        {data.weighted ? <div>weighted</div> : <div>unweighted</div>}
-      </div>
       <div className="flex w-full justify-evenly">
-        <div className="flex flex-col gap-2">
-          <Graph
-            width={size}
-            height={size}
-            setData={setData}
-            data={{ ...data, ...current?.graph }}
-            editable={false}
-          />
-        </div>
+        <Graph
+          width={size}
+          height={size}
+          setData={setData}
+          data={{ ...data, ...current?.graph }}
+          editable={false}
+        />
         {current?.table && (
           <Table
             matrix={current?.table}
@@ -74,7 +82,7 @@ const Dijkstra = () => {
             rounded={true}
           />
         )}
-        <button onClick={handleRun}>run</button>
+        <button onClick={handlePlay}>play</button>
         <button onClick={handleStep}>step</button>
         <input
           type="file"
