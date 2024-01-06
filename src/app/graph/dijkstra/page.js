@@ -1,4 +1,4 @@
-import GraphAlgorithm from "@/components/Graph/GraphAlgorithm";
+import GraphAlgorithm from "@/components/Graph/Dijkstra";
 import Header from "@/components/Header";
 
 const page = () => {
