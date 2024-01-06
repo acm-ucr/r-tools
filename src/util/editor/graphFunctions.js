@@ -173,7 +173,13 @@ class GraphFunctions {
     fileReader.onload = (e) => {
       if (editable)
         setData({
-          ...data,
+          selectedVertex: null,
+          selectedEdge: null,
+          selectedColor: null,
+          input: "",
+          tool: "cursor",
+          directed: JSON.parse(e.target.result).directed,
+          weighted: JSON.parse(e.target.result).weighted,
           vertices: JSON.parse(e.target.result).vertices,
           edges: JSON.parse(e.target.result).edges,
         });
@@ -191,7 +197,13 @@ class GraphFunctions {
           }
         );
         setData({
-          ...data,
+          selectedVertex: null,
+          selectedEdge: null,
+          selectedColor: null,
+          input: "",
+          tool: "cursor",
+          directed: JSON.parse(e.target.result).directed,
+          weighted: JSON.parse(e.target.result).weighted,
           vertices: newVertices,
           edges: newEdges,
           tool: "cursor",
@@ -205,7 +217,12 @@ class GraphFunctions {
    * @param {Object} data graph data
    */
   static downLoadJSON = (data) => {
-    const json = JSON.stringify({ vertices: data.vertices, edges: data.edges });
+    const json = JSON.stringify({
+      vertices: data.vertices,
+      edges: data.edges,
+      directed: data.directed,
+      weighted: data.weighted,
+    });
     const blob = new Blob([json], { type: "application/json" });
     const element = document.createElement("a");
     element.download = "data.json";
