@@ -3,11 +3,11 @@ import { useContext, useEffect, useState } from "react";
 import Graph from "@/components/Graph/Graph";
 import DataContext from "../DataContext";
 import { importJSON } from "@/util/editor/graphFunctions";
-import { algorithm } from "@/util/graph/dijkstra";
 import toast from "react-hot-toast";
 import Table from "../Table";
+
 const size = 500;
-const Dijkstra = () => {
+const GraphAlgorithm = ({ algorithm }) => {
   const { data, setData } = useContext(DataContext);
   const [steps, setSteps] = useState(null);
   const [stepIndex, setStepIndex] = useState(0);
@@ -97,4 +97,4 @@ const Dijkstra = () => {
   );
 };
 
-export default Dijkstra;
+export default GraphAlgorithm;
