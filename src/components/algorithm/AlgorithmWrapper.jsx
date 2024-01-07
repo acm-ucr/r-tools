@@ -17,6 +17,10 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
   const [show, setShow] = useState(true);
   const [play, setPlay] = useState(false);
 
+  const onPlay = () => {
+    setPlay(!play);
+  };
+
   const handleGenerate = () => {
     if (!input) {
       toast.error(
@@ -101,7 +105,7 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
           />
         </div>
         <ArrayToolbar
-          setPlay={setPlay}
+          onPlay={onPlay}
           play={play}
           restart={handleGenerate}
           back={handleBack}

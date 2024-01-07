@@ -12,7 +12,7 @@ const ArrayToolbar = ({
   back,
   show,
   setShow,
-  setPlay,
+  onPlay,
   play,
 }) => {
   return (
@@ -34,7 +34,7 @@ const ArrayToolbar = ({
       </div>
 
       <div
-        onClick={() => setPlay(!play)}
+        onClick={onPlay}
         className={`hover:text-white duration-300 ${
           play ? "text-white" : "text-rtools-blue-100"
         }  py-2 px-2 flex items-center cursor-pointer select-none`}
