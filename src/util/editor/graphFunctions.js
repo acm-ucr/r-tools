@@ -57,8 +57,9 @@ class GraphFunctions {
    * @param {string} from the id of the vertec that the edge comes out of
    * @param {string} to the id of the vertex that edge goes into
    * @param {('white'|'pink'|'teal'|'purple'|'orange'|'yellow')} color the color of the edge
+   * @param {int} weight the weight of the edge
    */
-  static addEdge = (data, setData, from, to, color = "whtie") => {
+  static addEdge = (data, setData, from, to, color = "whtie", weight = 1) => {
     if (data.edges[from]?.some((e) => e.to === to)) return;
     setData({
       ...data,
@@ -66,8 +67,8 @@ class GraphFunctions {
       edges: {
         ...data.edges,
         [from]: data.edges[from]
-          ? [...data.edges[from], { to: to, color: color }]
-          : [{ to: to, color: color }],
+          ? [...data.edges[from], { to: to, color: color, weight: weight }]
+          : [{ to: to, color: color, weight: weight }],
       },
     });
     return;
