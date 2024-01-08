@@ -7,7 +7,7 @@ const page = () => {
   return (
     <>
       <Header text="Dijkstra" />
-      <GraphAlgorithm algorithm={algorithm} />
+      <GraphAlgorithm algorithm={algorithm} allowNegativeEdge={false} />
     </>
   );
 };
