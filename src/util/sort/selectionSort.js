@@ -38,8 +38,23 @@ export function* sort(arr) {
 }
 
 export const example = {
-  Python:
-    'def selection_sort(arr):\nn = len(arr)\n\nfor i in range(n - 1):\n    # Assume the current index is the minimum\n    min_index = i\n\n    # Check the rest of the array to find the minimum element\n    for j in range(i + 1, n):\n        if arr[j] < arr[min_index]:\n            min_index = j\n\n    # Swap the found minimum element with the first element\n    arr[i], arr[min_index] = arr[min_index], arr[i]\n\n# Example usage:\nmy_array = [64, 25, 12, 22, 11]\nselection_sort(my_array)\nprint("Sorted array:", my_array) # output:[11, 12, 22, 25, 64]',
+  Python: `def selection_sort(arr):
+    n = len(arr)
+    for i in range(n - 1):
+      # Assume the current index is the minimum
+      min_index = i
+      # Check the rest of the array to find the minimum element
+      for j in range(i + 1, n):
+        if arr[j] < arr[min_index]:
+          min_index = j
+          # Swap the found minimum element with the first element
+          arr[i], arr[min_index] = arr[min_index], arr[i]
+  
+  # Example usage:
+  my_array = [64, 25, 12, 22, 11]
+  selection_sort(my_array)
+  print("Sorted array:", my_array) # output:[11, 12, 22, 25, 64]
+  `,
   JavaScript:
     'function selectionSort(arr) {\n    const n = arr.length;\n\n    for (let i = 0; i < n - 1; i++) {\n        // Assume the current index is the minimum\n        let minIndex = i;\n\n        // Check the rest of the array to find the minimum element\n        for (let j = i + 1; j < n; j++) {\n            if (arr[j] < arr[minIndex]) {\n                minIndex = j;\n            }\n        }\n\n        // Swap the found minimum element with the first element\n        [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];\n    }\n}\n\n// Example usage:\nlet myArray = [64, 25, 12, 22, 11];\nselectionSort(myArray);\nconsole.log("Sorted array:", myArray);',
   "C++":
