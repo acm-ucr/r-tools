@@ -117,6 +117,13 @@ const DEV = [
         release: true,
       },
       {
+        icon: <PiGraph />,
+        name: "Breadth First Search",
+        link: "/graph/bfs",
+        description: "run BFS on graphs",
+        release: true,
+      },
+      {
         icon: <FaPowerOff />,
         name: "State Machine",
         link: "/graph/state-machine",
