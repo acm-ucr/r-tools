@@ -3,11 +3,11 @@ import { useContext, useEffect, useState } from "react";
 import Graph from "@/components/Graph/Graph";
 import DataContext from "../DataContext";
 import { importJSON } from "@/util/editor/graphFunctions";
-import { algorithm } from "@/util/graph/dijkstra";
 import toast from "react-hot-toast";
 import Table from "../Table";
+
 const size = 500;
-const Dijkstra = () => {
+const GraphAlgorithm = ({ algorithm, allowNegativeEdge }) => {
   const { data, setData } = useContext(DataContext);
   const [steps, setSteps] = useState(null);
   const [stepIndex, setStepIndex] = useState(0);
@@ -32,7 +32,16 @@ const Dijkstra = () => {
     }
     setPlay(!play);
   };
-
+  const hasNegativeEdge = () => {
+    // TODO: add negative weight check
+    /*
+    Edges are stored in data.edges, you can use the graph editor to make a graph and download 
+    as json to see what the grpah data being stored as.
+    If there is nagative edge toast an error message like "this algorithm doesn't allow negative edgs" and returen true.
+    If there is no negative edge, return false
+    */
+    return false;
+  };
   useEffect(() => {
     const newData = data;
     Object.entries(data.vertices).forEach(([key, vertex]) => {
@@ -46,6 +55,9 @@ const Dijkstra = () => {
       tool: "cursor",
     });
     if (data.selectedVertex) {
+      if (!allowNegativeEdge && hasNegativeEdge()) {
+        return;
+      }
       const graphAlgorithm = algorithm(newData, data.selectedVertex);
       setStepIndex(0);
       setSteps(graphAlgorithm);
@@ -97,4 +109,4 @@ const Dijkstra = () => {
   );
 };
 
-export default Dijkstra;
+export default GraphAlgorithm;
