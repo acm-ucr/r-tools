@@ -23,7 +23,7 @@ const Table = ({ matrix, rounded, roundedLeft, roundedRight, header }) => {
             {row.map((data, key2) => (
               <td
                 key={key2}
-                className={`whitespace-nowrap border-black p-2 text-center border-1 ${
+                className={`whitespace-nowrap border-rtools-blue-400 p-2 text-center border-1 ${
                   data.color &&
                   COLORS[data.color].bg + " " + COLORS[data.color].text
                 }`}
