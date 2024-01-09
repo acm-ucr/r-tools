@@ -8,7 +8,7 @@ const page = () => {
   return (
     <>
       <Header text="Breadth First Search" />
-      <GraphAlgorithm algorithm={algorithm} allowNegativeEdge={false} />
+      <GraphAlgorithm algorithm={algorithm} />
     </>
   );
 };
