@@ -12,7 +12,7 @@ const Table = ({ matrix, rounded, roundedLeft, roundedRight, header }) => {
           {header?.map((data, key) => (
             <th
               key={key}
-              className="whitespace-nowrap text-center border-black border-1 p-2"
+              className="whitespace-nowrap text-center border-rtools-blue-400 border-1 p-2"
             >
               {data}
             </th>
