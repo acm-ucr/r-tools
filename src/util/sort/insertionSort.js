@@ -12,23 +12,23 @@ export const code = [
 ];
 
 export function* sort(arr) {
- const n = arr.length;
- yield {line: 1, array: getArray(arr, [0])};
- for (let i = 1; i < n; i++) {
-  yield {line: 2, array: getArray(arr, [i])};
-  const key = arr[i];
-  yield {line: 3, array: getArray(arr, [i])};
-  let j = i - 1;
-  yield {line: 4, array: getArray(arr, [i, j])};
-  while (j >= 0 && arr[j] > key) {
-    yield {line: 5, array: getArray(arr, [i, j])};
-    arr[j+1] = arr[j];
-    yield {line: 6, array: getArray(arr, [i, j])};
-    j = j - 1;
+  const n = arr.length;
+  yield { line: 1, array: getArray(arr, [0]) };
+  for (let i = 1; i < n; i++) {
+    yield { line: 2, array: getArray(arr, [i]) };
+    const key = arr[i];
+    yield { line: 3, array: getArray(arr, [i]) };
+    let j = i - 1;
+    yield { line: 4, array: getArray(arr, [i, j]) };
+    while (j >= 0 && arr[j] > key) {
+      yield { line: 5, array: getArray(arr, [i, j]) };
+      arr[j + 1] = arr[j];
+      yield { line: 6, array: getArray(arr, [i, j]) };
+      j = j - 1;
+    }
+    yield { line: 7, array: getArray(arr, [i, j]) };
+    arr[j + 1] = key;
   }
-  yield {line: 7, array: getArray(arr, [i, j])};
-  arr[j+1] = key;
- }
 }
 
 export const example = {

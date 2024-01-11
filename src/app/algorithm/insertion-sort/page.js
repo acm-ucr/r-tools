@@ -1,7 +1,7 @@
 "use client";
 import AlgorithmWrapper from "@/components/algorithm/AlgorithmWrapper";
-import {code, sort} from "@/util/sort/insertionSort";
-import {example} from "@/util/sort/insertionSort";
+import { code, sort } from "@/util/sort/insertionSort";
+import { example } from "@/util/sort/insertionSort";
 
 const page = () => {
   return (
@@ -13,7 +13,7 @@ const page = () => {
         title="Insertion Sort"
       />
     </>
-  )
+  );
 };
 
 export default page;
