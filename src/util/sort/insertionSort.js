@@ -29,6 +29,7 @@ export function* sort(arr) {
     yield { line: 7, array: getArray(arr, [i, j]) };
     arr[j + 1] = key;
   }
+  yield { line: 7, array: getArray(arr, []) };
 }
 
 export const example = {
