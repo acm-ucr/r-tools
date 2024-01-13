@@ -33,13 +33,19 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge }) => {
     setPlay(!play);
   };
   const hasNegativeEdge = () => {
-    // TODO: add negative weight check
-    /*
-    Edges are stored in data.edges, you can use the graph editor to make a graph and download 
-    as json to see what the grpah data being stored as.
-    If there is nagative edge toast an error message like "this algorithm doesn't allow negative edgs" and returen true.
-    If there is no negative edge, return false
-    */
+    if (data.edges) {
+      for (const key in data.edges) {
+        if (data.edges.hasOwnProperty(key)) {
+          const edges = data.edges[key];
+          for (const edge of edges) {
+            if (edge.weight < 0) {
+              toast.error("This algorithm doesn't allow negative edges");
+              return true;
+            }
+          }
+        }
+      }
+    }
     return false;
   };
   useEffect(() => {
