@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 const page = () => {
   const [equations, setEquations] = useState([]);
   const [value, setValue] = useState("");
-  const [symbols, setSymbols] = useState({ and: "&", or: "|", not: "!" });
+  const [symbols, setSymbols] = useState({ and: "*", or: "+", not: "!" });
 
   const onClick = () => {
     if (value === "") {
