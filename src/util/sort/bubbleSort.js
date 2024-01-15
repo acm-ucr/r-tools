@@ -69,16 +69,19 @@ bubbleSort(myArray);
 console.log("Sorted array:", myArray); // Output: [11, 12, 22, 25, 64]`,
 
   "C++": `#include <iostream>
+#include <vector>
   
-void bubbleSort(int arr[], int n) {
+void bubbleSort(std::vector<int>& vect) {
+
+    int n = vect.size();
     for (int i = 0; i < n - 1; i++) {
 
         // Last i elements are already sorted, so we don't need to check them
         for (int j = 0; j < n - i - 1; j++) {
 
             // Swap if the element found is greater than the next element
-            if (arr[j] > arr[j + 1]) {
-                std::swap(arr[j], arr[j + 1]);
+            if (vect[j] > vect[j + 1]) {
+                std::swap(vect[j], vect[j + 1]);
             }
         }
     }
@@ -86,16 +89,15 @@ void bubbleSort(int arr[], int n) {
 
 int main() {
     // Example usage:
-    int myArray[] = {64, 25, 12, 22, 11};
-    int n = sizeof(myArray) / sizeof(myArray[0]);
+    std::vector<int> myVector = {64, 25, 12, 22, 11};
 
-    bubbleSort(myArray, n);
+    bubbleSort(myVector);
 
-    std::cout << "Sorted array: ";
-    for (int i = 0; i < n; i++) {
-        std::cout << myArray[i] << " ";
+    std::cout << "Sorted vector: ";
+    for (int i = 0; i < myVector.size(); i++) {
+        std::cout << myVector.at(i) << " ";
     }
-    // Output: Sorted array: 11 12 22 25 64
+    // Output: Sorted vector: 11 12 22 25 64
 
     return 0;
 }`,
