@@ -84,9 +84,8 @@ console.log("Sorted array:", myArray); // Output:[11, 12, 22, 25, 64]
   `,
 
   "C++": `#include <iostream>
-#include <vector>
-
-void selectionSort(std::vector<int>& v, int n) {
+  
+void selectionSort(int arr[], int n) {
     for (int i = 0; i < n - 1; i++) {
         // Assume the current index is the minimum
         int minIndex = i;
