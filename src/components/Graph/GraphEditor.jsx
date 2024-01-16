@@ -106,6 +106,7 @@ const GraphEditor = () => {
           <Button text="DOWNLOAD PNG" onClick={downloadPNG} />
           <Button text="DOWNLOAD JSON" onClick={() => downLoadJSON(data)} />
           <Upload
+            text="IMPORT A JSON"
             value={null}
             onChange={(e) => {
               importJSON(e, data, setData);
