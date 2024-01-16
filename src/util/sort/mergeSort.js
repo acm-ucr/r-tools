@@ -558,7 +558,7 @@ export const example = {
     \n    leftArray.at(i) =  arr.at(left + i);
     \n  for (int j = 0; j < n2; j++)
     \n    rightArray.at(j) = arr.at(middle + 1 + j);
-    \n\n  // Merge the temporary arrays back into arr[left..right]
+    \n\n  // Merge the temporary arrays back into arr[left..right] 
     \n  int i = 0; // Initial index of left subarray
     \n  int j = 0; // Initial index of right subarray
     \n  int k = left; // Initial index of merged subarray
