@@ -478,10 +478,161 @@ export function* sort(arr) {
   yield* mergeSort(arr, 1, 0, arr.length);
 }
 export const example = {
-  Python:
-    "def merge_sort (arr):\n  if len(arr) <= 1: \n    return arr \n\n  #Split the array into two halves\n  middle = len(arr) // 2 \n  left_half = arr[:middle]\n  right_half = arr[middle:]\n\n  #Recursive call to merge_sort for each half\n  sorted_left = merge_sort(left_half)\n  sorted_right = merge_sort(right_half)\n\n  #Merge the sorted halves\n  return merge(sorted_left, sorted_right)\n\ndef merge(left, right):\n  result = []\n  left_index = 0\n  right_index = 0\n\n  while left_index < len(left) and right_index < len(right):\n    if left[left_index] < right[right_index]:\n      result.append(left[left_index])\n      left_index += 1\n    else:\n      result.append(right[right_index])\n      right_index += 1\n\n  # Append any remaining elements from left and right arrays\n  result.extend(left[left_index:])\n  result.extend(right[right_index:])\n\n  return result\n\n# Example usage:\nunsorted_array = [8,4,1,7,3,5,2,6]\nsorted_array = merge_sort(unsorted_array)\nprint(sorted_array)",
-  JavaScript:
-    "function merge(arr) {\n  if (arr.length <= 1) {\n    return arr;\n  }\n\n  // Split the array into two halves\n  const middle = Math.floor(arr.length / 2);\n  const leftHalf = arr.slice(0, middle);\n  const rightHalf = arr.slice(middle);\n\n  // Recursive call to mergeSort for each half\n  const sortedLeft = merge(leftHalf);\n  const sortedRight = mergeSort(rightHalf);\n\n  // Merge the sorted halves\n  return merge(sortedLeft, sortedRight);\n}\n\nfunction merge(left, right) {\n  let result = [];\n  let leftIndex = 0;\n  let rightIndex = 0;\n\n  // Compare elments and merge them in sorted order\n  while (leftIndex < left.length && rightIndex < right.index) {\n    if (left[leftIndex] < right[rightIndex]) {\n      result.push(left[leftIndex]);\n      leftIndex++\n    } else {\n      result.push(right[rightIndex]);\n      rightIndex++;\n    }\n  }\n\n //Append any remaining elements from the left and right arrays\n  return result.concat(left.slice(leftIndex), right.slice(rightIndex));\n}\n\n// Example usage:\nconst unsortedArray = [8, 4, 1, 7, 3, 5, 2, 6];\nconst sortedArray = mergeSort(unsortedArray);\nconsole.log(sortedArray);",
-  "C++":
-    '#include <iostream>\n#include <vector>\nusing namespace std;\n\nvoid merge(vector<int>& arr, int left, int middle, int right) {\n  int n1  = middle - left + 1;\n  int n2 = right - middle;\n\n  // Create temporary arrays\n  vector<int> leftArray(n1);\n  vector<int> rightArray(n2);\n\n  // Copy data to temporary arrays leftArray[] and rightArray[]\n  for(int i = 0; i < n1; i++)\n    leftArray.at(i) =  arr.at(left + 1);\n  for (int j = 0; j < n2; j++)\n    rightArray.at(j) = arr.at(middle + 1 + j);\n\n  // Merge the temporary arrays back into arr[left..right]\n  int i = 0; // Initial index of left subarray\n  int j = 0; // Initial index of right subarray\n  int k = left; // Initial index of merged subarray\n\n  while (i < n1 && j < n2) {\n    if (leftArray.at(i) <= rightArray.at(j)) {\n      array.at(k) = leftArray.at(i);\n      i++;\n    } else {\n      arr.at(k) = rightArray.at(j);\n      j++\n    }\n    k++;\n  }\n\n  // Copy the reamining elements of leftArray[], if there are any\n  while (i < n1) {\n    arr.at(k) = leftArray.at(i);\n    i++;\n    k++;\n  }\n\n  // Copy the remaining elements of rightArray[], if there are any\n  while (j < n2) {\n    arr.at(k) = rightArray.at(j);\n    j++;\n    k++;\n  }\n}\n\nvoid mergeSort(vector<int>& arr, int left, int right) {\n  if (left < right) {\n    // Same as (left + right) / 2, but avoids overflow for large left and right\n    int middle = left + (right - left) / 2;\n\n    // Sort first and second halves\n    mergeSort(arr, left, middle);\n    mergeSort(arr, middle + 1, right);\n\n    // Merge the sorted halves\n    merge(arr, left, middle, right);\n  }\n}\n\nint main() {\n  // Example usage:\n  vector<int> unsortedArray = {8, 4, 1, 7, 3, 5, 2, 6};\n\n  // Perform merge sort\n  mergeSort(unsortedArray, 0, unsortedArray.size() - 1);\n\n  // Print the sorted array\n for (const auto& num : unsortedArray) {\n    cout << num << " ";\n  }\n\n  retrun 0;\n}',
+  Python: `def merge_sort (arr):
+  if len(arr) <= 1: 
+    return arr 
+  #Split the array into two halves
+  middle = len(arr) // 2 
+  left_half = arr[:middle]
+  right_half = arr[middle:]
+
+  #Recursive call to merge_sort for each half
+  sorted_left = merge_sort(left_half)
+  sorted_right = merge_sort(right_half)
+
+  #Merge the sorted halves
+  return merge(sorted_left, sorted_right)
+
+def merge(left, right):
+  result = []
+  left_index = 0
+  right_index = 0
+
+  while left_index < len(left) and right_index < len(right):
+    if left[left_index] < right[right_index]:
+      result.append(left[left_index])
+      left_index += 1
+    else:
+      result.append(right[right_index])
+      right_index += 1
+
+  # Append any remaining elements from left and right arrays
+  result.extend(left[left_index:])
+  result.extend(right[right_index:])
+
+  return result
+
+# Example usage:
+unsorted_array = [8,4,1,7,3,5,2,6]
+sorted_array = merge_sort(unsorted_array)
+print(sorted_array)`,
+  JavaScript: `const mergeSort = (arr) => {
+  if (arr.length <= 1) {
+    return arr;
+  }
+
+  // Split the array into two halves
+  const middle = Math.floor(arr.length / 2);
+  const leftHalf = arr.slice(0, middle);
+  const rightHalf = arr.slice(middle);
+
+  // Recursive call to mergeSort for each half
+  const sortedLeft = mergeSort(leftHalf);
+  const sortedRight = mergeSort(rightHalf);
+
+  // Merge the sorted halves
+  return merge(sortedLeft, sortedRight);
+}
+
+const merge = (left, right) => {
+  let result = [];
+  let leftIndex = 0;
+  let rightIndex = 0;
+
+  // Compare elments and merge them in sorted order
+  while (leftIndex < left.length && rightIndex < right.length) {
+    if (left[leftIndex] < right[rightIndex]) {
+      result.push(left[leftIndex]);
+      leftIndex++
+    } else {
+      result.push(right[rightIndex]);
+      rightIndex++;
+    }
+  }
+
+ //Append any remaining elements from the left and right arrays
+  return result.concat(left.slice(leftIndex), right.slice(rightIndex));
+}
+
+// Example usage:
+const unsortedArray = [8, 4, 1, 7, 3, 5, 2, 6];
+const sortedArray = mergeSort(unsortedArray);
+console.log(sortedArray);`,
+  "C++": `#include <iostream>
+#include <vector>
+using namespace std;
+
+void merge(vector<int>& arr, int left, int middle, int right) {
+  int n1  = middle - left + 1;
+  int n2 = right - middle;
+
+  // Create temporary arrays
+  vector<int> leftArray(n1);
+  vector<int> rightArray(n2);
+
+  // Copy data to temporary arrays leftArray[] and rightArray[]
+  for(int i = 0; i < n1; i++)
+    leftArray.at(i) =  arr.at(left + i);
+  for (int j = 0; j < n2; j++)
+    rightArray.at(j) = arr.at(middle + 1 + j);
+
+  // Merge the temporary arrays back into arr[left..right] 
+  int i = 0; // Initial index of left subarray
+  int j = 0; // Initial index of right subarray
+  int k = left; // Initial index of merged subarray
+
+  while (i < n1 && j < n2) {
+    if (leftArray.at(i) <= rightArray.at(j)) {
+      arr.at(k) = leftArray.at(i);
+      i++;
+    } else {
+      arr.at(k) = rightArray.at(j);
+      j++;
+    }
+    k++;
+  }
+
+  // Copy the reamining elements of leftArray[], if there are any
+  while (i < n1) {
+    arr.at(k) = leftArray.at(i);
+    i++;
+    k++;
+  }
+
+  // Copy the remaining elements of rightArray[], if there are any
+  while (j < n2) {
+    arr.at(k) = rightArray.at(j);
+    j++;
+    k++;
+  }
+}
+
+void mergeSort(vector<int>& arr, int left, int right) {
+  if (left < right) {
+    // Same as (left + right) / 2, but avoids overflow for large left and right
+    int middle = left + (right - left) / 2;
+
+    // Sort first and second halves
+    mergeSort(arr, left, middle);
+    mergeSort(arr, middle + 1, right);
+
+    // Merge the sorted halves
+    merge(arr, left, middle, right);
+  }
+}
+
+int main() {
+  // Example usage:
+  vector<int> unsortedArray = {8, 4, 1, 7, 3, 5, 2, 6};
+
+  // Perform merge sort
+  mergeSort(unsortedArray, 0, unsortedArray.size() - 1);
+
+  // Print the sorted array
+ for (const auto& num : unsortedArray) {
+    cout << num << " ";
+  }
+
+  return 0;
+}`,
 };
