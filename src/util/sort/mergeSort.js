@@ -479,6 +479,7 @@ export function* sort(arr) {
 }
 export const example = {
   Python: `def merge_sort (arr):
+<<<<<<< HEAD
   if len(arr) <= 1: 
     return arr 
   #Split the array into two halves
