@@ -47,9 +47,9 @@ const Input = ({
         )}
       </div>
       {clear && (
-        <button onClick={handleClear} className="px-3">
+        <div onClick={handleClear} className="px-3 hover:cursor-pointer">
           clear
-        </button>
+        </div>
       )}
     </form>
   );
