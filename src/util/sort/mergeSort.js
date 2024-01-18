@@ -478,8 +478,7 @@ export function* sort(arr) {
   yield* mergeSort(arr, 1, 0, arr.length);
 }
 export const example = {
-  Python: 
-`def merge_sort (arr):
+  Python: `def merge_sort (arr):
   if len(arr) <= 1: 
     return arr
 
@@ -518,8 +517,7 @@ def merge(left, right):
 unsorted_array = [8,4,1,7,3,5,2,6]
 sorted_array = merge_sort(unsorted_array)
 print(sorted_array)`,
-  JavaScript: 
-`const mergeSort = (arr) => {
+  JavaScript: `const mergeSort = (arr) => {
   if (arr.length <= 1) {
     return arr;
   }
@@ -560,8 +558,7 @@ const merge = (left, right) => {
 const unsortedArray = [8, 4, 1, 7, 3, 5, 2, 6];
 const sortedArray = mergeSort(unsortedArray);
 console.log(sortedArray);`,
-  "C++": 
-`#include <iostream>
+  "C++": `#include <iostream>
 #include <vector>
 using namespace std;
 
