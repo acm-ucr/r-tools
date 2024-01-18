@@ -118,6 +118,12 @@ const DEV = [
       },
       {
         icon: <PiGraph />,
+        name: "Floyd Warshall",
+        link: "/graph/floyd-warshall",
+        description: "run Floyd Warshall on graphs",
+      },
+      {
+        icon: <PiGraph />,
         name: "Breadth First Search",
         link: "/graph/bfs",
         description: "run BFS on graphs",
