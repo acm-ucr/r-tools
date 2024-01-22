@@ -130,6 +130,13 @@ const DEV = [
         release: true,
       },
       {
+        icon: <PiGraph />,
+        name: "Bellmen Ford",
+        link: "/graph/bellmen-ford",
+        description: "run Bellmen Ford on graphs",
+        release: true,
+      },
+      {
         icon: <FaPowerOff />,
         name: "State Machine",
         link: "/graph/state-machine",
