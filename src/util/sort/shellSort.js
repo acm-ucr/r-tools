@@ -27,7 +27,25 @@ export function* sort(arr) {
         array: getArray(arr, { [n]: "n", [gap]: "gap", [i]: "i" }),
       };
       const temp = arr[i];
+      yield {
+        line: 4,
+        array: getArray(arr, {
+          [n]: "n",
+          [gap]: "gap",
+          [i]: "i",
+          [temp]: "temp",
+        }),
+      };
       let j;
+      yield {
+        line: 5,
+        array: getArray(arr, {
+          [n]: "n",
+          [gap]: "gap",
+          [i]: "i",
+          [temp]: "temp",
+        }),
+      };
       for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
         arr[j] = arr[j - gap];
       }
