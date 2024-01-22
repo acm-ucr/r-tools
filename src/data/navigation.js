@@ -130,6 +130,13 @@ const DEV = [
         release: true,
       },
       {
+        icon: <PiGraph />,
+        name: "Depth First Search",
+        link: "/graph/dfs",
+        description: "run DFS on graphs",
+        release: true,
+      },
+      {
         icon: <FaPowerOff />,
         name: "State Machine",
         link: "/graph/state-machine",
