@@ -9,5 +9,4 @@ const Button = ({ onClick, text }) => {
   );
 };
 
-
 export default Button;
