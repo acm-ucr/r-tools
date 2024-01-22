@@ -45,12 +45,21 @@ export function* sort(arr) {
         }),
       };
       for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
-        yield {line: 6, array: getArray(arr, {[n]: "n", [gap]: "gap", [i]: "i", [j]: "j"})};
+        yield {
+          line: 6,
+          array: getArray(arr, { [n]: "n", [gap]: "gap", [i]: "i", [j]: "j" }),
+        };
         arr[j] = arr[j - gap];
-        yield {line: 7, array: getArray(arr, {[n]: "n", [gap]: "gap", [i]: "i", [j]: "j"})};
+        yield {
+          line: 7,
+          array: getArray(arr, { [n]: "n", [gap]: "gap", [i]: "i", [j]: "j" }),
+        };
       }
       arr[j] = temp;
-      yield {line: 8, array: getArray(arr, {[n]: "n", [gap]: "gap", [i]: "i", [j]: "j"})};
+      yield {
+        line: 8,
+        array: getArray(arr, { [n]: "n", [gap]: "gap", [i]: "i", [j]: "j" }),
+      };
     }
   }
 }
