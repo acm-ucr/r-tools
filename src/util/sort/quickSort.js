@@ -129,56 +129,60 @@ let myArray = [64, 25, 12, 22, 11];
 quickSort(myArray, 0, myArray.length - 1);
 console.log("Sorted array:", myArray); // Output: [11, 12, 22, 25, 64]`,
 
-  "C++": `#include <iostream>
+  "C++": `#include <iostream> 
+#include <vector>
 
-int partition(int arr[], int low, int high) {
-  int pivot = arr[high];
+int partition(std::vector<int>& arr, int low, int high) {
+  int pivot = arr.at(high);
   int i = low - 1;
   
   for (int j = low; j < high; j++) {
+
     // If current element is smaller than or equal to pivot
-    if (arr[j] <= pivot) {
+    if (arr.at(j) <= pivot) {
       i++;
-  
+
       // Swap elements at i and j
-      std::swap(arr[i], arr[j]);
+      std::swap(arr.at(i), arr.at(j));
+      
     }
+  
   }
   
-  // Swap pivot element to its correct position
-  std::swap(arr[i + 1], arr[high]);
-  
+  // Swap pivot element to its correct position   
+  std::swap(arr.at(i + 1), arr.at(high));
+
   // Return the index of the pivot element
   return i + 1;
   
 }
-
-void quickSort(int arr[], int low, int high) {
-  if (low < high) {
   
+void quickSort(std::vector<int>& arr, int low, int high) {
+  if (low < high) {
+    
     // Find pivot element such that
-    int partitionIndex = partition(arr, low, high);  
+    int partitionIndex = partition(arr, low, high);
   
     // Recursively sort the two halves 
     quickSort(arr, low, partitionIndex - 1);
     quickSort(arr, partitionIndex + 1, high);
-  
+    
   }
   
 }
-
+  
 int main() {
   
   // Example usage:
-  int myArray[] = {64, 25, 12, 22, 11};
-  int n = sizeof(myArray) / sizeof(myArray[0]);
-  quickSort(myArray, 0, n - 1);
-  std::cout << "Sorted array: ";
+  std::vector<int> myVector = {64, 25, 12, 22, 11};
+  int n = myVector.size();
+  quickSort(myVector, 0, n - 1);
+  std::cout << "Sorted vector: ";
   for (int i = 0; i < n; i++) {
-    std::cout << myArray[i] << " "; // Output: [11, 12, 22, 25, 64] 
+    std::cout << myVector.at(i) << " "; // Output: 11 12 22 25 64
   }
-  
+
   return 0;
-  
+
 }`,
 };
