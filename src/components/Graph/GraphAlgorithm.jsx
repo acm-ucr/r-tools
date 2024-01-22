@@ -33,21 +33,14 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge }) => {
     setPlay(!play);
   };
   const hasNegativeEdge = () => {
-    if (data.edges) {
-      for (const key in data.edges) {
-        if (data.edges.hasOwnProperty(key)) {
-          const edges = data.edges[key];
-          for (const edge of edges) {
-            if (edge.weight < 0) {
-              toast.error("This algorithm doesn't allow negative edges");
-              return true;
-            }
-          }
-        }
-      }
-    }
-    return false;
+    return (
+      data.edges &&
+      Object.values(data.edges).some((edges) =>
+        edges.some((edge) => edge.hasOwnProperty("weight") && edge.weight < 0)
+      )
+    );
   };
+
   useEffect(() => {
     const newData = data;
     Object.entries(data.vertices).forEach(([key, vertex]) => {
@@ -62,6 +55,7 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge }) => {
     });
     if (data.selectedVertex) {
       if (!allowNegativeEdge && hasNegativeEdge()) {
+        toast("This algorithm doesn't allow negative weights");
         return;
       }
       const graphAlgorithm = algorithm(newData, data.selectedVertex);
