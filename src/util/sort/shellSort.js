@@ -1,4 +1,4 @@
-import {getArray} from "./visualize.js";
+import { getArray } from "./visualize.js";
 
 export const code = [
   "shellSort(arr,n);",
@@ -19,19 +19,21 @@ export function* sort(arr) {
   const n = arr.length;
   yield { line: 1, array: getArray(arr, { [n]: "n" }) };
 
-  for (let gap = Math.floor(n/2); gap > 0; gap = Math.floor(gap/2)) {
+  for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
     yield { line: 2, array: getArray(arr, { [n]: "n", [gap]: "gap" }) };
     for (let i = gap; i < n; i++) {
-      yield { line: 3, array: getArray(arr, { [n]: "n", [gap]: "gap", [i]: "i" }) };
+      yield {
+        line: 3,
+        array: getArray(arr, { [n]: "n", [gap]: "gap", [i]: "i" }),
+      };
       const temp = arr[i];
       let j;
-      for ( j = i; j  >= gap && arr[j-gap] > temp; j -= gap) {
-        arr[j] = arr[j-gap];
+      for (j = i; j >= gap && arr[j - gap] > temp; j -= gap) {
+        arr[j] = arr[j - gap];
       }
       arr[j] = temp;
     }
   }
-  
 }
 
 export const example = {
@@ -65,7 +67,7 @@ my_array = [12, 34, 54, 2, 3]
 shell_sort(my_array)
 print("Sorted array:", my_array)`,
 
-JavaScript: `const shell_sort = arr => {
+  JavaScript: `const shell_sort = arr => {
   const n = arr.length;
     
   //Start with a large gap, then reduce the gap
