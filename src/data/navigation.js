@@ -134,6 +134,11 @@ const DEV = [
         name: "Depth First Search",
         link: "/graph/dfs",
         description: "run DFS on graphs",
+      },
+      {
+        name: "Bellmen Ford",
+        link: "/graph/bellmen-ford",
+        description: "run Bellmen Ford on graphs",
         release: true,
       },
       {
