@@ -28,7 +28,7 @@ const Table = ({ matrix, rounded, roundedLeft, roundedRight, header }) => {
                   COLORS[data.color].bg + " " + COLORS[data.color].text
                 }`}
               >
-                {data.data || data}
+                {typeof data === "object" ? data.data : data}
               </td>
             ))}
           </tr>
