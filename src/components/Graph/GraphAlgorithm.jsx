@@ -44,7 +44,7 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge, allowWeighted }) => {
     return (
       data.edges &&
       Object.values(data.edges).some((edges) =>
-        edges.some((edge) => edge.hasOwnProperty("weight"))
+        edges.some((edge) => edge.hasOwnProperty("weight") && edge.weight != 1)
       )
     );
   };
