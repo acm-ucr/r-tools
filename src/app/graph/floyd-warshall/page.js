@@ -7,7 +7,11 @@ const page = () => {
   return (
     <>
       <Header text="Floyd Warshall" />
-      <GraphAlgorithm algorithm={algorithm} allowNegativeEdge={true} allowWeighted={true} />
+      <GraphAlgorithm
+        algorithm={algorithm}
+        allowNegativeEdge={true}
+        allowWeighted={true}
+      />
     </>
   );
 };
