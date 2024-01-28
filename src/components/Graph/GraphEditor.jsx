@@ -20,6 +20,8 @@ import { Toolbar } from "@/components/Graph/Toolbar";
 import Graph from "@/components/Graph/Graph";
 import ColorPicker from "@/components/Graph/ColorPicker";
 import DataContext from "../DataContext";
+import Upload from "../Upload";
+
 const size = 500;
 const GraphEditor = () => {
   const { data, setData } = useContext(DataContext);
@@ -103,13 +105,13 @@ const GraphEditor = () => {
           <Button text="DOWNLOAD SVG" onClick={downloadSVG} />
           <Button text="DOWNLOAD PNG" onClick={downloadPNG} />
           <Button text="DOWNLOAD JSON" onClick={() => downLoadJSON(data)} />
-          <input
-            type="file"
+          <Upload
+            text="IMPORT A JSON"
+            value={null}
             onChange={(e) => {
               importJSON(e, data, setData);
               e.target.value = null;
             }}
-            value={null}
           />
         </div>
       </div>

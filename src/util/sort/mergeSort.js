@@ -479,86 +479,71 @@ export function* sort(arr) {
 }
 export const example = {
   Python: `def merge_sort (arr):
-<<<<<<< HEAD
-  if len(arr) <= 1: 
-    return arr 
-  #Split the array into two halves
-  middle = len(arr) // 2 
-  left_half = arr[:middle]
-  right_half = arr[middle:]
-
-  #Recursive call to merge_sort for each half
-  sorted_left = merge_sort(left_half)
-  sorted_right = merge_sort(right_half)
-
-  #Merge the sorted halves
-  return merge(sorted_left, sorted_right)
-
-def merge(left, right):
-  result = []
-  left_index = 0
-  right_index = 0
-
-  while left_index < len(left) and right_index < len(right):
-    if left[left_index] < right[right_index]:
-      result.append(left[left_index])
-      left_index += 1
-    else:
-      result.append(right[right_index])
-      right_index += 1
-
-  # Append any remaining elements from left and right arrays
-  result.extend(left[left_index:])
-  result.extend(right[right_index:])
-
-  return result
-
-# Example usage:
-unsorted_array = [8,4,1,7,3,5,2,6]
-sorted_array = merge_sort(unsorted_array)
-print(sorted_array)`,
+    \n  if len(arr) <= 1: 
+    \n    return arr 
+    \n\n  #Split the array into two halves
+    \n  middle = len(arr) // 2 
+    \n  left_half = arr[:middle]
+    \n  right_half = arr[middle:]
+    \n\n  #Recursive call to merge_sort for each half
+    \n  sorted_left = merge_sort(left_half)
+    \n  sorted_right = merge_sort(right_half)
+    \n\n  #Merge the sorted halves
+    \n  return merge(sorted_left, sorted_right)
+    \n\ndef merge(left, right):
+    \n  result = []
+    \n  left_index = 0
+    \n  right_index = 0
+    \n\n  while left_index < len(left) and right_index < len(right):
+    \n    if left[left_index] < right[right_index]:
+    \n      result.append(left[left_index])
+    \n      left_index += 1
+    \n    else:
+    \n      result.append(right[right_index])
+    \n      right_index += 1
+    \n\n  # Append any remaining elements from left and right arrays
+    \n  result.extend(left[left_index:])
+    \n  result.extend(right[right_index:])
+    \n\n  return result
+    \n\n# Example usage:
+    \nunsorted_array = [8,4,1,7,3,5,2,6]
+    \nsorted_array = merge_sort(unsorted_array)
+    \nprint(sorted_array)`,
   JavaScript: `const mergeSort = (arr) => {
-  if (arr.length <= 1) {
-    return arr;
-  }
-
-  // Split the array into two halves
-  const middle = Math.floor(arr.length / 2);
-  const leftHalf = arr.slice(0, middle);
-  const rightHalf = arr.slice(middle);
-
-  // Recursive call to mergeSort for each half
-  const sortedLeft = mergeSort(leftHalf);
-  const sortedRight = mergeSort(rightHalf);
-
-  // Merge the sorted halves
-  return merge(sortedLeft, sortedRight);
-}
-
-const merge = (left, right) => {
-  let result = [];
-  let leftIndex = 0;
-  let rightIndex = 0;
-
-  // Compare elments and merge them in sorted order
-  while (leftIndex < left.length && rightIndex < right.length) {
-    if (left[leftIndex] < right[rightIndex]) {
-      result.push(left[leftIndex]);
-      leftIndex++
-    } else {
-      result.push(right[rightIndex]);
-      rightIndex++;
-    }
-  }
-
- //Append any remaining elements from the left and right arrays
-  return result.concat(left.slice(leftIndex), right.slice(rightIndex));
-}
-
-// Example usage:
-const unsortedArray = [8, 4, 1, 7, 3, 5, 2, 6];
-const sortedArray = mergeSort(unsortedArray);
-console.log(sortedArray);`,
+    \n  if (arr.length <= 1) {
+    \n    return arr;
+    \n  }
+    \n\n  // Split the array into two halves
+    \n  const middle = Math.floor(arr.length / 2);
+    \n  const leftHalf = arr.slice(0, middle);
+    \n  const rightHalf = arr.slice(middle);
+    \n\n  // Recursive call to mergeSort for each half
+    \n  const sortedLeft = mergeSort(leftHalf);
+    \n  const sortedRight = mergeSort(rightHalf);
+    \n\n  // Merge the sorted halves
+    \n  return merge(sortedLeft, sortedRight);
+    \n}
+    \n\const merge = (left, right) => {
+    \n  let result = [];
+    \n  let leftIndex = 0;
+    \n  let rightIndex = 0;
+    \n\n  // Compare elments and merge them in sorted order
+    \n  while (leftIndex < left.length && rightIndex < right.length) {
+    \n    if (left[leftIndex] < right[rightIndex]) {
+    \n      result.push(left[leftIndex]);
+    \n      leftIndex++
+    \n    } else {
+    \n      result.push(right[rightIndex]);
+    \n      rightIndex++;
+    \n    }
+    \n  }
+    \n\n //Append any remaining elements from the left and right arrays
+    \n  return result.concat(left.slice(leftIndex), right.slice(rightIndex));
+    \n}
+    \n\n// Example usage:
+    \nconst unsortedArray = [8, 4, 1, 7, 3, 5, 2, 6];
+    \nconst sortedArray = mergeSort(unsortedArray);
+    \nconsole.log(sortedArray);`,
   "C++": `#include <iostream>
 #include <vector>
 using namespace std;
