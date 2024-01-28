@@ -18,6 +18,10 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
   const [play, setPlay] = useState(false);
 
   const onPlay = () => {
+    if (!steps) {
+      toast.error("Please enter a valid array before pressing play");
+      return;
+    }
     setPlay(!play);
   };
 
