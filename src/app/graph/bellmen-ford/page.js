@@ -6,7 +6,7 @@ import { algorithm } from "@/util/graph/bellmen-ford";
 const page = () => {
   return (
     <>
-      <Header text="Bellmen Ford" />
+      <Header text="Bellman Ford" />
       <GraphAlgorithm algorithm={algorithm} allowNegativeEdge={true} />
     </>
   );

@@ -131,9 +131,9 @@ const DEV = [
       },
       {
         icon: <PiGraph />,
-        name: "Bellmen Ford",
+        name: "Bellman Ford",
         link: "/graph/bellmen-ford",
-        description: "run Bellmen Ford on graphs",
+        description: "run Bellman Ford on graphs",
         release: true,
       },
       {
