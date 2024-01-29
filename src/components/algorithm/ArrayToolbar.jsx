@@ -4,6 +4,7 @@ import { FaRedo } from "react-icons/fa";
 import { FaPlay } from "react-icons/fa";
 import { FaCode } from "react-icons/fa";
 import { LuStepForward, LuStepBack } from "react-icons/lu";
+import ActionButton from "../ActionButton";
 
 const ArrayToolbar = ({
   random,
@@ -17,57 +18,30 @@ const ArrayToolbar = ({
 }) => {
   return (
     <div className="flex space-x-4">
-      <div
-        onClick={random}
-        className=" hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer select-none"
-      >
-        <FaRandom className="mr-2" />
-        random array
-      </div>
+      <ActionButton function={random} text="random array" icon={FaRandom} />
 
-      <div
-        onClick={restart}
-        className=" hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer select-none"
-      >
-        <FaRedo className="mr-2" />
-        restart
-      </div>
+      <ActionButton function={restart} text="restart" icon={FaRedo} />
 
-      <div
-        onClick={onPlay}
-        className={`hover:text-white duration-300 ${
-          play ? "text-white" : "text-rtools-blue-100"
-        }  py-2 px-2 flex items-center cursor-pointer select-none`}
-      >
-        {play ? <FaPause className="mr-2" /> : <FaPlay className="mr-2" />}
-        {play ? "pause" : "play"}
-      </div>
+      <ActionButton
+        function={onPlay}
+        text="play"
+        activeText="pause"
+        icon={FaPlay}
+        activeIcon={FaPause}
+        active={play}
+        twoIcons={true}
+      />
 
-      <div
-        onClick={back}
-        className="hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer select-none"
-      >
-        <LuStepBack className="mr-2" />
-        step back
-      </div>
+      <ActionButton function={back} text="step back" icon={LuStepBack} />
 
-      <div
-        onClick={step}
-        className="hover:text-white duration-300 text-rtools-blue-100 py-2 px-2 flex items-center cursor-pointer select-none"
-      >
-        <LuStepForward className="mr-2" />
-        step over
-      </div>
+      <ActionButton function={step} text="step over" icon={LuStepForward} />
 
-      <div
-        onClick={() => setShow(!show)}
-        className={`hover:text-white duration-300 ${
-          show ? "text-white" : "text-rtools-blue-100"
-        }  py-2 px-2 flex items-center cursor-pointer select-none`}
-      >
-        <FaCode className="mr-2" />
-        show
-      </div>
+      <ActionButton
+        function={() => setShow(!show)}
+        text="show"
+        icon={FaCode}
+        active={show}
+      />
     </div>
   );
 };
