@@ -41,12 +41,7 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge, allowWeighted }) => {
     );
   };
   const isWeighted = () => {
-    return (
-      data.edges &&
-      Object.values(data.edges).some((edges) =>
-        edges.some((edge) => edge.hasOwnProperty("weight") && edge.weight != 1)
-      )
-    );
+    return data.weighted;
   };
 
   useEffect(() => {
