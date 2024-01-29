@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import Table from "../Table";
 
 const size = 500;
-const GraphAlgorithm = ({ algorithm, allowNegativeEdge }) => {
+const GraphAlgorithm = ({ algorithm, allowNegativeEdge, allowWeighted }) => {
   const { data, setData } = useContext(DataContext);
   const [steps, setSteps] = useState(null);
   const [stepIndex, setStepIndex] = useState(0);
@@ -40,6 +40,9 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge }) => {
       )
     );
   };
+  const isWeighted = () => {
+    return data.weighted;
+  };
 
   useEffect(() => {
     const newData = data;
@@ -56,6 +59,10 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge }) => {
     if (data.selectedVertex) {
       if (!allowNegativeEdge && hasNegativeEdge()) {
         toast("This algorithm doesn't allow negative weights");
+        return;
+      }
+      if (!allowWeighted && isWeighted()) {
+        toast("This algorithm doesn't allow weights");
         return;
       }
       const graphAlgorithm = algorithm(newData, data.selectedVertex);

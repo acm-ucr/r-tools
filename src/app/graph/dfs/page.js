@@ -2,13 +2,13 @@
 
 import GraphAlgorithm from "@/components/Graph/GraphAlgorithm";
 import Header from "@/components/Header";
-import { algorithm } from "@/util/graph/bfs";
+import { algorithm } from "@/util/graph/dfs";
 
 const page = () => {
   return (
     <>
-      <Header text="Breadth First Search" />
-      <GraphAlgorithm algorithm={algorithm} allowWeighted={false} />
+      <Header text="Depth First Search" />
+      <GraphAlgorithm algorithm={algorithm} />
     </>
   );
 };
