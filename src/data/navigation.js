@@ -136,9 +136,10 @@ const DEV = [
         description: "run DFS on graphs",
       },
       {
-        name: "Bellmen Ford",
+        icon: <PiGraph />,
+        name: "Bellman Ford",
         link: "/graph/bellmen-ford",
-        description: "run Bellmen Ford on graphs",
+        description: "run Bellman Ford on graphs",
         release: true,
       },
       {
