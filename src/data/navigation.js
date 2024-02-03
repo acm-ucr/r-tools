@@ -9,7 +9,6 @@ import { CgListTree } from "react-icons/cg";
 import { BiMath } from "react-icons/bi";
 import { PiTable } from "react-icons/pi";
 import { PiGraph } from "react-icons/pi";
-import { FaPowerOff } from "react-icons/fa6";
 
 const DEV = [
   {
@@ -141,12 +140,6 @@ const DEV = [
         link: "/graph/bellmen-ford",
         description: "run Bellman Ford on graphs",
         release: true,
-      },
-      {
-        icon: <FaPowerOff />,
-        name: "State Machine",
-        link: "/graph/state-machine",
-        description: " ",
       },
     ],
   },
