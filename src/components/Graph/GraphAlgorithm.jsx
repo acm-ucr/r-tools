@@ -7,12 +7,16 @@ import toast from "react-hot-toast";
 import Table from "../Table";
 
 const size = 500;
+<<<<<<< HEAD
 const GraphAlgorithm = ({
   algorithm,
   allowNegativeEdge,
   allowWeighted,
   requireStartVertex,
 }) => {
+=======
+const GraphAlgorithm = ({ algorithm, allowNegativeEdge, distances }) => {
+>>>>>>> 9d8fa03 (bfs alg)
   const { data, setData } = useContext(DataContext);
   const [steps, setSteps] = useState(null);
   const [stepIndex, setStepIndex] = useState(0);
