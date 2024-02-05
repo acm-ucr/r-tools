@@ -148,6 +148,12 @@ const DEV = [
         link: "/graph/state-machine",
         description: " ",
       },
+      {
+        icon: <FaPowerOff />,
+        name: "Prim's",
+        link: "/graph/prims",
+        description: "Minimum Spanning Tree",
+      },
     ],
   },
 ];
