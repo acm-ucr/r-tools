@@ -9,6 +9,7 @@ import { CgListTree } from "react-icons/cg";
 import { BiMath } from "react-icons/bi";
 import { PiTable } from "react-icons/pi";
 import { PiGraph } from "react-icons/pi";
+import { RiNodeTree } from "react-icons/ri";
 
 const DEV = [
   {
@@ -140,6 +141,12 @@ const DEV = [
         link: "/graph/bellmen-ford",
         description: "run Bellman Ford on graphs",
         release: true,
+      },
+      {
+        icon: <RiNodeTree />,
+        name: "Prim's",
+        link: "/graph/prims",
+        description: "Minimum Spanning Tree",
       },
     ],
   },
