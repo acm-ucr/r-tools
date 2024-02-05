@@ -9,7 +9,7 @@ import { CgListTree } from "react-icons/cg";
 import { BiMath } from "react-icons/bi";
 import { PiTable } from "react-icons/pi";
 import { PiGraph } from "react-icons/pi";
-import { FaPowerOff } from "react-icons/fa6";
+import { RiNodeTree } from "react-icons/ri";
 
 const DEV = [
   {
@@ -143,13 +143,7 @@ const DEV = [
         release: true,
       },
       {
-        icon: <FaPowerOff />,
-        name: "State Machine",
-        link: "/graph/state-machine",
-        description: " ",
-      },
-      {
-        icon: <FaPowerOff />,
+        icon: <RiNodeTree />,
         name: "Prim's",
         link: "/graph/prims",
         description: "Minimum Spanning Tree",
