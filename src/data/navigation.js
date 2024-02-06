@@ -153,7 +153,7 @@ const DEV = [
         name: "Kruskals",
         link: "/graph/kruskals",
         description: "run Kruskals on graphs",
-      }
+      },
     ],
   },
 ];
