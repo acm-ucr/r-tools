@@ -20,20 +20,24 @@ export function* sort(arr) {
         line: 2,
         array: getArray(arr, { [i]: "i", [minIndex]: "min", [j]: "j" }),
       };
+      yield {
+        line: 3,
+        array: getArray(arr, { [i]: "i", [minIndex]: "min", [j]: "j" }),
+      };
       if (arr[j] < arr[minIndex]) {
         yield {
-          line: 3,
+          line: 4,
           array: getArray(arr, { [i]: "i", [minIndex]: "min", [j]: "j" }),
         };
         minIndex = j;
         yield {
-          line: 4,
+          line: 5,
           array: getArray(arr, { [i]: "i", [minIndex]: "min", [j]: "j" }),
         };
       }
     }
     [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
-    yield { line: 5, array: getArray(arr, { [i]: "i", [minIndex]: "min" }) };
+    yield { line: 6, array: getArray(arr, { [i]: "i", [minIndex]: "min" }) };
   }
 }
 
