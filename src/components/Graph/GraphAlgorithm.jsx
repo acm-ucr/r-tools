@@ -125,6 +125,7 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge, allowWeighted }) => {
             importJSON(e, data, setData, false);
             e.target.value = null;
           }}
+          value={null}
         />
       </div>
     </>
