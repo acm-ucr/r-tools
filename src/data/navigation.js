@@ -148,6 +148,12 @@ const DEV = [
         link: "/graph/state-machine",
         description: " ",
       },
+      {
+        icon: "",
+        name: "Kruskals",
+        link: "/graph/kruskals",
+        description: "run Kruskals on graphs",
+      }
     ],
   },
 ];
