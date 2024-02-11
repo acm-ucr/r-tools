@@ -103,10 +103,7 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
             value={input}
             setValue={setInput}
             button="Generate"
-            onSubmit={() => {
-              handleGenerate();
-              setPlay(false);
-            }}
+            onSubmit={handleGenerate}
             clear={true}
             placeholder="integers separated by commas (ex. 10, 25, 200, 3, 56, 34, 21, 63)"
           />
