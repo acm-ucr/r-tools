@@ -148,6 +148,12 @@ const DEV = [
         link: "/graph/prims",
         description: "Minimum Spanning Tree",
       },
+      {
+        icon: "",
+        name: "Kruskals",
+        link: "/graph/kruskals",
+        description: "run Kruskals on graphs",
+      },
     ],
   },
 ];
