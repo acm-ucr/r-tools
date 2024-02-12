@@ -23,6 +23,7 @@ export function* algorithm(data, start) {
   const vertices = data.vertices;
   const edges = data.edges;
   const distances = {};
+  const previous = {};
 
   // initialize distances and previous
   Object.entries(vertices).forEach(([id, vertex]) => {
