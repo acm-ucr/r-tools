@@ -5,6 +5,7 @@ export const GRAPH_PAGE = {
   dijkstra: {
     title: "Dijkstra",
     algorithm: dijkstra,
+    // todo fix these, these are probably not correct
     negative: 0,
     weighted: 0,
     directed: 0,
