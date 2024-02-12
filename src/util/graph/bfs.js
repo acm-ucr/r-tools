@@ -1,1 +1,1 @@
-export function* algorithm(data, start) {}
+export default function* algorithm(data, start) {}

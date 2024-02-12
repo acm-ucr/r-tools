@@ -138,7 +138,7 @@ const DEV = [
       {
         icon: <PiGraph />,
         name: "Bellman Ford",
-        link: "/graph/bellmen-ford",
+        link: "/graph/bellman-ford",
         description: "run Bellman Ford on graphs",
         release: true,
       },

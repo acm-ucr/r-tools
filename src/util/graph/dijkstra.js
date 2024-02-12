@@ -93,7 +93,7 @@ class MinHeap {
   }
 }
 
-export function* algorithm(data, start) {
+export default function* algorithm(data, start) {
   /* highlight color:
     yellow: cloud
     purple: edges in the minheap

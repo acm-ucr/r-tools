@@ -21,7 +21,7 @@ const generateTable = (vertices, distances, predecessors) => {
   return table;
 };
 
-export function* algorithm(data) {
+export default function* algorithm(data) {
   /* highlight color:
       yellow: cloud
       purple: edges in the minheap

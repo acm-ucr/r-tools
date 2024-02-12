@@ -5,14 +5,19 @@ import DataContext from "../DataContext";
 import { importJSON } from "@/util/editor/graphFunctions";
 import toast from "react-hot-toast";
 import Table from "../Table";
+import { GRAPH_PAGE } from "@/data/graphPage";
 
 const size = 500;
-const GraphAlgorithm = ({ algorithm, allowNegativeEdge, allowWeighted }) => {
+const GraphAlgorithm = ({ algorithm }) => {
+  const allowNegativeEdge = GRAPH_PAGE[algorithm].negative;
+  const allowWeighted = GRAPH_PAGE[algorithm].weighted;
+
   const { data, setData } = useContext(DataContext);
   const [steps, setSteps] = useState(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [current, setCurrent] = useState(null);
   const [play, setPlay] = useState(false);
+
   const handleStep = () => {
     if (!steps) return;
     const next = steps.next();
@@ -57,15 +62,18 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge, allowWeighted }) => {
       tool: "cursor",
     });
     if (data.selectedVertex) {
-      if (!allowNegativeEdge && hasNegativeEdge()) {
+      if (allowNegativeEdge === -1 && hasNegativeEdge()) {
         toast("This algorithm doesn't allow negative weights");
         return;
       }
-      if (!allowWeighted && isWeighted()) {
+      if (allowWeighted === -1 && isWeighted()) {
         toast("This algorithm doesn't allow weights");
         return;
       }
-      const graphAlgorithm = algorithm(newData, data.selectedVertex);
+      const graphAlgorithm = GRAPH_PAGE[algorithm].algorithm(
+        newData,
+        data.selectedVertex
+      );
       setStepIndex(0);
       setSteps(graphAlgorithm);
       setCurrent(graphAlgorithm.next().value);
