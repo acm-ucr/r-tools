@@ -1,7 +1,7 @@
 "use client";
 import GraphAlgorithm from "@/components/Graph/GraphAlgorithm";
 import Header from "@/components/Header";
-import { algorithm } from "@/util/graph/floyd-warshall";
+import { algorithm } from "@/util/graph/prims";
 
 const page = () => {
   return (
