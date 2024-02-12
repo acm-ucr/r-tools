@@ -31,7 +31,7 @@ const GraphAlgorithm = ({
     }
   };
   const handlePlay = () => {
-    if (requireStartVertex) {
+    if (requireStartVertex && !data.selectedVertex) {
       toast.error("Please select a vertex to start");
       return;
     }
