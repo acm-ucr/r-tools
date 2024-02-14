@@ -94,13 +94,17 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge, allowWeighted }) => {
                 data.directed ? "bg-rtools-green" : "bg-gray-300 opacity-30"
               }`}
             ></div>
-            <span className="ml-2 mr-4">Directed</span>
+            <span className={`ml-2 mr-4 ${data.directed ? "" : "opacity-30"}`}>
+              Directed
+            </span>
             <div
               className={`h-4 w-4 rounded-full ${
                 data.weighted ? "bg-rtools-green" : "bg-gray-300 opacity-30"
               }`}
             ></div>
-            <span className="ml-2">Weighted</span>
+            <span className={`ml-2 mr-4 ${data.weighted ? "" : "opacity-30"}`}>
+              Weighted
+            </span>
           </div>
           <Graph
             width={size}
