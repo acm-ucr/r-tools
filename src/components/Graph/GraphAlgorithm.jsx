@@ -91,13 +91,13 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge, allowWeighted }) => {
           <div className="flex justify-start items-center m-2">
             <div
               className={`h-4 w-4 rounded-full ${
-                data.directed ? "bg-rtools-green" : "bg-gray-300"
+                data.directed ? "bg-rtools-green" : "bg-gray-300 opacity-30"
               }`}
             ></div>
             <span className="ml-2 mr-4">Directed</span>
             <div
               className={`h-4 w-4 rounded-full ${
-                data.weighted ? "bg-rtools-green" : "bg-gray-300"
+                data.weighted ? "bg-rtools-green" : "bg-gray-300 opacity-30"
               }`}
             ></div>
             <span className="ml-2">Weighted</span>
