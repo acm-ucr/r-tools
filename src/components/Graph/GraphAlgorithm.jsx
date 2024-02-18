@@ -32,6 +32,40 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge, allowWeighted }) => {
     }
     setPlay(!play);
   };
+  const handleReplay = () => {
+    setPlay(false);
+    setStepIndex(0);
+    setCurrent(null);
+    const newData = data; // reinitialize the data
+    Object.entries(data.vertices).forEach(([key, vertex]) => {
+      // set vertices back to default color
+      newData.vertices[key] = { ...vertex, color: "white" };
+    });
+    Object.entries(data.edges).forEach(([key, edge]) => {
+      // set edges back to default color
+      newData.edges[key] = edge.map((e) => ({ ...e, color: "white" }));
+    });
+    setData({
+      ...newData,
+      tool: "cursor",
+    });
+    if (data.selectedVertex) {
+      // to prevent user from running an algorithm that doesn't allow weighted or negative edges via replay button
+      if (!allowNegativeEdge && hasNegativeEdge()) {
+        toast("This algorithm doesn't allow negative weights");
+        return;
+      }
+      if (!allowWeighted && isWeighted()) {
+        toast("This algorithm doesn't allow weights");
+        return;
+      }
+      const graphAlgorithm = algorithm(newData, data.selectedVertex);
+      setSteps(graphAlgorithm);
+      setCurrent(graphAlgorithm.next().value);
+    } else {
+      setCurrent(null);
+    }
+  };
   const hasNegativeEdge = () => {
     return (
       data.edges &&
@@ -103,6 +137,7 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge, allowWeighted }) => {
         )}
         <button onClick={handlePlay}>play</button>
         <button onClick={handleStep}>step</button>
+        <button onClick={handleReplay}>replay</button>
         <input
           type="file"
           onChange={(e) => {
