@@ -7,7 +7,12 @@ import toast from "react-hot-toast";
 import Table from "../Table";
 
 const size = 500;
-const GraphAlgorithm = ({ algorithm, allowNegativeEdge, allowWeighted }) => {
+const GraphAlgorithm = ({
+  algorithm,
+  allowNegativeEdge,
+  allowWeighted,
+  requireStartVertex,
+}) => {
   const { data, setData } = useContext(DataContext);
   const [steps, setSteps] = useState(null);
   const [stepIndex, setStepIndex] = useState(0);
@@ -26,7 +31,7 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge, allowWeighted }) => {
     }
   };
   const handlePlay = () => {
-    if (!data.selectedVertex) {
+    if (requireStartVertex && !data.selectedVertex) {
       toast.error("Please select a vertex to start");
       return;
     }
