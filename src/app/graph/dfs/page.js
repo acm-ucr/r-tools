@@ -8,7 +8,11 @@ const page = () => {
   return (
     <>
       <Header text="Depth First Search" />
-      <GraphAlgorithm algorithm={algorithm} />
+      <GraphAlgorithm
+        algorithm={algorithm}
+        allowNegativeEdge={false}
+        allowWeighted={false}
+      />
     </>
   );
 };
