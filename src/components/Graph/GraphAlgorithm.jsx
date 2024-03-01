@@ -12,13 +12,11 @@ const GraphAlgorithm = ({ algorithm }) => {
   const allowNegativeEdge = GRAPH_PAGE[algorithm].negative;
   const allowWeighted = GRAPH_PAGE[algorithm].weighted;
   const requireStartVertex = GRAPH_PAGE[algorithm].directed;
-
   const { data, setData } = useContext(DataContext);
   const [steps, setSteps] = useState(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [current, setCurrent] = useState(null);
   const [play, setPlay] = useState(false);
-
   const handleStep = () => {
     if (!steps) return;
     const next = steps.next();
