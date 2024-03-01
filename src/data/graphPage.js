@@ -4,6 +4,7 @@ import dfs from "@/util/graph/dfs";
 import dijkstra from "@/util/graph/dijkstra";
 import floydWarshall from "@/util/graph/floyd-warshall";
 import kruskals from "@/util/graph/kruskals";
+import prims from "@/util/graph/prims";
 
 export const GRAPH_PAGE = {
   "bellman-ford": {
@@ -44,6 +45,13 @@ export const GRAPH_PAGE = {
   kruskals: {
     title: "Kruskals",
     algorithm: kruskals,
+    negative: -1,
+    weighted: 1,
+    directed: 0,
+  },
+  prims: {
+    title: "Prims",
+    algorithm: prims,
     negative: -1,
     weighted: 1,
     directed: 0,

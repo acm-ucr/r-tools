@@ -33,5 +33,8 @@ export async function generateStaticParams() {
     {
       algorithm: "kruskals",
     },
+    {
+      algorithm: "prims",
+    },
   ];
 }
