@@ -101,7 +101,7 @@ const GraphAlgorithm = ({ algorithm }) => {
         toast("This algorithm doesn't allow negative weights");
         return;
       }
-      if (!allowWeight && isWeighted()) {
+      if (!allowWeighted && isWeighted()) {
         toast("This algorithm doesn't allow weights");
         return;
       }
