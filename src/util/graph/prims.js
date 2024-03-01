@@ -1,6 +1,6 @@
 import { getTwoWayUndirectedEdge } from "../editor/graphFunctions";
 
-export function* algorithm(data, start) {
+export default function* algorithm(data, start) {
   const vertexMap = {};
   Object.keys(data.vertices).forEach((id, index) => {
     vertexMap[id] = index;

@@ -97,11 +97,11 @@ const GraphAlgorithm = ({ algorithm }) => {
       tool: "cursor",
     });
     if (data.selectedVertex) {
-      if (allowNegativeEdge === -1 && hasNegativeEdge()) {
+      if (!allowNegativeEdge && hasNegativeEdge()) {
         toast("This algorithm doesn't allow negative weights");
         return;
       }
-      if (allowWeighted === -1 && isWeighted()) {
+      if (!allowWeight && isWeighted()) {
         toast("This algorithm doesn't allow weights");
         return;
       }

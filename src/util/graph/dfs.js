@@ -21,7 +21,7 @@ const generateTable = (vertices, visited, predecessors) => {
   return table;
 };
 
-export function* algorithm(data) {
+export default function* algorithm(data) {
   const vertices = data.vertices;
   const edges = data.edges;
   const visited = {};
