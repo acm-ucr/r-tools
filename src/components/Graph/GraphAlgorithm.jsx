@@ -7,16 +7,13 @@ import toast from "react-hot-toast";
 import Table from "../Table";
 
 const size = 500;
-<<<<<<< HEAD
 const GraphAlgorithm = ({
   algorithm,
   allowNegativeEdge,
   allowWeighted,
   requireStartVertex,
+  header,
 }) => {
-=======
-const GraphAlgorithm = ({ algorithm, allowNegativeEdge, distances }) => {
->>>>>>> 9d8fa03 (bfs alg)
   const { data, setData } = useContext(DataContext);
   const [steps, setSteps] = useState(null);
   const [stepIndex, setStepIndex] = useState(0);
@@ -158,11 +155,7 @@ const GraphAlgorithm = ({ algorithm, allowNegativeEdge, distances }) => {
           />
         </div>
         {current?.table && (
-          <Table
-            matrix={current?.table}
-            header={["vertex", "distance", "previous"]}
-            rounded={true}
-          />
+          <Table matrix={current?.table} header={header} rounded={true} />
         )}
         <button onClick={handlePlay}>play</button>
         <button onClick={handleStep}>step</button>

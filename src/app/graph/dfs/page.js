@@ -8,7 +8,10 @@ const page = () => {
   return (
     <>
       <Header text="Depth First Search" />
-      <GraphAlgorithm algorithm={algorithm} />
+      <GraphAlgorithm
+        algorithm={algorithm}
+        header={["vertex", "distance", "previous"]}
+      />
     </>
   );
 };

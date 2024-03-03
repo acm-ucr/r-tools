@@ -11,6 +11,7 @@ const page = () => {
         algorithm={algorithm}
         allowNegativeEdge={true}
         allowWeighted={true}
+        header={["vertex", "distance", "previous"]}
       />
     </>
   );
