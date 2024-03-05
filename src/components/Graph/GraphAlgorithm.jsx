@@ -5,6 +5,8 @@ import DataContext from "../DataContext";
 import { importJSON } from "@/util/editor/graphFunctions";
 import toast from "react-hot-toast";
 import Table from "../Table";
+import GraphToolbar from "./GraphToolbar";
+import Upload from "../Upload";
 
 const size = 500;
 const GraphAlgorithm = ({
@@ -160,17 +162,22 @@ const GraphAlgorithm = ({
             rounded={true}
           />
         )}
-        <button onClick={handlePlay}>play</button>
-        <button onClick={handleStep}>step</button>
-        <button onClick={handleReplay}>replay</button>
-        <input
-          type="file"
-          onChange={(e) => {
-            importJSON(e, data, setData, false);
-            e.target.value = null;
-          }}
-          value={null}
+      </div>
+      <div className="flex items-center p-4">
+        <GraphToolbar
+          play={handlePlay}
+          step={handleStep}
+          replay={handleReplay}
         />
+        <div className="ml-4">
+          <Upload
+            text="IMPORT A JSON"
+            onChange={(e) => {
+              importJSON(e, data, setData);
+              e.target.value = null;
+            }}
+          />
+        </div>
       </div>
     </>
   );
