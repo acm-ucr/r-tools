@@ -13,6 +13,7 @@ const GraphAlgorithm = ({
   algorithm,
   allowNegativeEdge,
   allowWeighted,
+  allowDirected = true,
   requireStartVertex,
 }) => {
   const { data, setData } = useContext(DataContext);
@@ -66,6 +67,9 @@ const GraphAlgorithm = ({
         toast("This algorithm doesn't allow weights");
         return;
       }
+      if (!allowDirected && isDirected()) {
+        toast("This algorithm doesn't allow directed graphs");
+      }
       const graphAlgorithm = algorithm(newData, data.selectedVertex);
       setSteps(graphAlgorithm);
       setCurrent(graphAlgorithm.next().value);
@@ -83,6 +87,9 @@ const GraphAlgorithm = ({
   };
   const isWeighted = () => {
     return data.weighted;
+  };
+  const isDirected = () => {
+    return data.directed;
   };
 
   useEffect(() => {
@@ -104,6 +111,10 @@ const GraphAlgorithm = ({
       }
       if (!allowWeighted && isWeighted()) {
         toast("This algorithm doesn't allow weights");
+        return;
+      }
+      if (!allowDirected && isDirected()) {
+        toast("This algorithm doesn't allow directed graphs");
         return;
       }
       const graphAlgorithm = algorithm(newData, data.selectedVertex);
