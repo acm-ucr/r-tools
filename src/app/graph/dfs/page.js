@@ -1,16 +1,17 @@
 "use client";
+
 import GraphAlgorithm from "@/components/Graph/GraphAlgorithm";
 import Header from "@/components/Header";
-import { algorithm } from "@/util/graph/dijkstra";
+import { algorithm } from "@/util/graph/dfs";
 
 const page = () => {
   return (
     <>
-      <Header text="Dijkstra" />
+      <Header text="Depth First Search" />
       <GraphAlgorithm
         algorithm={algorithm}
         allowNegativeEdge={false}
-        allowWeighted={true}
+        allowWeighted={false}
       />
     </>
   );

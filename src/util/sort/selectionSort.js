@@ -20,28 +20,105 @@ export function* sort(arr) {
         line: 2,
         array: getArray(arr, { [i]: "i", [minIndex]: "min", [j]: "j" }),
       };
+      yield {
+        line: 3,
+        array: getArray(arr, { [i]: "i", [minIndex]: "min", [j]: "j" }),
+      };
       if (arr[j] < arr[minIndex]) {
         yield {
-          line: 3,
+          line: 4,
           array: getArray(arr, { [i]: "i", [minIndex]: "min", [j]: "j" }),
         };
         minIndex = j;
         yield {
-          line: 4,
+          line: 5,
           array: getArray(arr, { [i]: "i", [minIndex]: "min", [j]: "j" }),
         };
       }
     }
     [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
-    yield { line: 5, array: getArray(arr, { [i]: "i", [minIndex]: "min" }) };
+    yield { line: 6, array: getArray(arr, { [i]: "i", [minIndex]: "min" }) };
   }
 }
 
 export const example = {
-  Python:
-    'def selection_sort(arr):\nn = len(arr)\n\nfor i in range(n - 1):\n    # Assume the current index is the minimum\n    min_index = i\n\n    # Check the rest of the array to find the minimum element\n    for j in range(i + 1, n):\n        if arr[j] < arr[min_index]:\n            min_index = j\n\n    # Swap the found minimum element with the first element\n    arr[i], arr[min_index] = arr[min_index], arr[i]\n\n# Example usage:\nmy_array = [64, 25, 12, 22, 11]\nselection_sort(my_array)\nprint("Sorted array:", my_array) # output:[11, 12, 22, 25, 64]',
-  JavaScript:
-    'function selectionSort(arr) {\n    const n = arr.length;\n\n    for (let i = 0; i < n - 1; i++) {\n        // Assume the current index is the minimum\n        let minIndex = i;\n\n        // Check the rest of the array to find the minimum element\n        for (let j = i + 1; j < n; j++) {\n            if (arr[j] < arr[minIndex]) {\n                minIndex = j;\n            }\n        }\n\n        // Swap the found minimum element with the first element\n        [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];\n    }\n}\n\n// Example usage:\nlet myArray = [64, 25, 12, 22, 11];\nselectionSort(myArray);\nconsole.log("Sorted array:", myArray);',
-  "C++":
-    '#include <iostream>\n\nvoid selectionSort(int arr[], int n) {\n    for (int i = 0; i < n - 1; i++) {\n        // Assume the current index is the minimum\n        int minIndex = i;\n\n        // Check the rest of the array to find the minimum element\n        for (int j = i + 1; j < n; j++) {\n            if (arr[j] < arr[minIndex]) {\n                minIndex = j;\n            }\n        }\n\n        // Swap the found minimum element with the first element\n        std::swap(arr[i], arr[minIndex]);\n    }\n}\n\nint main() {\n    // Example usage:\n    int myArray[] = {64, 25, 12, 22, 11};\n    int n = sizeof(myArray) / sizeof(myArray[0]);\n\n    selectionSort(myArray, n);\n\n    std::cout << "Sorted array: ";\n    for (int i = 0; i < n; i++) {\n        std::cout << myArray[i] << " ";\n    }\n\n    return 0;\n}',
+  Python: `def selection_sort(arr):
+    n = len(arr)
+
+    for i in range(n - 1):
+      # Assume the current index is the minimum  
+      min_index = i
+
+      # Check the rest of the array to find the minimum element
+      for j in range(i + 1, n):  
+        if arr[j] < arr[min_index]:
+          min_index = j
+
+      # Swap the found minimum element with the first element
+      arr[i], arr[min_index] = arr[min_index], arr[i]
+
+# Example usage:
+my_array = [64, 25, 12, 22, 11]
+selection_sort(my_array)
+print("Sorted array:", my_array) # Output:[11, 12, 22, 25, 64]`,
+
+  JavaScript: `const selection_sort = arr => {
+    const n = arr.length;
+  
+    for (let i = 0; i < n - 1; i++) {
+        // Assume the current index is the minimum
+        let minIndex = i;
+  
+        // Check the rest of the array to find the minimum element
+        for (let j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+          }
+        }
+  
+    // Swap the found minimum element with the first element  
+    [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+  }
+}
+
+// Example usage:
+let myArray = [64, 25, 12, 22, 11];
+selectionSort(myArray);
+console.log("Sorted array:", myArray); // Output:[11, 12, 22, 25, 64]
+  `,
+
+  "C++": `#include <iostream>
+  
+void selectionSort(int arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        // Assume the current index is the minimum
+        int minIndex = i;
+  
+        // Check the rest of the array to find the minimum element
+        for (int j = i + 1; j < n; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+  
+        // Swap the found minimum element with the first element
+        std::swap(arr[i], arr[minIndex]);
+    }
+}
+  
+int main() {
+    // Example usage:
+    int myArray[] = {64, 25, 12, 22, 11};
+    int n = sizeof(myArray) / sizeof(myArray[0]);
+  
+    selectionSort(myArray, n);
+  
+    std::cout << "Sorted array: ";
+    for (int i = 0; i < n; i++) {
+        std::cout << myArray[i] << " ";
+    }
+    // Output: Sorted array: 11 12 22 25 64
+  
+    return 0;
+}`,
 };

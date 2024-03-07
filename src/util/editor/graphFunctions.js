@@ -61,6 +61,7 @@ class GraphFunctions {
    */
   static addEdge = (data, setData, from, to, color = "whtie", weight = 1) => {
     if (data.edges[from]?.some((e) => e.to === to)) return;
+    if (from === to) return;
     setData({
       ...data,
       selectedVertex: to,
@@ -148,7 +149,7 @@ class GraphFunctions {
       canvas.width = svgImage.clientWidth;
       canvas.height = svgImage.clientHeight;
       const canvasCtx = canvas.getContext("2d");
-      canvasCtx.drawImage(svgImage, 0, 0);
+      canvasCtx.drawImage(svgImage, 0, 0, canvas.width, canvas.height);
       const imgData = canvas.toDataURL("image/png");
       const element = document.createElement("a");
       element.download = "w3c.png";

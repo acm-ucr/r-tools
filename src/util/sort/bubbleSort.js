@@ -28,10 +28,77 @@ export function* sort(arr) {
 }
 
 export const example = {
-  Python:
-    'def bubble_sort(arr):\n    n = len(arr)\n\n    # Iterate through all array elements\n    for i in range(n - 1):\n        # Last i elements are already sorted, so we don\'t need to check them\n\n        for j in range(n - i - 1):\n            # Swap if the element found is greater than the next element\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n\n# Example usage:\nmy_array = [64, 25, 12, 22, 11]\nbubble_sort(my_array)\nprint("Sorted array:", my_array)  # Output: [11, 12, 22, 25, 64]',
-  JavaScript:
-    'function bubbleSort(arr) {\n    const n = arr.length;\n\n    // Iterate through all array elements\n    for (let i = 0; i < n - 1; i++) {\n        // Last i elements are already sorted, so we don\'t need to check them\n\n        for (let j = 0; j < n - i - 1; j++) {\n            // Swap if the element found is greater than the next element\n            if (arr[j] > arr[j + 1]) {\n                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];\n            }\n        }\n    }\n}\n\n// Example usage:\nlet myArray = [64, 25, 12, 22, 11];\nbubbleSort(myArray);\nconsole.log("Sorted array:", myArray);',
-  "C++":
-    '//#include <iostream>\n\nvoid bubbleSort(int arr[], int n) {\n    // Iterate through all array elements\n    for (int i = 0; i < n - 1; i++) {\n        // Last i elements are already sorted, so we don\'t need to check them\n\n        for (int j = 0; j < n - i - 1; j++) {\n            // Swap if the element found is greater than the next element\n            if (arr[j] > arr[j + 1]) {\n                std::swap(arr[j], arr[j + 1]);\n            }\n        }\n    }\n}\n\nint main() {\n    // Example usage:\n    int myArray[] = {64, 25, 12, 22, 11};\n    int n = sizeof(myArray) / sizeof(myArray[0]);\n\n    bubbleSort(myArray, n);\n\n    std::cout << "Sorted array: ";\n    for (int i = 0; i < n; i++) {\n        std::cout << myArray[i] << " ";\n    }\n\n    return 0;\n}',
+  Python: `def bubbleSort(arr):
+    n = len(arr)
+
+    # Iterate through all array elements
+    for i in range(n - 1):
+
+      # Last i elements are already sorted, so we don't need to check them
+      for j in range(n - i - 1):
+
+        # Swap if the element found is greater than the next element
+        if arr[j] > arr[j + 1]:
+          arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+# Example usage:
+my_array = [64, 25, 12, 22, 11]
+bubble_sort(my_array)
+print("Sorted array:", my_array)  # Output: [11, 12, 22, 25, 64]`,
+
+  JavaScript: `const bubbleSort = arr => {
+    const n = arr.length;
+
+    // Iterate through all array elements
+    for (let i = 0; i < n - 1; i++) {
+
+        // Last i elements are already sorted, so we don't need to check them
+        for (let j = 0; j < n - i - 1; j++) {
+
+            // Swap if the element found is greater than the next element
+            if (arr[j] > arr[j + 1]) {
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+            }
+        }
+    }
+}
+
+// Example usage:
+let myArray = [64, 25, 12, 22, 11];
+bubbleSort(myArray);
+console.log("Sorted array:", myArray); // Output: [11, 12, 22, 25, 64]`,
+
+  "C++": `#include <iostream>
+#include <vector>
+  
+void bubbleSort(std::vector<int>& vect) {
+
+    int n = vect.size();
+    for (int i = 0; i < n - 1; i++) {
+
+        // Last i elements are already sorted, so we don't need to check them
+        for (int j = 0; j < n - i - 1; j++) {
+
+            // Swap if the element found is greater than the next element
+            if (vect[j] > vect[j + 1]) {
+                std::swap(vect[j], vect[j + 1]);
+            }
+        }
+    }
+}
+
+int main() {
+    // Example usage:
+    std::vector<int> myVector = {64, 25, 12, 22, 11};
+
+    bubbleSort(myVector);
+
+    std::cout << "Sorted vector: ";
+    for (int i = 0; i < myVector.size(); i++) {
+        std::cout << myVector.at(i) << " ";
+    }
+    // Output: Sorted vector: 11 12 22 25 64
+
+    return 0;
+}`,
 };

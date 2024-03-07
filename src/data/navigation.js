@@ -9,7 +9,7 @@ import { CgListTree } from "react-icons/cg";
 import { BiMath } from "react-icons/bi";
 import { PiTable } from "react-icons/pi";
 import { PiGraph } from "react-icons/pi";
-import { FaPowerOff } from "react-icons/fa6";
+import { RiNodeTree } from "react-icons/ri";
 
 const DEV = [
   {
@@ -117,10 +117,42 @@ const DEV = [
         release: true,
       },
       {
-        icon: <FaPowerOff />,
-        name: "State Machine",
-        link: "/graph/state-machine",
-        description: " ",
+        icon: <PiGraph />,
+        name: "Floyd Warshall",
+        link: "/graph/floyd-warshall",
+        description: "run Floyd Warshall on graphs",
+      },
+      {
+        icon: <PiGraph />,
+        name: "Breadth First Search",
+        link: "/graph/bfs",
+        description: "run BFS on graphs",
+        release: true,
+      },
+      {
+        icon: <PiGraph />,
+        name: "Depth First Search",
+        link: "/graph/dfs",
+        description: "run DFS on graphs",
+      },
+      {
+        icon: <PiGraph />,
+        name: "Bellman Ford",
+        link: "/graph/bellmen-ford",
+        description: "run Bellman Ford on graphs",
+        release: true,
+      },
+      {
+        icon: <RiNodeTree />,
+        name: "Prim's",
+        link: "/graph/prims",
+        description: "Minimum Spanning Tree",
+      },
+      {
+        icon: "",
+        name: "Kruskals",
+        link: "/graph/kruskals",
+        description: "run Kruskals on graphs",
       },
     ],
   },

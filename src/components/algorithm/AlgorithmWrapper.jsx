@@ -18,6 +18,10 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
   const [play, setPlay] = useState(false);
 
   const onPlay = () => {
+    if (!steps) {
+      toast.error("Please enter a valid array before pressing play");
+      return;
+    }
     setPlay(!play);
   };
 
@@ -99,7 +103,10 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
             value={input}
             setValue={setInput}
             button="Generate"
-            onSubmit={handleGenerate}
+            onSubmit={() => {
+              handleGenerate();
+              setPlay(false);
+            }}
             clear={true}
             placeholder="integers separated by commas (ex. 10, 25, 200, 3, 56, 34, 21, 63)"
           />

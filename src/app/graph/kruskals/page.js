@@ -1,15 +1,15 @@
 "use client";
 import GraphAlgorithm from "@/components/Graph/GraphAlgorithm";
 import Header from "@/components/Header";
-import { algorithm } from "@/util/graph/dijkstra";
+import { algorithm } from "@/util/graph/kruskals";
 
 const page = () => {
   return (
     <>
-      <Header text="Dijkstra" />
+      <Header text="Kruskals" />
       <GraphAlgorithm
         algorithm={algorithm}
-        allowNegativeEdge={false}
+        allowNegativeEdge={true}
         allowWeighted={true}
       />
     </>
