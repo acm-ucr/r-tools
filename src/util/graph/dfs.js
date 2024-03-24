@@ -21,6 +21,29 @@ const generateTable = (vertices, visited, predecessors) => {
   return table;
 };
 
+const dfsVisit = function* (
+  vertices,
+  edges,
+  startId,
+  current,
+  visited,
+  predecessors
+) {
+  visited[startId][current] = true;
+  predecessors[startId][current] = current;
+
+  yield {
+    table: generateTable(vertices, visited, predecessors),
+    graph: { vertices: vertices, edges: edges },
+  };
+
+  for (const edge of edges[current] || []) {
+    if (!visited[startId][edge.to]) {
+      yield* dfsVisit(vertices, edges, startId, edge.to, visited, predecessors);
+    }
+  }
+};
+
 export function* algorithm(data) {
   const vertices = data.vertices;
   const edges = data.edges;
@@ -46,6 +69,13 @@ export function* algorithm(data) {
     table: generateTable(vertices, visited, predecessors),
     graph: { vertices: vertices, edges: edges },
   };
+
+  // Perform DFS for each vertex
+  for (const startId of Object.keys(vertices)) {
+    if (!visited[startId][startId]) {
+      yield* dfsVisit(vertices, edges, startId, null, visited, predecessors);
+    }
+  }
 
   return { visited, predecessors };
 }

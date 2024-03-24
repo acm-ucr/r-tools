@@ -5,12 +5,15 @@ import DataContext from "../DataContext";
 import { importJSON } from "@/util/editor/graphFunctions";
 import toast from "react-hot-toast";
 import Table from "../Table";
+import GraphToolbar from "./GraphToolbar";
+import Upload from "../Upload";
 
 const size = 500;
 const GraphAlgorithm = ({
   algorithm,
   allowNegativeEdge,
   allowWeighted,
+  allowDirected = true,
   requireStartVertex,
   header,
 }) => {
@@ -65,6 +68,9 @@ const GraphAlgorithm = ({
         toast("This algorithm doesn't allow weights");
         return;
       }
+      if (!allowDirected && isDirected()) {
+        toast("This algorithm doesn't allow directed graphs");
+      }
       const graphAlgorithm = algorithm(newData, data.selectedVertex);
       setSteps(graphAlgorithm);
       setCurrent(graphAlgorithm.next().value);
@@ -82,6 +88,9 @@ const GraphAlgorithm = ({
   };
   const isWeighted = () => {
     return data.weighted;
+  };
+  const isDirected = () => {
+    return data.directed;
   };
 
   useEffect(() => {
@@ -103,6 +112,10 @@ const GraphAlgorithm = ({
       }
       if (!allowWeighted && isWeighted()) {
         toast("This algorithm doesn't allow weights");
+        return;
+      }
+      if (!allowDirected && isDirected()) {
+        toast("This algorithm doesn't allow directed graphs");
         return;
       }
       const graphAlgorithm = algorithm(newData, data.selectedVertex);
@@ -157,17 +170,22 @@ const GraphAlgorithm = ({
         {current?.table && (
           <Table matrix={current?.table} header={header} rounded={true} />
         )}
-        <button onClick={handlePlay}>play</button>
-        <button onClick={handleStep}>step</button>
-        <button onClick={handleReplay}>replay</button>
-        <input
-          type="file"
-          onChange={(e) => {
-            importJSON(e, data, setData, false);
-            e.target.value = null;
-          }}
-          value={null}
+      </div>
+      <div className="flex items-center p-4">
+        <GraphToolbar
+          play={handlePlay}
+          step={handleStep}
+          replay={handleReplay}
         />
+        <div className="ml-4">
+          <Upload
+            text="IMPORT A JSON"
+            onChange={(e) => {
+              importJSON(e, data, setData);
+              e.target.value = null;
+            }}
+          />
+        </div>
       </div>
     </>
   );

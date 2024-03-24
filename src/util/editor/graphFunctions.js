@@ -61,6 +61,7 @@ class GraphFunctions {
    */
   static addEdge = (data, setData, from, to, color = "whtie", weight = 1) => {
     if (data.edges[from]?.some((e) => e.to === to)) return;
+    if (from === to) return;
     setData({
       ...data,
       selectedVertex: to,
