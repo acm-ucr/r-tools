@@ -9,8 +9,8 @@ const page = () => {
       <Header text="Dijkstra" />
       <GraphAlgorithm
         algorithm={algorithm}
+        header={["vertex", "distance", "previous"]}
         allowNegativeEdge={false}
-        allowWeighted={true}
       />
     </>
   );

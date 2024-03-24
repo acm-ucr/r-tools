@@ -9,8 +9,8 @@ const page = () => {
       <Header text="Floyd Warshall" />
       <GraphAlgorithm
         algorithm={algorithm}
+        header={["vertex", "distance", "previous"]}
         allowNegativeEdge={true}
-        allowWeighted={true}
       />
     </>
   );

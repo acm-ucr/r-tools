@@ -15,6 +15,7 @@ const GraphAlgorithm = ({
   allowWeighted,
   allowDirected = true,
   requireStartVertex,
+  header,
 }) => {
   const { data, setData } = useContext(DataContext);
   const [steps, setSteps] = useState(null);
@@ -167,11 +168,7 @@ const GraphAlgorithm = ({
           />
         </div>
         {current?.table && (
-          <Table
-            matrix={current?.table}
-            header={["vertex", "distance", "previous"]}
-            rounded={true}
-          />
+          <Table matrix={current?.table} header={header} rounded={true} />
         )}
       </div>
       <div className="flex items-center p-4">

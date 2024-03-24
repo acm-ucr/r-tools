@@ -10,8 +10,7 @@ const page = () => {
       <Header text="Depth First Search" />
       <GraphAlgorithm
         algorithm={algorithm}
-        allowNegativeEdge={false}
-        allowWeighted={false}
+        header={["vertex", "distance", "previous"]}
       />
     </>
   );
