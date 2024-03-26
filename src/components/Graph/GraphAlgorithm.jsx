@@ -6,12 +6,16 @@ import { importJSON } from "@/util/editor/graphFunctions";
 import toast from "react-hot-toast";
 import Table from "../Table";
 import { GRAPH_PAGE } from "@/data/graphPage";
+import GraphToolbar from "./GraphToolbar";
+import Upload from "../Upload";
 
 const size = 500;
-const GraphAlgorithm = ({ algorithm }) => {
+const GraphAlgorithm = ({ algorithm, header }) => {
   const allowNegativeEdge = GRAPH_PAGE[algorithm].negative;
   const allowWeighted = GRAPH_PAGE[algorithm].weighted;
-  const requireStartVertex = GRAPH_PAGE[algorithm].directed;
+  const allowDirected = GRAPH_PAGE[algorithm].directed;
+  const requireStartVertex = GRAPH_PAGE[algorithm].requireStartVertex;
+
   const { data, setData } = useContext(DataContext);
   const [steps, setSteps] = useState(null);
   const [stepIndex, setStepIndex] = useState(0);
@@ -63,6 +67,9 @@ const GraphAlgorithm = ({ algorithm }) => {
         toast("This algorithm doesn't allow weights");
         return;
       }
+      if (!allowDirected && isDirected()) {
+        toast("This algorithm doesn't allow directed graphs");
+      }
       const graphAlgorithm = algorithm(newData, data.selectedVertex);
       setSteps(graphAlgorithm);
       setCurrent(graphAlgorithm.next().value);
@@ -80,6 +87,9 @@ const GraphAlgorithm = ({ algorithm }) => {
   };
   const isWeighted = () => {
     return data.weighted;
+  };
+  const isDirected = () => {
+    return data.directed;
   };
 
   useEffect(() => {
@@ -101,6 +111,11 @@ const GraphAlgorithm = ({ algorithm }) => {
       }
       if (!allowWeighted && isWeighted()) {
         toast("This algorithm doesn't allow weights");
+        return;
+      }
+
+      if (!allowDirected && isDirected()) {
+        toast("This algorithm doesn't allow directed graphs");
         return;
       }
       const graphAlgorithm = GRAPH_PAGE[algorithm].algorithm(
@@ -156,23 +171,24 @@ const GraphAlgorithm = ({ algorithm }) => {
           />
         </div>
         {current?.table && (
-          <Table
-            matrix={current?.table}
-            header={["vertex", "distance", "previous"]}
-            rounded={true}
-          />
+          <Table matrix={current?.table} header={header} rounded={true} />
         )}
-        <button onClick={handlePlay}>play</button>
-        <button onClick={handleStep}>step</button>
-        <button onClick={handleReplay}>replay</button>
-        <input
-          type="file"
-          onChange={(e) => {
-            importJSON(e, data, setData, false);
-            e.target.value = null;
-          }}
-          value={null}
+      </div>
+      <div className="flex items-center p-4">
+        <GraphToolbar
+          play={handlePlay}
+          step={handleStep}
+          replay={handleReplay}
         />
+        <div className="ml-4">
+          <Upload
+            text="IMPORT A JSON"
+            onChange={(e) => {
+              importJSON(e, data, setData);
+              e.target.value = null;
+            }}
+          />
+        </div>
       </div>
     </>
   );

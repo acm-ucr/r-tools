@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { cpp } from "@codemirror/lang-cpp";
+import { javascript } from "@codemirror/lang-javascript";
+import { python } from "@codemirror/lang-python";
 import { FaCircle } from "react-icons/fa";
 import CodeMirror from "@uiw/react-codemirror";
 import { coolGlow } from "thememirror";
@@ -37,7 +39,14 @@ const CodeView = ({ codes, editor, currLine }) => {
             readOnly={true}
             value={codes[select]}
             height="70vh"
-            extensions={[cpp()]}
+            // make a map (add prop)
+            extensions={[
+              select === "Python"
+                ? python()
+                : select === "JavaScript"
+                ? javascript()
+                : cpp(),
+            ]}
             theme={coolGlow}
           />
         )}
