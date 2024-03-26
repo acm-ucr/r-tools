@@ -35,12 +35,14 @@ const GraphEditor = () => {
         parseInt(e.key)
       );
   };
+
   useEffect(() => {
     window.addEventListener("keydown", handleUserKeyPress);
     return () => {
       window.removeEventListener("keydown", handleUserKeyPress);
     };
-  }, [data]);
+  }, []);
+
   useEffect(() => {
     setData({ ...data, edges: getOneWayUndirectedEdge(data) });
   }, [data.directed]);
