@@ -58,13 +58,30 @@ class GraphFunctions {
    * @param {string} to the id of the vertex that edge goes into
    * @param {('white'|'pink'|'teal'|'purple'|'orange'|'yellow')} color the color of the edge
    * @param {int} weight the weight of the edge
+   * @param {boolean} directed true if the graph is directed
    */
-  static addEdge = (data, setData, from, to, color = "whtie", weight = 1) => {
+  static addEdge = (
+    data,
+    setData,
+    from,
+    to,
+    color = "whtie",
+    weight = 1,
+    directed = true
+  ) => {
     if (data.edges[from]?.some((e) => e.to === to)) return;
     if (from === to) return;
+    const selectedVertex = to;
+    if (!directed) {
+      if (from > to) {
+        const temp = from;
+        from = to;
+        to = temp;
+      }
+    }
     setData({
       ...data,
-      selectedVertex: to,
+      selectedVertex: selectedVertex,
       edges: {
         ...data.edges,
         [from]: data.edges[from]
