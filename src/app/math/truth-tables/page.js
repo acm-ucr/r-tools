@@ -44,7 +44,7 @@ const page = () => {
         setSymbols={setSymbols}
         description={description}
       />
-      <div className="flex gap-3">
+      <div className="flex gap-3 mt-2">
         <Equations equations={equations} setEquations={setEquations} />
         <TruthTable booleanEquations={equations} symbols={symbols} />
       </div>
