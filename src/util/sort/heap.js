@@ -203,10 +203,164 @@ export function* sort(arr) {
 }
 
 export const example = {
-  Python:
-    "def heapify(arr, N, i):\n    largest = i  # Initialize largest as root\n    l = 2 * i + 1     # left = 2*i + 1\n    r = 2 * i + 2     # right = 2*i + 2\n \n    # See if left child of root exists and is\n    # greater than root\n    if l < N and arr[largest] < arr[l]:\n        largest = l\n \n    # See if right child of root exists and is\n    # greater than root\n    if r < N and arr[largest] < arr[r]:\n        largest = r\n \n    # Change root, if needed\n    if largest != i:\n        arr[i], arr[largest] = arr[largest], arr[i]  # swap\n \n        # Heapify the root.\n        heapify(arr, N, largest)\n \ndef heapSort(arr):\n    N = len(arr)\n \n    # Build a maxheap.\n    for i in range(N//2 - 1, -1, -1):\n        heapify(arr, N, i)\n \n    # One by one extract elements\n    for i in range(N-1, 0, -1):\n        arr[i], arr[0] = arr[0], arr[i]  # swap\n        heapify(arr, i, 0)",
-  JavaScript:
-    "function sort( arr)\n{\n    var N = arr.length;\n\n    // Build heap (rearrange array)\n    for (var i = Math.floor(N / 2) - 1; i >= 0; i--)\n        heapify(arr, N, i);\n\n    // One by one extract an element from heap\n    for (var i = N - 1; i > 0; i--) {\n        // Move current root to end\n        var temp = arr[0];\n        arr[0] = arr[i];\n        arr[i] = temp;\n\n        // call max heapify on the reduced heap\n        heapify(arr, i, 0);\n    }\n}\n\n// To heapify a subtree rooted with node i which is\n// an index in arr[]. n is size of heap\nfunction heapify(arr, N, i)\n{\n    var largest = i; // Initialize largest as root\n    var l = 2 * i + 1; // left = 2*i + 1\n    var r = 2 * i + 2; // right = 2*i + 2\n\n    // If left child is larger than root\n    if (l < N && arr[l] > arr[largest])\n        largest = l;\n\n    // If right child is larger than largest so far\n    if (r < N && arr[r] > arr[largest])\n        largest = r;\n\n    // If largest is not root\n    if (largest != i) {\n        var swap = arr[i];\n        arr[i] = arr[largest];\n        arr[largest] = swap;\n\n        // Recursively heapify the affected sub-tree\n        heapify(arr, N, largest);\n    }\n}",
-  "C++":
-    "using namespace std;\n \n// To heapify a subtree rooted with node i\n// which is an index in arr[].\n// n is size of heap\nvoid heapify(int arr[], int N, int i)\n{\n \n    // Initialize largest as root\n    int largest = i;\n \n    // left = 2*i + 1\n    int l = 2 * i + 1;\n \n    // right = 2*i + 2\n    int r = 2 * i + 2;\n \n    // If left child is larger than root\n    if (l < N && arr[l] > arr[largest])\n        largest = l;\n \n    // If right child is larger than largest\n    // so far\n    if (r < N && arr[r] > arr[largest])\n        largest = r;\n \n    // If largest is not root\n    if (largest != i) {\n        swap(arr[i], arr[largest]);\n \n        // Recursively heapify the affected\n        // sub-tree\n        heapify(arr, N, largest);\n    }\n}\n \n// Main function to do heap sort\nvoid heapSort(int arr[], int N)\n{\n \n    // Build heap (rearrange array)\n    for (int i = N / 2 - 1; i >= 0; i--)\n        heapify(arr, N, i);\n \n    // One by one extract an element\n    // from heap\n    for (int i = N - 1; i > 0; i--) {\n \n        // Move current root to end\n        swap(arr[0], arr[i]);\n \n        // call max heapify on the reduced heap\n        heapify(arr, i, 0);\n    }\n}}",
+  Python: `def heapify(arr, n, i):
+  # Heapifies the subtree rooted at index i.
+  largest = i  # Initialize largest as root
+  left = 2 * i + 1  # left child
+  right = 2 * i + 2  # right child
+
+  # If left child exists and is greater than root
+  if left < n and arr[left] > arr[largest]:
+      largest = left
+
+  # If right child exists and is greater than largest so far
+  if right < n and arr[right] > arr[largest]:
+      largest = right
+
+  # If largest is not root, swap root with largest and heapify the affected subtree
+  if largest != i:
+      arr[i], arr[largest] = arr[largest], arr[i]
+      heapify(arr, n, largest)
+
+def heap_sort(arr):
+  # Sorts the array using Heap Sort algorithm.
+  n = len(arr)
+
+  # Build max heap
+  for i in range(n // 2 - 1, -1, -1):
+      heapify(arr, n, i)
+
+  # Extract elements from heap one by one
+  for i in range(n - 1, 0, -1):
+      arr[i], arr[0] = arr[0], arr[i]  # Swap root with last element
+      heapify(arr, i, 0)  # Heapify the reduced heap
+
+if __name__ == "__main__":
+  # Example usage:
+  arr = [12, 11, 13, 5, 6, 7]
+  print("Original array:", arr)
+  heap_sort(arr)
+  print("Sorted array:", arr)
+`,
+  JavaScript: `const heapify = (arr, n, i) => {
+  /**
+   * Heapifies the subtree rooted at index i.
+   */
+  let largest = i; // Initialize largest as root
+  const left = 2 * i + 1; // left child
+  const right = 2 * i + 2; // right child
+
+  // If left child exists and is greater than root
+  if (left < n && arr[left] > arr[largest]) {
+    largest = left;
+  }
+
+  // If right child exists and is greater than largest so far
+  if (right < n && arr[right] > arr[largest]) {
+    largest = right;
+  }
+
+  // If largest is not root, swap root with largest and heapify the affected subtree
+  if (largest !== i) {
+    [arr[i], arr[largest]] = [arr[largest], arr[i]];
+    heapify(arr, n, largest);
+  }
+};
+
+const heapSort = (arr) => {
+  /**
+   * Sorts the array using Heap Sort algorithm.
+   */
+  const n = arr.length;
+
+  // Build max heap
+  for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+    heapify(arr, n, i);
+  }
+
+  // Extract elements from heap one by one
+  for (let i = n - 1; i > 0; i--) {
+    // Move current root to end
+    [arr[0], arr[i]] = [arr[i], arr[0]];
+
+    // call max heapify on the reduced heap
+    heapify(arr, i, 0);
+  }
+};
+
+// Example usage:
+const arr = [12, 11, 13, 5, 6, 7];
+console.log("Original array:", arr);
+heapSort(arr);
+console.log("Sorted array:", arr);
+`,
+  "C++": `#include <iostream>
+#include <vector>
+
+void heapify(std::vector<int>& arr, int n, int i) {
+    /**
+     * Heapifies the subtree rooted at index i.
+     */
+    int largest = i; // Initialize largest as root
+    int left = 2 * i + 1; // left child
+    int right = 2 * i + 2; // right child
+
+    // If left child exists and is greater than root
+    if (left < n && arr[left] > arr[largest]) {
+        largest = left;
+    }
+
+    // If right child exists and is greater than largest so far
+    if (right < n && arr[right] > arr[largest]) {
+        largest = right;
+    }
+
+    // If largest is not root, swap root with largest and heapify the affected subtree
+    if (largest != i) {
+        std::swap(arr[i], arr[largest]);
+        heapify(arr, n, largest);
+    }
+}
+
+void heapSort(std::vector<int>& arr) {
+    /**
+     * Sorts the array using Heap Sort algorithm.
+     */
+    int n = arr.size();
+
+    // Build max heap
+    for (int i = n / 2 - 1; i >= 0; i--) {
+        heapify(arr, n, i);
+    }
+
+    // Extract elements from heap one by one
+    for (int i = n - 1; i > 0; i--) {
+        // Move current root to end
+        std::swap(arr[0], arr[i]);
+
+        // call max heapify on the reduced heap
+        heapify(arr, i, 0);
+    }
+}
+
+int main() {
+    // Example usage:
+    std::vector<int> arr = {12, 11, 13, 5, 6, 7};
+    std::cout << "Original array:";
+    for (int num : arr) {
+        std::cout << " " << num;
+    }
+    std::cout << std::endl;
+
+    heapSort(arr);
+
+    std::cout << "Sorted array:";
+    for (int num : arr) {
+        std::cout << " " << num;
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+`,
 };

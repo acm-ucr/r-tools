@@ -76,7 +76,113 @@ export function* sort(arr) {
 }
 
 export const example = {
-  Python: "",
-  JavaScript: "",
-  "C++": "",
+  Python: `import random
+def is_sorted(arr):
+    # Check if the array is sorted.
+    for i in range(len(arr) - 1):
+        if arr[i] > arr[i + 1]:
+            return False
+    return True
+
+def bogo_sort(arr):
+    # Sorts the array using Bogo Sort algorithm.
+    while not is_sorted(arr):
+        random.shuffle(arr)
+    return arr
+
+if __name__ == "__main__":
+    # Example usage:
+    arr = [3, 1, 5, 2, 4]
+    print("Original array:", arr)
+    sorted_arr = bogo_sort(arr)
+    print("Sorted array:", sorted_arr)
+
+`,
+  JavaScript: `// Function to check if the array is sorted
+const isSorted = arr => {
+    for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i] > arr[i + 1]) {
+            return false;
+        }
+    }
+    return true;
+};
+
+// Function to shuffle the array
+const shuffleArray = arr => {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]]; // Swap elements
+    }
+};
+
+// Function to perform Bogo Sort
+const bogoSort = arr => {
+    while (!isSorted(arr)) {
+        shuffleArray(arr);
+    }
+    return arr;
+};
+
+// Example usage:
+const arr = [3, 1, 5, 2, 4];
+console.log("Original array:", arr);
+const sortedArr = bogoSort(arr.slice()); // Create a copy of the original array to avoid modifying it
+console.log("Sorted array:", sortedArr);  
+`,
+  "C++": `#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <random>
+
+// Function to check if the array is sorted
+bool isSorted(const std::vector<int>& arr) {
+    for (size_t i = 0; i < arr.size() - 1; ++i) {
+        if (arr[i] > arr[i + 1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Function to shuffle the array
+void shuffleArray(std::vector<int>& arr) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    for (size_t i = arr.size() - 1; i > 0; --i) {
+        std::uniform_int_distribution<size_t> dis(0, i);
+        size_t j = dis(gen);
+        std::swap(arr[i], arr[j]); // Swap elements
+    }
+}
+
+// Function to perform Bogo Sort
+void bogoSort(std::vector<int>& arr) {
+    while (!isSorted(arr)) {
+        shuffleArray(arr);
+    }
+}
+
+int main() {
+    // Example usage:
+    std::vector<int> arr = {3, 1, 5, 2, 4};
+    std::cout << "Original array: ";
+    for (int num : arr) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    bogoSort(arr);
+
+    std::cout << "Sorted array: ";
+    for (int num : arr) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+
+`,
 };

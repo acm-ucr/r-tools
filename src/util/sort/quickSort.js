@@ -51,138 +51,147 @@ export function* sort(arr, low, high) {
 }
 
 export const example = {
-  Python: `def quick_sort(arr, low, high):
-  if low < high:
-    # Find pivot element such that 
-    partitionIndex = partition(arr, low, high)
+  Python: `def partition(arr, low, high):
+"""
+Picks the last element as pivot, places the pivot element at its correct position in sorted array,
+and places all smaller elements (smaller than pivot) to left of pivot and all greater elements to right of pivot.
+"""
+pivot = arr[high]  # pivot
+i = low - 1  # Index of smaller element
 
-    # Recursively sort the two halves
-    quick_sort(arr, low, partitionIndex - 1)
-    quick_sort(arr, partitionIndex + 1, high)
-
-
-def partition(arr, low, high):
-  pivot = arr[high]
-  i = low - 1
-
-  for j in range(low, high):
+for j in range(low, high):
     # If current element is smaller than or equal to pivot
     if arr[j] <= pivot:
-      i += 1
+        i += 1  # increment index of smaller element
+        arr[i], arr[j] = arr[j], arr[i]
 
-      # Swap elements at i and j
-      arr[i], arr[j] = arr[j], arr[i]
+arr[i + 1], arr[high] = arr[high], arr[i + 1]
+return i + 1
 
-  # Swap pivot element to its correct position
-  arr[i + 1], arr[high] = arr[high], arr[i + 1]
 
-  # Return the index of the pivot element
-  return i + 1
+def quick_sort(arr, low, high):
+"""
+The main function that implements QuickSort
+"""
+if low < high:
+    # pi is partitioning index, arr[p] is now at right place
+    pi = partition(arr, low, high)
 
+    # Separately sort elements before partition and after partition
+    quick_sort(arr, low, pi - 1)
+    quick_sort(arr, pi + 1, high)
+
+if __name__ == "__main__":
 # Example usage:
-my_array = [64, 25, 12, 22, 11]
-quick_sort(my_array, 0, len(my_array) - 1)
-print("Sorted array:", my_array)  # Output: [11, 12, 22, 25, 64]
+arr = [10, 7, 8, 9, 1, 5]
+print("Original array:", arr)
+quick_sort(arr, 0, len(arr) - 1)
+print("Sorted array:", arr)
 `,
-  JavaScript: `const quickSort = (arr, low, high) => {
-    if (low < high) {
-  
-      // Find pivot element such that
-      let partitionIndex = partition(arr, low, high);
-  
-      // Recursively sort the two halves
-      quickSort(arr, low, partitionIndex - 1);
-      quickSort(arr, partitionIndex + 1, high);
-  
-    }
-  
-}
+  JavaScript: `const partition = (arr, low, high) => {
+  /**
+   * Picks the last element as pivot, places the pivot element at its correct position in sorted array,
+   * and places all smaller elements (smaller than pivot) to left of pivot and all greater elements to right of pivot.
+   */
+  const pivot = arr[high]; // pivot
+  let i = low - 1; // Index of smaller element
 
-const partition = (arr, low, high) => {
-  let pivot = arr[high];
-  let i = low - 1;
-  
   for (let j = low; j < high; j++) {
-  
     // If current element is smaller than or equal to pivot
     if (arr[j] <= pivot) {
-      i++;
-  
-      // Swap elements at i and j
+      i++; // increment index of smaller element
       [arr[i], arr[j]] = [arr[j], arr[i]];
-  
     }
-  
   }
-  
-  // Swap pivot element to its correct position
-  [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
-  
-  // Return the index of the pivot element
-  return i + 1;
-  
-}
-  
-// Example usage:
-  
-let myArray = [64, 25, 12, 22, 11]; 
-quickSort(myArray, 0, myArray.length - 1);
-console.log("Sorted array:", myArray); // Output: [11, 12, 22, 25, 64]`,
 
-  "C++": `#include <iostream> 
+  [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+  return i + 1;
+};
+
+const quickSort = (arr, low, high) => {
+  /**
+   * The main function that implements QuickSort
+   */
+  if (low < high) {
+    // pi is partitioning index, arr[p] is now at right place
+    const pi = partition(arr, low, high);
+
+    // Separately sort elements before partition and after partition
+    quickSort(arr, low, pi - 1);
+    quickSort(arr, pi + 1, high);
+  }
+};
+
+// Example usage:
+const arr = [10, 7, 8, 9, 1, 5];
+console.log("Original array:", arr);
+quickSort(arr, 0, arr.length - 1);
+console.log("Sorted array:", arr);
+`,
+
+  "C++": `#include <iostream>
 #include <vector>
 
-int partition(std::vector<int>& arr, int low, int high) {
-  int pivot = arr.at(high);
-  int i = low - 1;
-  
-  for (int j = low; j < high; j++) {
+int partition(std::vector<int> &arr, int low, int high)
+{
+    /**
+     * Picks the last element as pivot, places the pivot element at its correct position in sorted array,
+     * and places all smaller elements (smaller than pivot) to left of pivot and all greater elements to right of pivot.
+     */
+    int pivot = arr[high]; // pivot
+    int i = low - 1;       // Index of smaller element
 
-    // If current element is smaller than or equal to pivot
-    if (arr.at(j) <= pivot) {
-      i++;
-
-      // Swap elements at i and j
-      std::swap(arr.at(i), arr.at(j));
-      
+    for (int j = low; j < high; j++)
+    {
+        // If current element is smaller than or equal to pivot
+        if (arr[j] <= pivot)
+        {
+            i++; // increment index of smaller element
+            std::swap(arr[i], arr[j]);
+        }
     }
-  
-  }
-  
-  // Swap pivot element to its correct position   
-  std::swap(arr.at(i + 1), arr.at(high));
 
-  // Return the index of the pivot element
-  return i + 1;
-  
+    std::swap(arr[i + 1], arr[high]);
+    return i + 1;
 }
-  
-void quickSort(std::vector<int>& arr, int low, int high) {
-  if (low < high) {
-    
-    // Find pivot element such that
-    int partitionIndex = partition(arr, low, high);
-  
-    // Recursively sort the two halves 
-    quickSort(arr, low, partitionIndex - 1);
-    quickSort(arr, partitionIndex + 1, high);
-    
-  }
-  
+
+void quickSort(std::vector<int> &arr, int low, int high)
+{
+    /**
+     * The main function that implements QuickSort
+     */
+    if (low < high)
+    {
+        // pi is partitioning index, arr[p] is now at right place
+        int pi = partition(arr, low, high);
+
+        // Separately sort elements before partition and after partition
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
 }
-  
-int main() {
-  
-  // Example usage:
-  std::vector<int> myVector = {64, 25, 12, 22, 11};
-  int n = myVector.size();
-  quickSort(myVector, 0, n - 1);
-  std::cout << "Sorted vector: ";
-  for (int i = 0; i < n; i++) {
-    std::cout << myVector.at(i) << " "; // Output: 11 12 22 25 64
-  }
 
-  return 0;
+int main()
+{
+    // Example usage:
+    std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+    std::cout << "Original array:";
+    for (int num : arr)
+    {
+        std::cout << " " << num;
+    }
+    std::cout << std::endl;
 
-}`,
+    quickSort(arr, 0, arr.size() - 1);
+
+    std::cout << "Sorted array:";
+    for (int num : arr)
+    {
+        std::cout << " " << num;
+    }
+    std::cout << std::endl;
+
+    return 0;
+}
+`,
 };
