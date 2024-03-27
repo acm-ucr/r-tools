@@ -23,7 +23,7 @@ class PriorityQueue {
   }
 }
 
-export function* algorithm(data, start) {
+export default function* algorithm(data, start) {
   /* vertex now has an associated index */
   const vertexMap = {};
   Object.keys(data.vertices).forEach((id, index) => {
