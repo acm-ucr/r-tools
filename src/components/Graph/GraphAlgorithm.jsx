@@ -50,13 +50,17 @@ const GraphAlgorithm = ({ algorithm }) => {
   };
 
   const check = () => {
+    if (Object.keys(data.vertices).length === 0) {
+      toast("Please import a graph to start");
+      return false;
+    }
+
     const allowNegativeEdge = GRAPH_PAGE[algorithm].negative;
     const allowWeighted = GRAPH_PAGE[algorithm].weighted;
     const allowDirected = GRAPH_PAGE[algorithm].directed;
-    const requireStartVertex = GRAPH_PAGE[algorithm].requireStartVertex;
 
-    if (requireStartVertex && !data.selectedVertex) {
-      toast.error("Please select a vertex to start");
+    if (GRAPH_PAGE[algorithm].requireStartVertex && !data.selectedVertex) {
+      toast("Please select a vertex to start");
       return false;
     }
     if (allowWeighted === -1 && isWeighted()) {
@@ -84,12 +88,12 @@ const GraphAlgorithm = ({ algorithm }) => {
   };
 
   const handlePlay = () => {
-    if (check()) {
-      setPlay(!play);
-    }
+    if (!steps) handleReplay();
+    setPlay(!play);
   };
 
   const handleReplay = () => {
+    if (!check()) return;
     setPlay(false);
     setStepIndex(0);
     setCurrent(null);
@@ -106,7 +110,7 @@ const GraphAlgorithm = ({ algorithm }) => {
       ...newData,
       tool: "cursor",
     });
-    if (data.selectedVertex && check()) {
+    if (!GRAPH_PAGE[algorithm].requireStartVertex || data.selectedVertex) {
       const graphAlgorithm = GRAPH_PAGE[algorithm].algorithm(
         newData,
         data.selectedVertex
@@ -117,30 +121,9 @@ const GraphAlgorithm = ({ algorithm }) => {
       setCurrent(null);
     }
   };
+
   useEffect(() => {
-    const newData = data;
-    Object.entries(data.vertices).forEach(([key, vertex]) => {
-      newData.vertices[key] = { ...vertex, color: "white" };
-    });
-    Object.entries(data.edges).forEach(([key, edge]) => {
-      newData.edges[key] = edge.map((e) => ({ ...e, color: "white" }));
-    });
-    setData({
-      ...newData,
-      tool: "cursor",
-    });
-    if (data.selectedVertex || !GRAPH_PAGE[algorithm].requireStartVertex) {
-      if (!check()) return;
-      const graphAlgorithm = GRAPH_PAGE[algorithm].algorithm(
-        newData,
-        data.selectedVertex
-      );
-      setStepIndex(0);
-      setSteps(graphAlgorithm);
-      setCurrent(graphAlgorithm.next().value);
-    } else {
-      setCurrent(null);
-    }
+    handleReplay();
   }, [data.selectedVertex]);
 
   useEffect(() => {
@@ -191,6 +174,9 @@ const GraphAlgorithm = ({ algorithm }) => {
             onChange={(e) => {
               importJSON(e, data, setData);
               e.target.value = null;
+              setCurrent(null);
+              setSteps(null);
+              setPlay(false);
             }}
           />
         </div>

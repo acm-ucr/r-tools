@@ -71,10 +71,9 @@ export const GRAPH_PAGE = {
     weighted: 1,
     directed: 0,
     colorkeys: {
-      cloud: "yellow",
-      minheap: "purple",
-      "minimum weight": "pink",
-      current: "teal",
+      from: "teal",
+      to: "purple",
+      current: "pink",
     },
     requireStartVertex: false,
   },

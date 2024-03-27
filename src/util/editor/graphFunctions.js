@@ -333,39 +333,6 @@ class GraphFunctions {
   };
 
   /**
-   * Return an adjacency matrix of the graph.
-   * @param {Object} data graph data
-   * @param {Object} undirectedEdge  a map of vertex ids to a list of edges that come out of that vertex and go into that vertex.
-   * @param {boolean} directed if the graph is directed
-   * @param {boolean} weighted if the graph is weighted
-   * @return {Array.Array<int>} an adjacency matrix of the graph.
-   */
-  static getAdjacencyMatrix = (data, undirectedEdge, directed, weighted) => {
-    if (
-      Object.keys(data.vertices).length === 0 ||
-      Object.keys(data.edges).length === 0
-    )
-      return [];
-    const matrix = [];
-    const header = [" "];
-    Object.keys(data.vertices).forEach((vertex) => {
-      header.push(data.vertices[vertex].value);
-    });
-    matrix.push(header);
-    Object.keys(data.vertices).forEach((from) => {
-      const row = [data.vertices[from].value];
-      Object.keys(data.vertices).forEach((to) => {
-        const edge = directed
-          ? data.edges[from]?.find((e) => e.to === to)
-          : undirectedEdge.twoWay[from]?.find((e) => e.to === to);
-        row.push(edge ? (weighted ? edge.weight || 0 : 1) : Infinity);
-      });
-      matrix.push(row);
-    });
-    return matrix;
-  };
-
-  /**
    * Set the weight of the edge comeing out of from and going into to to the number key pressed.
    * @param {Object} data graph data
    * @param {function} setData function to modifu graph data
