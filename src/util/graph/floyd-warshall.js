@@ -1,3 +1,6 @@
+import { generateGraph } from "../sort/visualize";
+import { getTable } from "../sort/visualize";
+
 const generateTable = (vertices, distances, predecessors) => {
   const table = [
     [
@@ -21,37 +24,81 @@ const generateTable = (vertices, distances, predecessors) => {
   return table;
 };
 
-export function* algorithm(data) {
+export default function* algorithm(data) {
   /* highlight color:
       yellow: cloud
-      purple: edges in the minheap
-      pink: the edge with the
-      teal: the current vertex
+      purple: vertices being processed in the current iteration
+      pink: the edge being relaxed
+      teal: the current vertex being processed
      */
   const vertices = data.vertices;
   const edges = data.edges;
+  const numVertices = Object.keys(vertices).length;
   const distances = {};
   const predecessors = {};
+  const verticesMap = {};
 
-  // initialize distances and predecessors matrices
-  Object.entries(vertices).forEach(([startId]) => {
+  Object.keys(vertices).forEach((id, index) => {
+    verticesMap[index] = id;
+  });
+
+  // Initialize distances and predecessors matrices
+  Object.keys(vertices).forEach((startId) => {
     distances[startId] = {};
     predecessors[startId] = {};
-    Object.entries(vertices).forEach(([endId]) => {
+    Object.keys(vertices).forEach((endId) => {
       if (startId === endId) {
         distances[startId][endId] = 0;
-        predecessors[startId][endId] = null;
       } else {
         distances[startId][endId] = Infinity;
-        predecessors[startId][endId] = null;
       }
+      predecessors[startId][endId] = null;
     });
   });
 
+  // Update distances and predecessors based on edges
+  Object.entries(edges).forEach(([from, edge]) => {
+    edge.forEach((e) => {
+      distances[from][e.to] = e.weight;
+      predecessors[from][e.to] = from;
+    });
+  });
   yield {
     table: generateTable(vertices, distances, predecessors),
-    graph: { vertices: vertices, edges: edges },
+    graph: generateGraph(vertices, edges, {}, []),
   };
-
-  return { distances, predecessors };
+  // Main Floyd-Warshall algorithm
+  for (let vertex = 0; vertex < numVertices; vertex++) {
+    for (let from = 0; from < numVertices; from++) {
+      for (let to = 0; to < numVertices; to++) {
+        const newWeight =
+          distances[verticesMap[from]][verticesMap[vertex]] +
+          distances[verticesMap[vertex]][verticesMap[to]];
+        if (newWeight < distances[verticesMap[from]][verticesMap[to]]) {
+          distances[verticesMap[from]][verticesMap[to]] = newWeight;
+          predecessors[verticesMap[from]][verticesMap[to]] =
+            verticesMap[vertex];
+        }
+        yield {
+          table: getTable(generateTable(vertices, distances, predecessors), [
+            { row: from + 1, col: to + 1, color: "pink" },
+            { row: from + 1, col: to + 1 + numVertices, color: "pink" },
+          ]),
+          graph: generateGraph(
+            vertices,
+            edges,
+            {
+              [verticesMap[from]]: "teal",
+              [verticesMap[to]]: "purple",
+            },
+            []
+          ),
+        };
+      }
+    }
+  }
+  yield {
+    table: generateTable(vertices, distances, predecessors),
+    graph: generateGraph(vertices, edges, {}, []),
+  };
 }

@@ -39,8 +39,22 @@ const page = () => {
         onClick={onClick}
         description="Input a boolean expression\n\nAdjust individual boolean operators by modifying the symbol box next to its respective operator located below the input box."
       />
-      <div>{"Eq:" + expression}</div>
-      <div>{"SOP:" + expressionSOP}</div>
+      {expression && (
+        <div className="flex items-center justify-center m-1">
+          <div>Eq:</div>
+          <div className="bg-rtools-blue-300 p-2 px-4 rounded-md ml-2">
+            {expression}
+          </div>
+        </div>
+      )}
+      {expressionSOP && (
+        <div className="flex items-center justify-center m-1">
+          <div>SOP:</div>
+          <div className="bg-rtools-blue-300 p-2 px-4 rounded-md ml-2">
+            {expressionSOP}
+          </div>
+        </div>
+      )}
     </>
   );
 };

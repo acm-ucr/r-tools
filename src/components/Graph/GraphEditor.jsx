@@ -12,7 +12,6 @@ import {
   downloadSVG,
   importJSON,
   resetColor,
-  setEdgeWeight,
   getTwoWayUndirectedEdge,
   getOneWayUndirectedEdge,
 } from "@/util/editor/graphFunctions";
@@ -25,22 +24,6 @@ import Upload from "../Upload";
 const size = 500;
 const GraphEditor = () => {
   const { data, setData } = useContext(DataContext);
-  const handleUserKeyPress = (e) => {
-    if (e.code.startsWith("Digit") && data.selectedEdge)
-      setEdgeWeight(
-        data,
-        setData,
-        data.selectedEdge.from,
-        data.selectedEdge.to,
-        parseInt(e.key)
-      );
-  };
-  useEffect(() => {
-    window.addEventListener("keydown", handleUserKeyPress);
-    return () => {
-      window.removeEventListener("keydown", handleUserKeyPress);
-    };
-  }, [data]);
   useEffect(() => {
     setData({ ...data, edges: getOneWayUndirectedEdge(data) });
   }, [data.directed]);

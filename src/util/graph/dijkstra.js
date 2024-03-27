@@ -1,44 +1,44 @@
-const generateTable = (vertices, start, distance, previous) => {
+import { generateGraph } from "../sort/visualize";
+
+const generateTable = (vertices, start, distance, previous, current, to) => {
   const table = [];
-  table.push([vertices[start].value, distance[start], "none"]);
+  table.push([
+    current === start
+      ? {
+          data: vertices[start].value,
+          color: "teal",
+        }
+      : vertices[start].value,
+    distance[start],
+    "none",
+  ]);
   Object.entries(vertices).forEach(([id, vertex]) => {
-    if (id !== start) {
+    if (id === to) {
       table.push([
         vertex.value,
+        {
+          data: distance[id] || "none",
+          color: "teal",
+        },
+        {
+          data: previous[id] || "none",
+          color: "teal",
+        },
+      ]);
+    } else if (id !== start) {
+      table.push([
+        id === current
+          ? {
+              data: vertex.value,
+              color: "teal",
+            }
+          : vertex.value,
         distance[id] || "none",
         previous[id] || "none",
       ]);
     }
   });
   return table;
-};
-const generateGraph = (
-  vertices,
-  edges,
-  highLightedVertices,
-  highLightedEdges
-) => {
-  const newVertices = {};
-  const newEdges = {};
-  Object.entries(vertices).forEach(([id, vertex]) => {
-    newVertices[id] = {
-      ...vertex,
-      color: highLightedVertices[id] || vertex.color,
-    };
-  });
-  Object.entries(edges).forEach(([from, edge]) => {
-    newEdges[from] = edge.map((e) => {
-      return {
-        ...e,
-        color:
-          highLightedEdges.find(
-            (highLightEdge) =>
-              highLightEdge.from === from && highLightEdge.to === e.to
-          )?.color || e.color,
-      };
-    });
-  });
-  return { vertices: newVertices, edges: newEdges };
 };
 
 class MinHeap {
@@ -93,11 +93,11 @@ class MinHeap {
   }
 }
 
-export function* algorithm(data, start) {
+export default function* algorithm(data, start) {
   /* highlight color:
     yellow: cloud
     purple: edges in the minheap
-    pink: the edge with the
+    pink: the edge with the minimum weight
     teal: the current vertex
    */
   const vertices = data.vertices;
@@ -128,7 +128,7 @@ export function* algorithm(data, start) {
     });
 
     yield {
-      table: generateTable(vertices, start, distances, previous),
+      table: generateTable(vertices, start, distances, previous, current),
       graph: generateGraph(vertices, edges, {}, [
         { from: minEdge.from, to: minEdge.to, color: "pink" },
       ]),
@@ -137,8 +137,13 @@ export function* algorithm(data, start) {
     if (!visited[current]) {
       visited[current] = true;
       vertices[current].color = "teal";
+      console.log(
+        current,
+        generateTable(vertices, start, distances, previous, current)
+      );
       yield {
-        table: generateTable(vertices, start, distances, previous),
+        table: generateTable(vertices, start, distances, previous, current),
+
         graph: { vertices: vertices, edges: edges },
       };
       // iterate through the edges come out of the current vertex
@@ -148,7 +153,14 @@ export function* algorithm(data, start) {
         if (visited[edge.to]) {
           edges[current][i].color = "yellow";
           yield {
-            table: generateTable(vertices, start, distances, previous),
+            table: generateTable(
+              vertices,
+              start,
+              distances,
+              previous,
+              current,
+              edge.to
+            ),
             graph: generateGraph(vertices, edges, { [edge.to]: "teal" }, [
               { from: current, to: edge.to, color: "teal" },
             ]),
@@ -159,7 +171,14 @@ export function* algorithm(data, start) {
         edges[current][i].color = "purple";
         const newDistance = distances[current] + edge.weight;
         yield {
-          table: generateTable(vertices, start, distances, previous),
+          table: generateTable(
+            vertices,
+            start,
+            distances,
+            previous,
+            current,
+            edge.to
+          ),
           graph: generateGraph(vertices, edges, { [edge.to]: "teal" }, [
             { from: current, to: edge.to, color: "teal" },
           ]),
@@ -172,7 +191,7 @@ export function* algorithm(data, start) {
 
       vertices[current].color = "yellow";
       yield {
-        table: generateTable(vertices, start, distances, previous),
+        table: generateTable(vertices, start, distances, previous, current),
         graph: { vertices: vertices, edges: edges },
       };
     }
