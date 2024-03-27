@@ -58,7 +58,7 @@ const generateGraph = (
   return { vertices: newVertices, edges: newEdges };
 };
 
-export function* algorithm(data) {
+export default function* algorithm(data) {
   /* highlight color:
       yellow: cloud
       purple: vertices being processed in the current iteration
@@ -92,7 +92,10 @@ export function* algorithm(data) {
       predecessors[from][e.to] = from;
     });
   });
-
+  yield {
+    table: generateTable(vertices, distances, predecessors),
+    graph: generateGraph(vertices, edges, {}, []),
+  };
   // Main Floyd-Warshall algorithm
   for (let k = 0; k < numVertices; k++) {
     for (let i = 0; i < numVertices; i++) {
@@ -132,25 +135,3 @@ export function* algorithm(data) {
     graph: generateGraph(vertices, edges, {}, []),
   };
 }
-
-// // Main algorithm loop
-// for (let k = 0; k < numVertices; k++) {
-//   for (let i = 0; i < numVertices; i++) {
-//     for (let j = 0; j < numVertices; j++) {
-//       if (distances[i][k] + distances[k][j] < distances[i][j]) {
-//         distances[i][j] = distances[i][k] + distances[k][j];
-//         predecessors[i][j] = vertices[k]; // Update predecessors
-//       }
-
-//       // Yield at each iteration to visualize the process
-//       yield {
-//         table: generateTable(vertices, distances, predecessors),
-//         graph: generateGraph(vertices, edges, {
-//           [i]: "teal",
-//           [j]: "teal",
-//           [k]: "purple",
-//         }),
-//       };
-//     }
-//   }
-// }

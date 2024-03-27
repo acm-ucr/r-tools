@@ -6,21 +6,21 @@ import { importJSON } from "@/util/editor/graphFunctions";
 import toast from "react-hot-toast";
 import Table from "../Table";
 import { GRAPH_PAGE } from "@/data/graphPage";
-import GraphToolbar from "./GraphToolbar";
 import Upload from "../Upload";
+import ActionButton from "../ActionButton";
+import { FaPause, FaPlay } from "react-icons/fa";
+import { LuStepForward } from "react-icons/lu";
+import { MdOutlineReplay } from "react-icons/md";
+import GraphIndications from "./GraphIndications";
 
 const size = 500;
-const GraphAlgorithm = ({ algorithm, header }) => {
-  const allowNegativeEdge = GRAPH_PAGE[algorithm].negative;
-  const allowWeighted = GRAPH_PAGE[algorithm].weighted;
-  const allowDirected = GRAPH_PAGE[algorithm].directed;
-  const requireStartVertex = GRAPH_PAGE[algorithm].requireStartVertex;
-
+const GraphAlgorithm = ({ algorithm }) => {
   const { data, setData } = useContext(DataContext);
   const [steps, setSteps] = useState(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [current, setCurrent] = useState(null);
   const [play, setPlay] = useState(false);
+
   const handleStep = () => {
     if (!steps) return;
     const next = steps.next();
@@ -33,13 +33,62 @@ const GraphAlgorithm = ({ algorithm, header }) => {
       setCurrent(next.value);
     }
   };
-  const handlePlay = () => {
+
+  const hasNegativeEdge = () => {
+    return (
+      data.edges &&
+      Object.values(data.edges).some((edges) =>
+        edges.some((edge) => edge.hasOwnProperty("weight") && edge.weight < 0)
+      )
+    );
+  };
+  const isWeighted = () => {
+    return data.weighted;
+  };
+  const isDirected = () => {
+    return data.directed;
+  };
+
+  const check = () => {
+    const allowNegativeEdge = GRAPH_PAGE[algorithm].negative;
+    const allowWeighted = GRAPH_PAGE[algorithm].weighted;
+    const allowDirected = GRAPH_PAGE[algorithm].directed;
+    const requireStartVertex = GRAPH_PAGE[algorithm].requireStartVertex;
+
     if (requireStartVertex && !data.selectedVertex) {
       toast.error("Please select a vertex to start");
-      return;
+      return false;
     }
-    setPlay(!play);
+    if (allowWeighted === -1 && isWeighted()) {
+      toast.error("This algorithm doesn't allow weights");
+      return false;
+    }
+    if (allowWeighted === 1 && !isWeighted()) {
+      toast.error("This algorithm has to run on weighted graphs");
+      return false;
+    }
+    if (allowDirected === -1 && isDirected()) {
+      toast.error("This algorithm doesn't allow directed graphs");
+      return false;
+    }
+    if (allowDirected === 1 && !isDirected()) {
+      toast.error("This algorithm has to run on directed graphs");
+      return false;
+    }
+    const hasNegative = hasNegativeEdge();
+    if (allowNegativeEdge === -1 && hasNegative) {
+      toast.error("This algorithm doesn't allow negative weights");
+      return false;
+    }
+    return true;
   };
+
+  const handlePlay = () => {
+    if (check()) {
+      setPlay(!play);
+    }
+  };
+
   const handleReplay = () => {
     setPlay(false);
     setStepIndex(0);
@@ -57,41 +106,17 @@ const GraphAlgorithm = ({ algorithm, header }) => {
       ...newData,
       tool: "cursor",
     });
-    if (data.selectedVertex) {
-      // to prevent user from running an algorithm that doesn't allow weighted or negative edges via replay button
-      if (!allowNegativeEdge && hasNegativeEdge()) {
-        toast("This algorithm doesn't allow negative weights");
-        return;
-      }
-      if (!allowWeighted && isWeighted()) {
-        toast("This algorithm doesn't allow weights");
-        return;
-      }
-      if (!allowDirected && isDirected()) {
-        toast("This algorithm doesn't allow directed graphs");
-      }
-      const graphAlgorithm = algorithm(newData, data.selectedVertex);
+    if (data.selectedVertex && check()) {
+      const graphAlgorithm = GRAPH_PAGE[algorithm].algorithm(
+        newData,
+        data.selectedVertex
+      );
       setSteps(graphAlgorithm);
       setCurrent(graphAlgorithm.next().value);
     } else {
       setCurrent(null);
     }
   };
-  const hasNegativeEdge = () => {
-    return (
-      data.edges &&
-      Object.values(data.edges).some((edges) =>
-        edges.some((edge) => edge.hasOwnProperty("weight") && edge.weight < 0)
-      )
-    );
-  };
-  const isWeighted = () => {
-    return data.weighted;
-  };
-  const isDirected = () => {
-    return data.directed;
-  };
-
   useEffect(() => {
     const newData = data;
     Object.entries(data.vertices).forEach(([key, vertex]) => {
@@ -104,20 +129,8 @@ const GraphAlgorithm = ({ algorithm, header }) => {
       ...newData,
       tool: "cursor",
     });
-    if (data.selectedVertex) {
-      if (!allowNegativeEdge && hasNegativeEdge()) {
-        toast("This algorithm doesn't allow negative weights");
-        return;
-      }
-      if (!allowWeighted && isWeighted()) {
-        toast("This algorithm doesn't allow weights");
-        return;
-      }
-
-      if (!allowDirected && isDirected()) {
-        toast("This algorithm doesn't allow directed graphs");
-        return;
-      }
+    if (data.selectedVertex || !GRAPH_PAGE[algorithm].requireStartVertex) {
+      if (!check()) return;
       const graphAlgorithm = GRAPH_PAGE[algorithm].algorithm(
         newData,
         data.selectedVertex
@@ -144,24 +157,11 @@ const GraphAlgorithm = ({ algorithm, header }) => {
     <>
       <div className="flex w-full justify-evenly">
         <div>
-          <div className="flex justify-start items-center m-2">
-            <div
-              className={`h-4 w-4 rounded-full ${
-                data.directed ? "bg-rtools-green" : "bg-gray-300 opacity-30"
-              }`}
-            ></div>
-            <span className={`ml-2 mr-4 ${data.directed ? "" : "opacity-30"}`}>
-              Directed
-            </span>
-            <div
-              className={`h-4 w-4 rounded-full ${
-                data.weighted ? "bg-rtools-green" : "bg-gray-300 opacity-30"
-              }`}
-            ></div>
-            <span className={`ml-2 mr-4 ${data.weighted ? "" : "opacity-30"}`}>
-              Weighted
-            </span>
-          </div>
+          <GraphIndications
+            directed={data.directed}
+            weighted={data.weighted}
+            colorkeys={GRAPH_PAGE[algorithm].colorkeys}
+          />
           <Graph
             width={size}
             height={size}
@@ -169,18 +169,23 @@ const GraphAlgorithm = ({ algorithm, header }) => {
             data={{ ...data, ...current?.graph }}
             editable={false}
           />
-        </div>
-        {current?.table && (
-          <Table matrix={current?.table} header={header} rounded={true} />
-        )}
-      </div>
-      <div className="flex items-center p-4">
-        <GraphToolbar
-          play={handlePlay}
-          step={handleStep}
-          replay={handleReplay}
-        />
-        <div className="ml-4">
+          <div className="grid grid-cols-3 gap-1 items-center w-full">
+            {play ? (
+              <ActionButton function={handlePlay} text="pause" icon={FaPause} />
+            ) : (
+              <ActionButton function={handlePlay} text="play" icon={FaPlay} />
+            )}
+            <ActionButton
+              function={handleStep}
+              text="step"
+              icon={LuStepForward}
+            />
+            <ActionButton
+              function={handleReplay}
+              text="replay"
+              icon={MdOutlineReplay}
+            />
+          </div>
           <Upload
             text="IMPORT A JSON"
             onChange={(e) => {
@@ -189,6 +194,13 @@ const GraphAlgorithm = ({ algorithm, header }) => {
             }}
           />
         </div>
+        {current?.table && (
+          <Table
+            matrix={current?.table}
+            header={GRAPH_PAGE[algorithm].header}
+            rounded={true}
+          />
+        )}
       </div>
     </>
   );

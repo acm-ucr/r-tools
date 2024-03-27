@@ -54,25 +54,43 @@ const EdgeEntry = ({ data, setData, from, to, directed, weighted }) => {
         from === data.selectedEdge.from &&
         to.to === data.selectedEdge.to ? (
           <input
-            type="number"
+            type="tel"
+            pattern="-?[0-9]+"
             value={to.weight}
             className="ml-2 bg-white/30 rounded px-2 w-full border-0"
-            onChange={(e) =>
-              setData({
-                ...data,
-                edges: {
-                  ...data.edges,
-                  [from]: data.edges[from].map((edge) => {
-                    if (edge.to === to.to)
-                      return {
-                        ...to,
-                        weight: parseInt(e.target.value),
-                      };
-                    return edge;
-                  }),
-                },
-              })
-            }
+            onInput={(e) => {}}
+            onChange={(e) => {
+              if (e.target.value === "-" || e.target.value === "")
+                setData({
+                  ...data,
+                  edges: {
+                    ...data.edges,
+                    [from]: data.edges[from].map((edge) => {
+                      if (edge.to === to.to)
+                        return {
+                          ...to,
+                          weight: e.target.value,
+                        };
+                      return edge;
+                    }),
+                  },
+                });
+              else
+                setData({
+                  ...data,
+                  edges: {
+                    ...data.edges,
+                    [from]: data.edges[from].map((edge) => {
+                      if (edge.to === to.to)
+                        return {
+                          ...to,
+                          weight: Number(e.target.value) || 0,
+                        };
+                      return edge;
+                    }),
+                  },
+                });
+            }}
           />
         ) : (
           <span className="font-bold ml-2"> {to.weight}</span>

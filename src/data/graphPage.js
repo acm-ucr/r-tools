@@ -13,6 +13,13 @@ export const GRAPH_PAGE = {
     negative: 0,
     weighted: 1,
     directed: 0,
+    colorkeys: {
+      cloud: "yellow",
+      minheap: "purple",
+      "minimum weight": "pink",
+      current: "teal",
+    },
+    requireStartVertex: true,
   },
   bfs: {
     title: "Breadth First Search",
@@ -20,6 +27,13 @@ export const GRAPH_PAGE = {
     negative: -1,
     weighted: -1,
     directed: 0,
+    colorkeys: {
+      cloud: "yellow",
+      minheap: "purple",
+      "minimum weight": "pink",
+      current: "teal",
+    },
+    requireStartVertex: true,
   },
   dfs: {
     title: "Depth First Search",
@@ -27,13 +41,28 @@ export const GRAPH_PAGE = {
     negative: 0,
     weighted: 0,
     directed: 0,
+    colorkeys: {
+      cloud: "yellow",
+      minheap: "purple",
+      "minimum weight": "pink",
+      current: "teal",
+    },
+    requireStartVertex: true,
   },
   dijkstra: {
     title: "Dijkstra",
     algorithm: dijkstra,
     negative: -1,
     weighted: 1,
-    directed: 1,
+    directed: 0,
+    colorkeys: {
+      cloud: "yellow",
+      minheap: "purple",
+      "minimum weight": "pink",
+      current: "teal",
+    },
+    requireStartVertex: true,
+    header: ["Vertex", "Distance", "Previous"],
   },
   "floyd-warshall": {
     title: "Floyd Warshall",
@@ -41,6 +70,13 @@ export const GRAPH_PAGE = {
     negative: 0,
     weighted: 1,
     directed: 0,
+    colorkeys: {
+      cloud: "yellow",
+      minheap: "purple",
+      "minimum weight": "pink",
+      current: "teal",
+    },
+    requireStartVertex: false,
   },
   kruskals: {
     title: "Kruskals",
@@ -48,6 +84,13 @@ export const GRAPH_PAGE = {
     negative: 0,
     weighted: 1,
     directed: -1,
+    colorkeys: {
+      cloud: "yellow",
+      minheap: "purple",
+      "minimum weight": "pink",
+      current: "teal",
+    },
+    requireStartVertex: true,
   },
   prims: {
     title: "Prims",
@@ -55,5 +98,12 @@ export const GRAPH_PAGE = {
     negative: -1,
     weighted: 1,
     directed: -1,
+    colorkeys: {
+      cloud: "yellow",
+      minheap: "purple",
+      "minimum weight": "pink",
+      current: "teal",
+    },
+    requireStartVertex: true,
   },
 };
