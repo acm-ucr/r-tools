@@ -152,44 +152,44 @@ export function* sort(arr) {
 
 export const example = {
   Python: `def insertion_sort(arr):
-# Sorts the array using the Insertion Sort algorithm.
-for i in range(1, len(arr)):
-    key = arr[i]
-    j = i - 1
-    while j >= 0 and arr[j] > key:
-        arr[j + 1] = arr[j]
-        j -= 1
-    arr[j + 1] = key
+  # Sorts the array using the Insertion Sort algorithm.
+  for i in range(1, len(arr)):
+      key = arr[i]
+      j = i - 1
+      while j >= 0 and arr[j] > key:
+          arr[j + 1] = arr[j]
+          j -= 1
+      arr[j + 1] = key
 
 def bucket_sort(arr):
-# Sorts the array using the Bucket Sort algorithm.
-# Find maximum and minimum values in the array
-max_val = max(arr)
-min_val = min(arr)
-# Calculate bucket size
-bucket_size = max(1, (max_val - min_val) // len(arr))
-# Create buckets
-bucket_count = (max_val - min_val) // bucket_size + 1
-buckets = [[] for _ in range(bucket_count)]
-# Assign elements to buckets
-for num in arr:
-    index = (num - min_val) // bucket_size
-    buckets[index].append(num)
-# Sort each bucket using Insertion Sort
-for bucket in buckets:
-    insertion_sort(bucket)
-# Concatenate buckets
-k = 0
-for i in range(bucket_count):
-    for num in buckets[i]:
-        arr[k] = num
-        k += 1
+  # Sorts the array using the Bucket Sort algorithm.
+  # Find maximum and minimum values in the array
+  max_val = max(arr)
+  min_val = min(arr)
+  # Calculate bucket size
+  bucket_size = max(1, (max_val - min_val) // len(arr))
+  # Create buckets
+  bucket_count = (max_val - min_val) // bucket_size + 1
+  buckets = [[] for _ in range(bucket_count)]
+  # Assign elements to buckets
+  for num in arr:
+      index = (num - min_val) // bucket_size
+      buckets[index].append(num)
+  # Sort each bucket using Insertion Sort
+  for bucket in buckets:
+      insertion_sort(bucket)
+  # Concatenate buckets
+  k = 0
+  for i in range(bucket_count):
+      for num in buckets[i]:
+          arr[k] = num
+          k += 1
 if __name__ == "__main__":
-# Example usage:
-arr = [29, 17, 5, 18, 22, 11, 27, 3, 9]
-print("Original array:", arr)
-bucket_sort(arr)
-print("Sorted array:", arr)
+  # Example usage:
+  arr = [29, 17, 5, 18, 22, 11, 27, 3, 9]
+  print("Original array:", arr)
+  bucket_sort(arr)
+  print("Sorted array:", arr)
 `,
   JavaScript: `const insertionSort = (arr) => {
   /**

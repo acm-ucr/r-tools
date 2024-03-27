@@ -479,61 +479,61 @@ export function* sort(arr) {
 }
 export const example = {
   Python: `def merge(arr, left, mid, right):
-# Merges two subarrays of arr[].
-n1 = mid - left + 1
-n2 = right - mid
-
-# Create temporary arrays
-L = arr[left:mid + 1]
-R = arr[mid + 1:right + 1]
-
-# Initial indexes of first and second subarrays
-i = j = 0
-
-# Initial index of merged subarray
-k = left
-
-# Merge the temporary arrays back into arr[left:right+1]
-while i < n1 and j < n2:
-    if L[i] <= R[j]:
-        arr[k] = L[i]
-        i += 1
-    else:
-        arr[k] = R[j]
-        j += 1
-    k += 1
-
-# Copy the remaining elements of L[], if any
-while i < n1:
-    arr[k] = L[i]
-    i += 1
-    k += 1
-
-# Copy the remaining elements of R[], if any
-while j < n2:
-    arr[k] = R[j]
-    j += 1
-    k += 1
-
+  # Merges two subarrays of arr[].
+  n1 = mid - left + 1
+  n2 = right - mid
+  
+  # Create temporary arrays
+  L = arr[left:mid + 1]
+  R = arr[mid + 1:right + 1]
+  
+  # Initial indexes of first and second subarrays
+  i = j = 0
+  
+  # Initial index of merged subarray
+  k = left
+  
+  # Merge the temporary arrays back into arr[left:right+1]
+  while i < n1 and j < n2:
+      if L[i] <= R[j]:
+          arr[k] = L[i]
+          i += 1
+      else:
+          arr[k] = R[j]
+          j += 1
+      k += 1
+  
+  # Copy the remaining elements of L[], if any
+  while i < n1:
+      arr[k] = L[i]
+      i += 1
+      k += 1
+  
+  # Copy the remaining elements of R[], if any
+  while j < n2:
+      arr[k] = R[j]
+      j += 1
+      k += 1
+  
 def merge_sort(arr, left, right):
-# Sorts the array using the Merge Sort algorithm.
-if left < right:
-    # Find the middle point
-    mid = (left + right) // 2
+  # Sorts the array using the Merge Sort algorithm.
+  if left < right:
+      # Find the middle point
+      mid = (left + right) // 2
 
-    # Sort first and second halves
-    merge_sort(arr, left, mid)
-    merge_sort(arr, mid + 1, right)
+      # Sort first and second halves
+      merge_sort(arr, left, mid)
+      merge_sort(arr, mid + 1, right)
 
-    # Merge the sorted halves
-    merge(arr, left, mid, right)
+      # Merge the sorted halves
+      merge(arr, left, mid, right)
 
 if __name__ == "__main__":
-# Example usage:
-arr = [12, 11, 13, 5, 6, 7]
-print("Original array:", arr)
-merge_sort(arr, 0, len(arr) - 1)
-print("Sorted array:", arr)
+  # Example usage:
+  arr = [12, 11, 13, 5, 6, 7]
+  print("Original array:", arr)
+  merge_sort(arr, 0, len(arr) - 1)
+  print("Sorted array:", arr)
 `,
   JavaScript: `const merge = (arr, left, mid, right) => {
   /**
