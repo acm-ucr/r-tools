@@ -25,12 +25,6 @@ const generateTable = (vertices, distances, predecessors) => {
 };
 
 export default function* algorithm(data) {
-  /* highlight color:
-      yellow: cloud
-      purple: vertices being processed in the current iteration
-      pink: the edge being relaxed
-      teal: the current vertex being processed
-     */
   const vertices = data.vertices;
   const edges = data.edges;
   const numVertices = Object.keys(vertices).length;
@@ -61,8 +55,14 @@ export default function* algorithm(data) {
     edge.forEach((e) => {
       distances[from][e.to] = e.weight;
       predecessors[from][e.to] = from;
+      if (!data.directed) {
+        console.log(data.directed);
+        distances[e.to][from] = e.weight;
+        predecessors[e.to][from] = e.to;
+      }
     });
   });
+
   yield {
     table: generateTable(vertices, distances, predecessors),
     graph: generateGraph(vertices, edges, {}, []),
