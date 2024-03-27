@@ -139,6 +139,7 @@ const Graph = ({ width, height, setData, data, editable }) => {
             x={d.x}
             y={d.y}
             onDragStart={() => {
+              if (!editable) return;
               setSelectedVertex(data, setData, id);
               if (data.tool === "pen" && data.selectedVertex && editable) {
                 addEdge(
@@ -153,6 +154,7 @@ const Graph = ({ width, height, setData, data, editable }) => {
               }
             }}
             onDragMove={(e) => {
+              if (!editable) return;
               setData({
                 ...data,
                 vertices: {

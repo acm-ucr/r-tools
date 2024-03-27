@@ -190,44 +190,17 @@ class GraphFunctions {
     const fileReader = new FileReader();
     fileReader.readAsText(e.target.files[0], "UTF-8");
     fileReader.onload = (e) => {
-      if (editable)
-        setData({
-          selectedVertex: null,
-          selectedEdge: null,
-          selectedColor: null,
-          input: "",
-          tool: "cursor",
-          directed: JSON.parse(e.target.result).directed,
-          weighted: JSON.parse(e.target.result).weighted,
-          vertices: JSON.parse(e.target.result).vertices,
-          edges: JSON.parse(e.target.result).edges,
-        });
-      else {
-        const newVertices = {};
-        const newEdges = {};
-        Object.entries(JSON.parse(e.target.result).vertices).forEach(
-          ([key, vertex]) => {
-            newVertices[key] = { ...vertex, color: "white" };
-          }
-        );
-        Object.entries(JSON.parse(e.target.result).edges).forEach(
-          ([key, edge]) => {
-            newEdges[key] = edge.map((e) => ({ ...e, color: "white" }));
-          }
-        );
-        setData({
-          selectedVertex: null,
-          selectedEdge: null,
-          selectedColor: null,
-          input: "",
-          tool: "cursor",
-          directed: JSON.parse(e.target.result).directed,
-          weighted: JSON.parse(e.target.result).weighted,
-          vertices: newVertices,
-          edges: newEdges,
-          tool: "cursor",
-        });
-      }
+      setData({
+        selectedVertex: null,
+        selectedEdge: null,
+        selectedColor: null,
+        input: "",
+        tool: "cursor",
+        directed: JSON.parse(e.target.result).directed,
+        weighted: JSON.parse(e.target.result).weighted,
+        vertices: JSON.parse(e.target.result).vertices,
+        edges: JSON.parse(e.target.result).edges,
+      });
     };
   };
 
