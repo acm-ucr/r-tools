@@ -29,7 +29,7 @@ const generateGraph = (vertices, edges, highLightedVertices) => {
   return { vertices: newVertices, edges: newEdges };
 };
 
-export function* algorithm(data, start) {
+export default function* algorithm(data, start) {
   const vertices = data.vertices;
   const edges = data.edges;
   const visited = {};

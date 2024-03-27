@@ -1,81 +1,81 @@
-const generateTable = (vertices, visited, predecessors) => {
-  const table = [
-    [
-      "",
-      ...Object.values(vertices).map((vertex) => vertex.value),
-      ...Object.values(vertices).map((vertex) => `${vertex.value} Pre`),
-    ],
-  ];
-  Object.entries(vertices).forEach(([startId, startVertex]) => {
-    const row = [startVertex.value];
-    Object.entries(vertices).forEach(([endId, endVertex]) => {
-      const visit = visited[startId][endId];
-      row.push(visit);
-    });
-    Object.entries(vertices).forEach(([endId]) => {
-      const predecessor = predecessors[startId][endId];
-      row.push(predecessor !== null ? vertices[predecessor].value : "/");
-    });
-    table.push(row);
+const generateTable = (vertices, start, previous) => {
+  const table = [];
+  table.push([vertices[start].value, "none"]);
+  Object.entries(vertices).forEach(([id, vertex]) => {
+    if (id !== start) {
+      table.push([vertex.value, previous[id] || "none"]);
+    }
   });
   return table;
 };
 
-const dfsVisit = function* (
-  vertices,
-  edges,
-  startId,
-  current,
-  visited,
-  predecessors
-) {
-  visited[startId][current] = true;
-  predecessors[startId][current] = current;
-
-  yield {
-    table: generateTable(vertices, visited, predecessors),
-    graph: { vertices: vertices, edges: edges },
-  };
-
-  for (const edge of edges[current] || []) {
-    if (!visited[startId][edge.to]) {
-      yield* dfsVisit(vertices, edges, startId, edge.to, visited, predecessors);
-    }
-  }
+const generateGraph = (vertices, edges, highLightedVertices) => {
+  const newVertices = {};
+  const newEdges = {};
+  Object.entries(vertices).forEach(([id, vertex]) => {
+    newVertices[id] = {
+      ...vertex,
+      color: highLightedVertices[id] || vertex.color,
+    };
+  });
+  Object.entries(edges).forEach(([from, edge]) => {
+    newEdges[from] = edge.map((e) => {
+      return {
+        ...e,
+        color: e.color,
+      };
+    });
+  });
+  return { vertices: newVertices, edges: newEdges };
 };
 
-export function* algorithm(data) {
+export default function* algorithm(data, start) {
   const vertices = data.vertices;
   const edges = data.edges;
   const visited = {};
-  const predecessors = {};
+  const previous = {};
+  const stack = [];
 
-  // initialize visited and predecessors matrices
-  Object.entries(vertices).forEach(([startId]) => {
-    visited[startId] = {};
-    predecessors[startId] = {};
-    Object.entries(vertices).forEach(([endId]) => {
-      if (startId === endId) {
-        visited[startId][endId] = false;
-        predecessors[startId][endId] = null;
-      } else {
-        visited[startId][endId] = true;
-        predecessors[startId][endId] = null;
-      }
-    });
+  Object.entries(vertices).forEach(([id, vertex]) => {
+    previous[id] = null;
   });
 
-  yield {
-    table: generateTable(vertices, visited, predecessors),
-    graph: { vertices: vertices, edges: edges },
-  };
+  stack.push(start);
 
-  // Perform DFS for each vertex
-  for (const startId of Object.keys(vertices)) {
-    if (!visited[startId][startId]) {
-      yield* dfsVisit(vertices, edges, startId, null, visited, predecessors);
+  while (stack.length) {
+    const current = stack.pop();
+    yield {
+      table: generateTable(vertices, start, previous),
+      graph: generateGraph(vertices, edges, { [current]: "teal" }),
+    };
+
+    if (!visited[current]) {
+      visited[current] = true;
+      vertices[current].color = "teal";
+      yield {
+        table: generateTable(vertices, start, previous),
+        graph: { vertices: vertices, edges: edges },
+      };
+      if (edges[current]) {
+        for (let i = 0; i < edges[current].length; i++) {
+          const edge = edges[current][i];
+          if (visited[edge.to]) {
+            continue;
+          }
+          stack.push(edge.to);
+          previous[edge.to] = vertices[current].value;
+        }
+      }
+
+      vertices[current].color = "yellow";
+      yield {
+        table: generateTable(vertices, start, previous),
+        graph: { vertices: vertices, edges: edges },
+      };
     }
   }
-
-  return { visited, predecessors };
+  yield {
+    table: generateTable(vertices, start, previous),
+    graph: { vertices: vertices, edges: edges },
+  };
 }

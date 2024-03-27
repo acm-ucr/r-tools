@@ -58,13 +58,30 @@ class GraphFunctions {
    * @param {string} to the id of the vertex that edge goes into
    * @param {('white'|'pink'|'teal'|'purple'|'orange'|'yellow')} color the color of the edge
    * @param {int} weight the weight of the edge
+   * @param {boolean} directed true if the graph is directed
    */
-  static addEdge = (data, setData, from, to, color = "whtie", weight = 1) => {
+  static addEdge = (
+    data,
+    setData,
+    from,
+    to,
+    color = "whtie",
+    weight = 1,
+    directed = true
+  ) => {
     if (data.edges[from]?.some((e) => e.to === to)) return;
     if (from === to) return;
+    const selectedVertex = to;
+    if (!directed) {
+      if (from > to) {
+        const temp = from;
+        from = to;
+        to = temp;
+      }
+    }
     setData({
       ...data,
-      selectedVertex: to,
+      selectedVertex: selectedVertex,
       edges: {
         ...data.edges,
         [from]: data.edges[from]
@@ -173,44 +190,17 @@ class GraphFunctions {
     const fileReader = new FileReader();
     fileReader.readAsText(e.target.files[0], "UTF-8");
     fileReader.onload = (e) => {
-      if (editable)
-        setData({
-          selectedVertex: null,
-          selectedEdge: null,
-          selectedColor: null,
-          input: "",
-          tool: "cursor",
-          directed: JSON.parse(e.target.result).directed,
-          weighted: JSON.parse(e.target.result).weighted,
-          vertices: JSON.parse(e.target.result).vertices,
-          edges: JSON.parse(e.target.result).edges,
-        });
-      else {
-        const newVertices = {};
-        const newEdges = {};
-        Object.entries(JSON.parse(e.target.result).vertices).forEach(
-          ([key, vertex]) => {
-            newVertices[key] = { ...vertex, color: "white" };
-          }
-        );
-        Object.entries(JSON.parse(e.target.result).edges).forEach(
-          ([key, edge]) => {
-            newEdges[key] = edge.map((e) => ({ ...e, color: "white" }));
-          }
-        );
-        setData({
-          selectedVertex: null,
-          selectedEdge: null,
-          selectedColor: null,
-          input: "",
-          tool: "cursor",
-          directed: JSON.parse(e.target.result).directed,
-          weighted: JSON.parse(e.target.result).weighted,
-          vertices: newVertices,
-          edges: newEdges,
-          tool: "cursor",
-        });
-      }
+      setData({
+        selectedVertex: null,
+        selectedEdge: null,
+        selectedColor: null,
+        input: "",
+        tool: "cursor",
+        directed: JSON.parse(e.target.result).directed,
+        weighted: JSON.parse(e.target.result).weighted,
+        vertices: JSON.parse(e.target.result).vertices,
+        edges: JSON.parse(e.target.result).edges,
+      });
     };
   };
 
@@ -313,39 +303,6 @@ class GraphFunctions {
       });
     });
     return result;
-  };
-
-  /**
-   * Return an adjacency matrix of the graph.
-   * @param {Object} data graph data
-   * @param {Object} undirectedEdge  a map of vertex ids to a list of edges that come out of that vertex and go into that vertex.
-   * @param {boolean} directed if the graph is directed
-   * @param {boolean} weighted if the graph is weighted
-   * @return {Array.Array<int>} an adjacency matrix of the graph.
-   */
-  static getAdjacencyMatrix = (data, undirectedEdge, directed, weighted) => {
-    if (
-      Object.keys(data.vertices).length === 0 ||
-      Object.keys(data.edges).length === 0
-    )
-      return [];
-    const matrix = [];
-    const header = [" "];
-    Object.keys(data.vertices).forEach((vertex) => {
-      header.push(data.vertices[vertex].value);
-    });
-    matrix.push(header);
-    Object.keys(data.vertices).forEach((from) => {
-      const row = [data.vertices[from].value];
-      Object.keys(data.vertices).forEach((to) => {
-        const edge = directed
-          ? data.edges[from]?.find((e) => e.to === to)
-          : undirectedEdge.twoWay[from]?.find((e) => e.to === to);
-        row.push(edge ? (weighted ? edge.weight || 0 : 1) : Infinity);
-      });
-      matrix.push(row);
-    });
-    return matrix;
   };
 
   /**

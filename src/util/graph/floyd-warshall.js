@@ -1,3 +1,6 @@
+import { generateGraph } from "../sort/visualize";
+import { getTable } from "../sort/visualize";
+
 const generateTable = (vertices, distances, predecessors) => {
   const table = [
     [
@@ -21,44 +24,7 @@ const generateTable = (vertices, distances, predecessors) => {
   return table;
 };
 
-const generateGraph = (
-  vertices,
-  edges,
-  highLightedVertices,
-  highLightedEdges
-) => {
-  const newVertices = {};
-  const newEdges = {};
-
-  // Update vertices colors
-  Object.entries(vertices).forEach(([id, vertex]) => {
-    newVertices[id] = {
-      ...vertex,
-      color: highLightedVertices[id] || vertex.color,
-    };
-  });
-
-  // Update edges colors
-  Object.entries(edges).forEach(([from, edge]) => {
-    newEdges[from] = edge.map((e) => {
-      const highlightedEdge = Array.isArray(highLightedEdges)
-        ? highLightedEdges.find(
-            (highLightEdge) =>
-              highLightEdge.from === from && highLightEdge.to === e.to
-          )
-        : undefined;
-
-      return {
-        ...e,
-        color: highlightedEdge ? highlightedEdge.color : e.color,
-      };
-    });
-  });
-
-  return { vertices: newVertices, edges: newEdges };
-};
-
-export function* algorithm(data) {
+export default function* algorithm(data) {
   /* highlight color:
       yellow: cloud
       purple: vertices being processed in the current iteration
@@ -70,6 +36,11 @@ export function* algorithm(data) {
   const numVertices = Object.keys(vertices).length;
   const distances = {};
   const predecessors = {};
+  const verticesMap = {};
+
+  Object.keys(vertices).forEach((id, index) => {
+    verticesMap[index] = id;
+  });
 
   // Initialize distances and predecessors matrices
   Object.keys(vertices).forEach((startId) => {
@@ -92,65 +63,42 @@ export function* algorithm(data) {
       predecessors[from][e.to] = from;
     });
   });
-
+  yield {
+    table: generateTable(vertices, distances, predecessors),
+    graph: generateGraph(vertices, edges, {}, []),
+  };
   // Main Floyd-Warshall algorithm
-  for (let k = 0; k < numVertices; k++) {
-    for (let i = 0; i < numVertices; i++) {
-      for (let j = 0; j < numVertices; j++) {
-        // Highlight the current vertex being processed
-        yield {
-          table: generateTable(vertices, distances, predecessors),
-          graph: generateGraph(vertices, edges, { [i]: "purple" }, []),
-        };
-
-        // Check if vertices i, k, and j exist
-        if (
-          distances[i] &&
-          distances[i][k] !== undefined &&
-          distances[k] &&
-          distances[k][j] !== undefined
-        ) {
-          if (distances[i][j] > distances[i][k] + distances[k][j]) {
-            distances[i][j] = distances[i][k] + distances[k][j];
-            predecessors[i][j] = predecessors[k][j];
-
-            // Highlight the edge being relaxed
-            yield {
-              table: generateTable(vertices, distances, predecessors),
-              graph: generateGraph(vertices, edges, {}, [
-                { from: i, to: j, color: "pink" },
-              ]),
-            };
-          }
+  for (let vertex = 0; vertex < numVertices; vertex++) {
+    for (let from = 0; from < numVertices; from++) {
+      for (let to = 0; to < numVertices; to++) {
+        const newWeight =
+          distances[verticesMap[from]][verticesMap[vertex]] +
+          distances[verticesMap[vertex]][verticesMap[to]];
+        if (newWeight < distances[verticesMap[from]][verticesMap[to]]) {
+          distances[verticesMap[from]][verticesMap[to]] = newWeight;
+          predecessors[verticesMap[from]][verticesMap[to]] =
+            verticesMap[vertex];
         }
+        yield {
+          table: getTable(generateTable(vertices, distances, predecessors), [
+            { row: from + 1, col: to + 1, color: "pink" },
+            { row: from + 1, col: to + 1 + numVertices, color: "pink" },
+          ]),
+          graph: generateGraph(
+            vertices,
+            edges,
+            {
+              [verticesMap[from]]: "teal",
+              [verticesMap[to]]: "purple",
+            },
+            []
+          ),
+        };
       }
     }
   }
-
   yield {
     table: generateTable(vertices, distances, predecessors),
     graph: generateGraph(vertices, edges, {}, []),
   };
 }
-
-// // Main algorithm loop
-// for (let k = 0; k < numVertices; k++) {
-//   for (let i = 0; i < numVertices; i++) {
-//     for (let j = 0; j < numVertices; j++) {
-//       if (distances[i][k] + distances[k][j] < distances[i][j]) {
-//         distances[i][j] = distances[i][k] + distances[k][j];
-//         predecessors[i][j] = vertices[k]; // Update predecessors
-//       }
-
-//       // Yield at each iteration to visualize the process
-//       yield {
-//         table: generateTable(vertices, distances, predecessors),
-//         graph: generateGraph(vertices, edges, {
-//           [i]: "teal",
-//           [j]: "teal",
-//           [k]: "purple",
-//         }),
-//       };
-//     }
-//   }
-// }

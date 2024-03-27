@@ -21,6 +21,15 @@ const Graph = ({ width, height, setData, data, editable }) => {
   return (
     <div>
       <svg width={width} height={height} id="graphsvg">
+        <rect
+          fill="#ffffff"
+          width={width}
+          height={height}
+          rx={14}
+          onMouseDown={() => {
+            setData({ ...data, selectedVertex: null, selectedEdge: null });
+          }}
+        />
         {data.directed && (
           <>
             <MarkerArrow id="marker-arrow-white" fill="black" size={4} />
@@ -51,18 +60,7 @@ const Graph = ({ width, height, setData, data, editable }) => {
             />
           </>
         )}
-        <rect
-          fill="#ffffff"
-          width={width}
-          height={height}
-          rx={14}
-          onMouseDown={() => {
-            setData({ ...data, selectedVertex: null, selectedEdge: null });
-          }}
-        />
-        {Object.entries(
-          data.directed ? data.edges : getOneWayUndirectedEdge(data)
-        ).map(([from, destinations]) =>
+        {Object.entries(data.edges).map(([from, destinations]) =>
           destinations.map((to, i) => {
             const x1 = data.vertices[from].x;
             const y1 = data.vertices[from].y;
@@ -118,7 +116,6 @@ const Graph = ({ width, height, setData, data, editable }) => {
                   }
                   x={(d) => d.x}
                   y={(d) => d.y}
-                  shapeRendering="geometricPrecision"
                   strokeWidth={
                     data.selectedEdge &&
                     data.selectedEdge.from === from &&
@@ -142,6 +139,7 @@ const Graph = ({ width, height, setData, data, editable }) => {
             x={d.x}
             y={d.y}
             onDragStart={() => {
+              if (!editable) return;
               setSelectedVertex(data, setData, id);
               if (data.tool === "pen" && data.selectedVertex && editable) {
                 addEdge(
@@ -149,11 +147,14 @@ const Graph = ({ width, height, setData, data, editable }) => {
                   setData,
                   data.selectedVertex,
                   id,
-                  data.selectedColor
+                  data.selectedColor,
+                  1,
+                  data.directed
                 );
               }
             }}
             onDragMove={(e) => {
+              if (!editable) return;
               setData({
                 ...data,
                 vertices: {
