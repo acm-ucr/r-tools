@@ -15,7 +15,7 @@ const treeNode = (value) => {
   };
 };
 
-function arrayToBinaryTree(arr) {
+const arrayToBinaryTree = (arr) => {
   if (!arr || arr.length === 0) {
     return null;
   }
@@ -38,7 +38,7 @@ function arrayToBinaryTree(arr) {
   }
 
   return root;
-}
+};
 
 const defaultMargin = { top: 50, left: 50, right: 50, bottom: 50 };
 

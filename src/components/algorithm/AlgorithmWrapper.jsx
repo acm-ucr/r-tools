@@ -32,7 +32,7 @@ const AlgorithmWrapper = ({ title, sort, code, example, type = "sort" }) => {
       );
       return;
     }
-    const validationRegex = /^\d+(,\s*\d+)*$/;
+    const validationRegex = /^\d+(\s*,\s*\d+)*$/;
     if (!validationRegex.test(input)) {
       toast.error(
         "Please enter a valid array (list of integers separated by commas)"

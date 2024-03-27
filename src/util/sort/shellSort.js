@@ -66,101 +66,97 @@ export function* sort(arr) {
 
 export const example = {
   Python: `def shell_sort(arr):
-    n = len(arr)
-
-    gap = n//2
-
-    #Start with a large gap, then reduce the gap
-    while gap > 0:
-      # Do a gapped insertion sort for this gap size
-      for i in range(gap, n):
-        # Add arr[i] to the elements that have been gap sorted
-        # Save arr[i] in temp and make a hole at position i
+"""
+Sorts the array using the Shell Sort algorithm.
+"""
+n = len(arr)
+gap = n // 2
+while gap > 0:
+    for i in range(gap, n):
         temp = arr[i]
-
-        # Shift earlier gap-sorted elements up until the correct location for arr[i] is found
         j = i
-        while j >= gap and arr[j-gap] > temp:
-          arr[j] = arr[j-gap]
-          j -= gap
-        
-        # Put temp (the original arr[i]) in its correct location
+        while j >= gap and arr[j - gap] > temp:
+            arr[j] = arr[j - gap]
+            j -= gap
         arr[j] = temp
+    gap //= 2
 
-      # Reduce the gap
-      gap //= 2
-
+if __name__ == "__main__":
 # Example usage:
-my_array = [12, 34, 54, 2, 3]
-shell_sort(my_array)
-print("Sorted array:", my_array)`,
+arr = [64, 25, 12, 22, 11]
+print("Original array:", arr)
+shell_sort(arr)
+print("Sorted array:", arr)
+`,
 
-  JavaScript: `const shell_sort = arr => {
+  JavaScript: `const shellSort = (arr) => {
+  /**
+   * Sorts the array using the Shell Sort algorithm.
+   */
   const n = arr.length;
-    
-  //Start with a large gap, then reduce the gap
-  for (let gap = Math.floor(n/2); gap > 0; gap = Math.floor(gap/2)) {
-    // Do a gapped insertion sort for this gap size
+  let gap = Math.floor(n / 2);
+  while (gap > 0) {
     for (let i = gap; i < n; i++) {
-      //Add arr[i] to the elements that have been gap sorted
-      //Save arr[i] in temp and make a hole at position i
       const temp = arr[i];
-
-      //Shift earlier gap-sorted elements up until the correct location for arr[i] is found
-      let j;
-      for (j = i; j  >= gap && arr[j-gap] > temp; j -= gap) {
-        arr[j] = arr[j-gap];
+      let j = i;
+      while (j >= gap && arr[j - gap] > temp) {
+        arr[j] = arr[j - gap];
+        j -= gap;
       }
-
-      //Put temp (the original arr[i]) in its correct location
       arr[j] = temp;
     }
+    gap = Math.floor(gap / 2);
   }
-  return arr;
-}
-
+};
 
 // Example usage:
-let myArray = [12, 34, 54, 2, 3];
-shell_sort(myArray);
-console.log("Sorted array:", myArray);
-  `,
+const arr = [64, 25, 12, 22, 11];
+console.log("Original array:", arr);
+shellSort(arr);
+console.log("Sorted array:", arr);
+`,
 
   "C++": `#include <iostream>
-          #include <vector>
-          using namespace std;
-  
-void shellSort(vector<int>& arr) {
-  int n = arr.size();
+#include <vector>
 
-  //Start with a large gap, then reduce the gap
-  for (int gap = n/2; gap > 0; gap /= 2) {
-    //Do a gapped insertion sort for this gap size
-    for (int i = gap; i < n; i++) {
-      //Add arr[i] to the elements that have been gap sorted
-      //Save arr[i] in temp and make a hole at position i
-      int temp = arr.at(i);
-
-      //Shift earlier gap-sorted elements up until the correct location for arr[i] is found
-      int j;
-      for (j = i; j  >= gap && arr.at(j-gap) > temp; j -= gap) {
-        arr.at(j) = arr.at(j-gap);
-      }
-      arr.at(j) = temp;
+void shellSort(std::vector<int>& arr) {
+    /**
+     * Sorts the array using the Shell Sort algorithm.
+     */
+    int n = arr.size();
+    int gap = n / 2;
+    while (gap > 0) {
+        for (int i = gap; i < n; i++) {
+            int temp = arr[i];
+            int j = i;
+            while (j >= gap && arr[j - gap] > temp) {
+                arr[j] = arr[j - gap];
+                j -= gap;
+            }
+            arr[j] = temp;
+        }
+        gap /= 2;
     }
-  }
 }
-  
+
 int main() {
     // Example usage:
-    vector<int> myArray = {12, 34, 54, 2, 3};
-  
-    shellSort(myArray);
-  
-    cout << "Sorted array: ";
-    for (int i = 0; i < myArray.size(); i++) {
-        cout << myArray.at(i) << " ";
+    std::vector<int> arr = {64, 25, 12, 22, 11};
+    std::cout << "Original array:";
+    for (int num : arr) {
+        std::cout << " " << num;
     }
+    std::cout << std::endl;
+
+    shellSort(arr);
+
+    std::cout << "Sorted array:";
+    for (int num : arr) {
+        std::cout << " " << num;
+    }
+    std::cout << std::endl;
+
     return 0;
-}`,
+}
+`,
 };

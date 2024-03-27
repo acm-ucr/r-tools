@@ -28,60 +28,70 @@ export function* sort(arr) {
 }
 
 export const example = {
-  Python: `def bubbleSort(arr):
-    n = len(arr)
-
-    # Iterate through all array elements
-    for i in range(n - 1):
-
-      # Last i elements are already sorted, so we don't need to check them
+  Python: `def bubble_sort(arr):
+  # Sorts the array using the Bubble Sort algorithm.
+  n = len(arr)
+  for i in range(n - 1):
+      # Last i elements are already in place
       for j in range(n - i - 1):
+          # Traverse the array from 0 to n-i-1
+          # Swap if the element found is greater
+          # than the next element
+          if arr[j] > arr[j + 1]:
+              # Swap arr[j] and arr[j+1]
+              arr[j], arr[j + 1] = arr[j + 1], arr[j]
 
-        # Swap if the element found is greater than the next element
-        if arr[j] > arr[j + 1]:
-          arr[j], arr[j + 1] = arr[j + 1], arr[j]
+if __name__ == "__main__":
+  # Example usage:
+  arr = [64, 34, 25, 12, 22, 11, 90]
+  print("Original array:", arr)
+  bubble_sort(arr)
+  print("Sorted array:", arr)`,
 
-# Example usage:
-my_array = [64, 25, 12, 22, 11]
-bubble_sort(my_array)
-print("Sorted array:", my_array)  # Output: [11, 12, 22, 25, 64]`,
-
-  JavaScript: `const bubbleSort = arr => {
-    const n = arr.length;
-
-    // Iterate through all array elements
-    for (let i = 0; i < n - 1; i++) {
-
-        // Last i elements are already sorted, so we don't need to check them
-        for (let j = 0; j < n - i - 1; j++) {
-
-            // Swap if the element found is greater than the next element
-            if (arr[j] > arr[j + 1]) {
-                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-            }
-        }
+  JavaScript: `const bubbleSort = (arr) => {
+  /**
+   * Sorts the array using the Bubble Sort algorithm.
+   */
+  const n = arr.length;
+  for (let i = 0; i < n - 1; i++) {
+    // Last i elements are already in place
+    for (let j = 0; j < n - i - 1; j++) {
+      // Traverse the array from 0 to n-i-1
+      // Swap if the element found is greater
+      // than the next element
+      if (arr[j] > arr[j + 1]) {
+        // Swap arr[j] and arr[j+1]
+        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+      }
     }
-}
+  }
+};
 
 // Example usage:
-let myArray = [64, 25, 12, 22, 11];
-bubbleSort(myArray);
-console.log("Sorted array:", myArray); // Output: [11, 12, 22, 25, 64]`,
+const arr = [64, 34, 25, 12, 22, 11, 90];
+console.log("Original array:", arr);
+bubbleSort(arr);
+console.log("Sorted array:", arr);
+
+`,
 
   "C++": `#include <iostream>
 #include <vector>
-  
-void bubbleSort(std::vector<int>& vect) {
 
-    int n = vect.size();
+void bubbleSort(std::vector<int>& arr) {
+    /**
+     * Sorts the array using the Bubble Sort algorithm.
+     */
+    const int n = arr.size();
     for (int i = 0; i < n - 1; i++) {
-
-        // Last i elements are already sorted, so we don't need to check them
+        // Last i elements are already in place
         for (int j = 0; j < n - i - 1; j++) {
-
-            // Swap if the element found is greater than the next element
-            if (vect[j] > vect[j + 1]) {
-                std::swap(vect[j], vect[j + 1]);
+            // Traverse the array from 0 to n-i-1
+            // Swap if the element found is greater
+            // than the next element
+            if (arr[j] > arr[j + 1]) {
+                // Swap arr[j] and arr[j+1]
+                std::swap(arr[j], arr[j + 1]);
             }
         }
     }
@@ -89,16 +99,22 @@ void bubbleSort(std::vector<int>& vect) {
 
 int main() {
     // Example usage:
-    std::vector<int> myVector = {64, 25, 12, 22, 11};
-
-    bubbleSort(myVector);
-
-    std::cout << "Sorted vector: ";
-    for (int i = 0; i < myVector.size(); i++) {
-        std::cout << myVector.at(i) << " ";
+    std::vector<int> arr = {64, 34, 25, 12, 22, 11, 90};
+    std::cout << "Original array: ";
+    for (int num : arr) {
+        std::cout << num << " ";
     }
-    // Output: Sorted vector: 11 12 22 25 64
+    std::cout << std::endl;
+
+    bubbleSort(arr);
+
+    std::cout << "Sorted array: ";
+    for (int num : arr) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
 
     return 0;
-}`,
+}
+`,
 };
